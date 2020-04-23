@@ -46,6 +46,7 @@ def check_startup():
         os.makedirs(temppath)
     if storage_path == 'choose':
         notify(addon_name, 'You need to setup an Storage Path first', icon=xbmcgui.NOTIFICATION_ERROR)
+        exit()
 
     #Check if any Grabber is enabled
     enabled_grabber = True if ADDON.getSetting('enable_grabber_magenta').upper() == 'TRUE' else False

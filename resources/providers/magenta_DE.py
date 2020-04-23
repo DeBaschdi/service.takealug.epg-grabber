@@ -82,6 +82,8 @@ def magenta_session():
 
 ## Get channel list(url) 
 def magenta_get_channellist():
+    #dialog = xbmcgui.Dialog()
+    #ret = dialog.multiselect("Choose something", ["Foo", "Bar", "Baz"], preselect=[1, 2])
     magenta_session()
     session = requests.Session()
     ## Load Cookies from Disk
@@ -177,6 +179,10 @@ def map_genres(items_genre):
             else:
                 genres_mapped.append(eit_genre['categories']['DE'][genre])
         return ", ".join(genres_mapped)
+
+    elif genre_format == 'provider':
+        channels_mapped = items_genre
+        return str(channels_mapped)
 
 def map_channels(channel_id):
     if channel_format == 'rytec':
