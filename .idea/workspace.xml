@@ -1,7 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="93544438-b31e-4376-81f4-586f3c6f9604" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1awNlT8Z02Qh8vcS6HcEUW06P3b" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/.kodi/addons/plugin.video.telerising-cloudcontrol" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../plugin.video.telerising-cloudcontrol" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="93544438-b31e-4376-81f4-586f3c6f9604" name="Default Changelist" comment="" />
+      <created>1587642846502</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587642846502</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <created>1587642921901</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587642921901</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1587642921730">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1587642921730" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1587642926548">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587642926548" />
   </component>
 </project>

@@ -167,23 +167,16 @@ def create_magenta_xml_channels():
 
 def map_genres(items_genre):
     if genre_format == 'eit':
-        with open(tkm_genres_json, 'r') as c:
-            eit_genre = json.load(c)
+        with open(tkm_genres_json, 'r') as c: eit_genre = json.load(c)
         genrelist = items_genre.split(',')
+        genres_mapped = list()
         for genre in genrelist:
-            if (genre) not in eit_genre['categories']['DE']:
+            if genre not in eit_genre['categories']['DE']:
                 log(genre + ' is not in EIT List', xbmc.LOGNOTICE)
-                genres_mapped = items_genre
+                genres_mapped.append(genre)
             else:
-                genre_mapped = eit_genre['categories']['DE'][genre]
-                genres_mapped = items_genre.replace(genre,genre_mapped)
-
-        c.close()
-        return str(genres_mapped)
-
-    elif genre_format == 'provider':
-        genres_mapped = items_genre
-        return str(genres_mapped)
+                genres_mapped.append(eit_genre['categories']['DE'][genre])
+        return ", ".join(genres_mapped)
 
 def map_channels(channel_id):
     if channel_format == 'rytec':
@@ -298,12 +291,13 @@ def create_magenta_xml_broadcast():
                 except (KeyError, IndexError):
                     items_actor = ''
 
-                ## Map Genres
+                # Map Genres
                 if not items_genre == '':
                     items_genre = map_genres(items_genre)
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, items_director, items_producer, items_actor)
+
         except (KeyError, IndexError):
             print 'no Programminformation for Channel ' + chlist_url['name'] +' with ID '+ chlist_url['contentId'] + ' avaivible'
     pDialog.close()
