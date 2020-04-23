@@ -99,9 +99,9 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
     # ONSCREEN
     elif episode_format == 'onscreen':
         if (not item_season == '' and not item_episode == ''):
-            l.append('  <epis</tv>ode-num system="onscreen">' + 'S' + item_season + 'E' + ' ' + item_episode + '</episode-num>' + '\n')
+            l.append('  <episode-num system="onscreen">' + 'S' + item_season + ' E' + item_episode + '</episode-num>' + '\n')
         elif (not item_season == '' and item_episode == ''):    
-            l.append('  <epis</tv>ode-num system="onscreen">' + 'S' + item_season + '</episode-num>' + '\n')
+            l.append('  <episode-num system="onscreen">' + 'S' + item_season + '</episode-num>' + '\n')
         elif (item_season == '' and not item_episode == ''):
             l.append('  <episode-num system="onscreen">' + 'E' + item_episode + '</episode-num>' + '\n')
     
