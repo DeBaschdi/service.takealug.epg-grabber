@@ -23,8 +23,8 @@ OSD = xbmcgui.Dialog()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-def select_channels(provider,magenta_chlist_provider,magenta_chlist_selected):
+def select_channels(provider,chlist_provider,chlist_selected):
     dialog = xbmcgui.Dialog()
     ret = dialog.multiselect('Select Channels for Provider ' + provider, ["Foo", "Bar", "Baz"], preselect=[1, 2])
 
-    xbmcvfs.copy(magenta_chlist_provider,magenta_chlist_selected)
+    xbmcvfs.copy(chlist_provider,chlist_selected)
