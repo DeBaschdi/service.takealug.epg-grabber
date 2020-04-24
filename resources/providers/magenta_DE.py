@@ -5,10 +5,12 @@ import xbmcgui
 import xbmcvfs
 import json
 import os
+import sys
 import requests.cookies
 import requests
 import datetime
 from resources.lib import xml_structure
+from resources.lib import channel_selector
 
 provider = 'MAGENTA TV (DE)'
 
@@ -52,9 +54,9 @@ then = now + datetime.timedelta(days=int(days_to_grab))
 starttime = now.strftime("%Y%m%d")
 endtime = then.strftime("%Y%m%d")
 
-
-magenta_session_cookie = os.path.join(provider_temppath, 'cookies.json')
-magenta_chlist_url_disk= os.path.join(provider_temppath, 'chlist_url.json')
+## Channel Files
+magenta_chlist_provider = os.path.join(provider_temppath, 'chlist_magenta_provider.json')
+magenta_chlist_selected = os.path.join(datapath, 'chlist_magenta_selected.json')
 
 magenta_login_url = 'https://web.magentatv.de/EPG/JSON/Login?&T=PC_firefox_75'
 magenta_authenticate_url = 'https://web.magentatv.de/EPG/JSON/Authenticate?SID=firstup&T=PC_firefox_75'
@@ -72,6 +74,7 @@ magenta_header = {'Host': 'web.magentatv.de',
          'Accept-Encoding': 'gzip, deflate, br',
          'Connection': 'keep-alive',
          'Upgrade-Insecure-Requests': '1'}
+magenta_session_cookie  = os.path.join(provider_temppath, 'cookies.json')
 
 ## Login and Authenticate to web.magenta.tv
 def magenta_session():
@@ -85,8 +88,6 @@ def magenta_session():
 
 ## Get channel list(url) 
 def magenta_get_channellist():
-    #dialog = xbmcgui.Dialog()
-    #ret = dialog.multiselect("Choose something", ["Foo", "Bar", "Baz"], preselect=[1, 2])
     magenta_session()
     session = requests.Session()
     ## Load Cookies from Disk
@@ -98,10 +99,22 @@ def magenta_get_channellist():
     magenta_chlist_url = session.post(magenta_channellist_url, data=json.dumps(magenta_get_chlist), headers=magenta_header)
     magenta_chlist_url.raise_for_status()
     response = magenta_chlist_url.json()
-    with open(magenta_chlist_url_disk, 'w') as channels_url:
+    with open(magenta_chlist_provider, 'w') as channels_url:
         json.dump(response, channels_url)
     channels_url.close
     f.close
+
+    ## Dummy until Channel Selector is Working
+    if not os.path.isfile(magenta_chlist_selected):
+        xbmcvfs.copy(magenta_chlist_provider,magenta_chlist_selected)
+
+def magenta_select_channels():
+    ## Download chlist_magenta_provider.json
+    magenta_get_channellist()
+
+    ## Start Channel Selector
+    channel_selector.select_channels(provider,magenta_chlist_provider,magenta_chlist_selected)
+
 
 def download_broadcastfiles():
     magenta_session()
@@ -112,7 +125,7 @@ def download_broadcastfiles():
     magenta_CSRFToken = session.cookies["CSRFSESSION"]
     session.headers.update({'X_CSRFToken': magenta_CSRFToken})
     
-    with open(magenta_chlist_url_disk, 'r') as s:
+    with open(magenta_chlist_selected, 'r') as s:
         chlist_url = json.load(s)
     
     items_to_download = chlist_url['counttotal']
@@ -148,7 +161,7 @@ def create_magenta_xml_channels():
             json.dump(tkm_channels_response, tkm_channels)
         tkm_channels.close()
 
-    with open(magenta_chlist_url_disk, 'r') as c:
+    with open(magenta_chlist_selected, 'r') as c:
         chlist_url = json.load(c)
     items_to_download = chlist_url['counttotal']
     items = 0
@@ -223,7 +236,7 @@ def create_magenta_xml_broadcast():
             json.dump(tkm_genres_response, tkm_genres)
         tkm_genres.close()
 
-    with open(magenta_chlist_url_disk, 'r') as c:
+    with open(magenta_chlist_selected, 'r') as c:
         chlist_url = json.load(c)
     items_to_download = chlist_url['counttotal']
     items = 0
@@ -380,3 +393,10 @@ def startup():
     create_magenta_xml_channels()
     xml_structure.xml_broadcast_start(provider)
     create_magenta_xml_broadcast()
+
+# Channel Selector
+try:
+    if sys.argv[1] == 'select_channels':
+        magenta_select_channels()
+except IndexError:
+    dummy = 'dummy'

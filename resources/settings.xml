@@ -3,10 +3,11 @@
         <setting label="Provider Selection" type="lsep"/> <!-- Provider Selection -->
         <setting label=" Magenta TV (DE)" type="lsep"/> <!-- Login Data -->
         <setting id="enable_grabber_magenta" type="bool" label="Enable Provider Magenta TV (DE)" default="false" /><!-- Provider Magenta -->
-        <setting id="magenta_episode_format" type="select" label="Episode Format" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-1,false)" /> <!-- Episode Format -->
-        <setting id="magenta_channel_format" type="select" label="Channel Format" default="rytec" values="rytec|provider" visible="!eq(-2,false)" /> <!-- Channel Format -->
-        <setting id="magenta_genre_format" type="select" label="Genre Format" default="eit" values="eit|provider" visible="!eq(-3,false)" /> <!-- Genre Format -->
-        <setting id="magenta_days_to_grab" type="select" label="Days to Grab" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-4,false)" /> <!-- Days to Grab -->
+        <setting id="select_channels" type="action" label="Select Chennels to Grab" action="XBMC.RunScript(service.takealug.epg-grabber, select_channels)" option="close" visible="!eq(-1,false)"/>
+        <setting id="magenta_episode_format" type="select" label="Episode Format" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
+        <setting id="magenta_channel_format" type="select" label="Channel Format" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
+        <setting id="magenta_genre_format" type="select" label="Genre Format" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
+        <setting id="magenta_days_to_grab" type="select" label="Days to Grab" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
     </category>
 
     <category label="Global Settings">
