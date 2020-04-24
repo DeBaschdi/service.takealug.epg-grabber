@@ -26,5 +26,7 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 def select_channels(provider,chlist_provider,chlist_selected):
     dialog = xbmcgui.Dialog()
     ret = dialog.multiselect('Select Channels for Provider ' + provider, ["Foo", "Bar", "Baz"], preselect=[1, 2])
+    print ret
+    #log('Selected' + ret, xbmc.LOGNOTICE)
 
     xbmcvfs.copy(chlist_provider,chlist_selected)

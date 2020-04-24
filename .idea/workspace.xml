@@ -4,7 +4,7 @@
     <list default="true" id="93544438-b31e-4376-81f4-586f3c6f9604" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lib/channel_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/channel_selector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +78,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587739931366</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Start to Implent an Channel Selector(2)">
+      <created>1587740776431</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1587740776431</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -88,13 +95,14 @@
     <MESSAGE value="Fix Episodeformat" />
     <MESSAGE value="Add Auto Grab Feature" />
     <MESSAGE value="Start to Implent an Channel Selector" />
-    <option name="LAST_COMMIT_MESSAGE" value="Start to Implent an Channel Selector" />
+    <MESSAGE value="Start to Implent an Channel Selector(2)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Start to Implent an Channel Selector(2)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1587739931282">
+    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1587740776375">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1587739931282" />
+    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1587740776375" />
     <state x="188" y="86" key="MergeDialog" timestamp="1587736336448">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
@@ -103,10 +111,10 @@
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="456" y="150" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1587696210469" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1587739933397">
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1587740778979">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587739933397" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587740778979" />
     <state x="753" y="430" width="413" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587736316151">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
