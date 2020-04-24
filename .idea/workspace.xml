@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="93544438-b31e-4376-81f4-586f3c6f9604" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +23,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../plugin.video.telerising-cloudcontrol" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -56,23 +57,35 @@
       <option name="project" value="LOCAL" />
       <updated>1587658490035</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fix Episodeformat">
+      <created>1587658707903</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1587658707903</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Fix EIT Mapping" />
     <MESSAGE value="Fix EIT Mapping(2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix EIT Mapping(2)" />
+    <MESSAGE value="Fix Episodeformat" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Episodeformat" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1587658489980">
+    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1587658707852">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1587658489980" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1587658491429">
+    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1587658707852" />
+    <state x="456" y="150" width="1007" height="733" key="SettingsEditor" timestamp="1587696210469">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587658491429" />
+    <state x="456" y="150" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1587696210469" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1587658708952">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587658708952" />
   </component>
 </project>
