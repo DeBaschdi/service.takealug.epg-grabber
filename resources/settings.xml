@@ -14,8 +14,6 @@
         <setting id="auto_download" type="bool" label="Auto Download" default="false" />
         <setting id="timeswitch" type="enum" label="Grab EPG daily at" default="0" values="$HOURS" enable="eq(-1,true)" />
         <setting id="timeoffset" type="enum" label="Grab EPG immediately if EPG is older than" default="0" values="24 Hours|36 Hours|48 Hours" enable="eq(-2,true)" />
-        <setting label="Manual Download" type="lsep"/> <!-- Manual Download -->
-        <setting id="manual_download" type="action" label="Start Manual Download" action="XBMC.RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
         <setting label="Save generated guide.xml to Disk" type="lsep"/> <!-- Storage Location -->
         <setting id="storage_path" type="folder" label="Storage Path" default="choose" />
     </category>

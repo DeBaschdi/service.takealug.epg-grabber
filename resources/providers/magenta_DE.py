@@ -2,6 +2,7 @@
 import xbmc
 import xbmcaddon
 import xbmcgui
+import xbmcvfs
 import json
 import os
 import requests.cookies
@@ -25,8 +26,10 @@ tkm_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/
 tkm_channels_json = os.path.join(provider_temppath, 'tkm_channels.json')
 
 ## Log Files
-tkm_genres_warnings = os.path.join(provider_temppath, 'tkm_genres_warnings.txt')
-tkm_channels_warnings = os.path.join(provider_temppath, 'tkm_channels_warnings.txt')
+tkm_genres_warnings_tmp = os.path.join(provider_temppath, 'tkm_genres_warnings.txt')
+tkm_genres_warnings = os.path.join(temppath, 'tkm_genres_warnings.txt')
+tkm_channels_warnings_tmp = os.path.join(provider_temppath, 'tkm_channels_warnings.txt')
+tkm_channels_warnings = os.path.join(temppath, 'tkm_channels_warnings.txt')
 
 ## Read Magenta Settings
 days_to_grab = ADDON.getSetting('magenta_days_to_grab')
@@ -114,7 +117,7 @@ def download_broadcastfiles():
     
     items_to_download = chlist_url['counttotal']
     items = 0
-    print items_to_download +' Broadcastfiles to be downloaded '
+    log(provider + ' ' + items_to_download +' Broadcastfiles to be downloaded... ', xbmc.LOGNOTICE)
     pDialog = xbmcgui.DialogProgressBG()
     pDialog.create('Downloading Broadcast Files for {} {}'.format('', provider),'{} Prozent verbleibend'.format('100'))
     for chlist_url in chlist_url['channellist']:
@@ -130,11 +133,14 @@ def download_broadcastfiles():
         with open(broadcast_files, 'w') as playbill:
             json.dump(response, playbill)
         pDialog.update(percent_completed, 'Downloading Broadcast Files for ' + chlist_url['name'] + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
+        if str(percent_completed) == str(100):
+            log(provider + ' Broadcast Files downloaded', xbmc.LOGNOTICE)
     pDialog.close()
     f.close
     s.close
 
 def create_magenta_xml_channels():
+    log(provider + ' Create XML Channels...', xbmc.LOGNOTICE)
     if channel_format == 'rytec':
         ## Save tkm_channels.json to Disk
         tkm_channels_response = requests.get(tkm_channels_url).json()
@@ -156,7 +162,8 @@ def create_magenta_xml_channels():
         channel_icon = chlist_url['pictures'][0]['href']
         channel_id = channel_name
         pDialog.update(percent_completed, 'Create XML Channels for ' + channel_name + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
-        print str(percent_completed) + '%' + ' Creating XML EPG Channels for ' + chlist_url['name']
+        if str(percent_completed) == str(100):
+            log(provider + ' XML Channels Created', xbmc.LOGNOTICE)
 
         ## Map Channels
         if not channel_id == '':
@@ -174,7 +181,9 @@ def map_genres(items_genre):
         genres_mapped = list()
         for genre in genrelist:
             if genre not in eit_genre['categories']['DE']:
-                log(genre + ' is not in EIT List', xbmc.LOGNOTICE)
+                warnings = '\n' + ']EIT GENRE WARNING[' + ' "' + genre + '" ' + 'Is not in EIT Genre List' + '\n'
+                with open(tkm_genres_warnings_tmp, 'ab') as f:
+                    f.write(warnings)
                 genres_mapped.append(genre)
             else:
                 genres_mapped.append(eit_genre['categories']['DE'][genre])
@@ -190,7 +199,9 @@ def map_channels(channel_id):
             rytec_id = json.load(c)
 
         if (channel_id) not in rytec_id['channels']['DE']:
-            log(channel_id + ' is not in Rytec List', xbmc.LOGNOTICE)
+            warnings = '\n' + ']CHANNEL WARNING[' + ' "' + channel_id + '" ' + 'Is not in Rytec List' + '\n'
+            with open(tkm_channels_warnings_tmp, 'ab') as f:
+               f.write(warnings)
             channels_mapped = channel_id
         else :
             channel_mapped = rytec_id['channels']['DE'][channel_id]
@@ -204,6 +215,7 @@ def map_channels(channel_id):
         return str(channels_mapped)
 
 def create_magenta_xml_broadcast():
+    log(provider + ' Create XML EPG Broadcast...', xbmc.LOGNOTICE)
     if genre_format == 'eit':
         ## Save tkm_genres.json to Disk
         tkm_genres_response = requests.get(tkm_genres_url).json()
@@ -225,7 +237,9 @@ def create_magenta_xml_broadcast():
         channel_name = chlist_url['name']
         channel_id = channel_name
         pDialog.update(percent_completed, 'Create XML Broadcast for ' + channel_name + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
-        print str(percent_completed) + '%' + ' Creating XML EPG Broadcast for ' + chlist_url['name']
+        if str(percent_completed) == str(100):
+            log(provider + ' XML EPG Broadcast Created', xbmc.LOGNOTICE)
+
         broadcast_files = os.path.join(provider_temppath, channel + '_broadcast.json')
         with open(broadcast_files, 'r') as b:
             broadcastfiles = json.load(b)
@@ -305,11 +319,55 @@ def create_magenta_xml_broadcast():
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, items_director, items_producer, items_actor)
 
         except (KeyError, IndexError):
-            print 'no Programminformation for Channel ' + chlist_url['name'] +' with ID '+ chlist_url['contentId'] + ' avaivible'
+            log(provider + ' no Programminformation for Channel ' + chlist_url['name'] +' with ID '+ chlist_url['contentId'] + ' avaivible')
     pDialog.close()
     c.close
     b.close
+
+    ## Create Channel Warnings Textfile
+    if os.path.isfile(tkm_channels_warnings_tmp):
+        lines_seen = set()  # holds lines already seen
+        outfile = open(tkm_channels_warnings, "w")
+        for line in open(tkm_channels_warnings_tmp, "r"):
+            if line not in lines_seen:  # not a duplicate
+                outfile.write(line)
+                lines_seen.add(line)
+        outfile.close()
+        ## Add Information for Pull Requests
+        channel_pull = '\n' + 'Please Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/tkm_channels.json' + '\n'
+        with open(tkm_channels_warnings, 'ab') as f:
+            f.write(channel_pull)
+        ## Print Content of Channel Warnings Textfile in Kodi LOG
+        warnings_channels = open(tkm_channels_warnings, "r").read()
+        log(provider + '' + warnings_channels, xbmc.LOGNOTICE)
+
+    ## Create Genre Warnings Textfile
+    if os.path.isfile(tkm_genres_warnings_tmp):
+        lines_seen = set()  # holds lines already seen
+        outfile = open(tkm_genres_warnings, "w")
+        for line in open(tkm_genres_warnings_tmp, "r"):
+            if line not in lines_seen:  # not a duplicate
+                outfile.write(line)
+                lines_seen.add(line)
+        outfile.close()
+        ## Add Information for Pull Requests
+        channel_pull = '\n' + 'Please Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/tkm_genres.json' + '\n'
+        with open(tkm_channels_warnings, 'ab') as f:
+            f.write(channel_pull)
+        ## Print Content of Genres Warnings Textfile in Kodi LOG
+        warnings_genres = open(tkm_genres_warnings, "r").read()
+        log(provider + '' + warnings_genres, xbmc.LOGNOTICE)
+
     notify(addon_name, 'EPG for Provider ' + provider + ' Grabbed!', icon=xbmcgui.NOTIFICATION_INFO)
+    log(provider + ' EPG Grabbed!', xbmc.LOGNOTICE)
+    xbmc.sleep(4000)
+
+    if (os.path.isfile(tkm_channels_warnings) or os.path.isfile(tkm_genres_warnings)):
+        notify(addon_name, 'Warnings Found, please check Logfile', icon=xbmcgui.NOTIFICATION_WARNING)
+        xbmc.sleep(3000)
+
+    ## Delete old Tempfiles, not needed any more
+    for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
 
 def startup():
     ## Create Provider Temppath if not exist

@@ -66,6 +66,10 @@ def copy_guide_to_destination():
         xbmc.sleep(5000)
         notify(addon_name, 'EPG File (guide.xml) Created', icon=xbmcgui.NOTIFICATION_INFO)
         ADDON.setSetting('last_download', str(int(time.time())))
+        log('EPG File (guide.xml) Created', xbmc.LOGNOTICE)
+    else:
+        notify(addon_name, 'Can not copy guide.xml to Destination', icon=xbmcgui.NOTIFICATION_ERROR)
+        log('Can not copy guide.xml to Destination', xbmc.LOGERROR)
 
 def run_grabber():
     check_startup()
@@ -78,6 +82,7 @@ def run_grabber():
 def worker(next_download):
     dl_attempts = 0
     while not Monitor.waitForAbort(60):
+        ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
         log('Worker walk through...')
         initiate_download = False
 
@@ -91,10 +96,10 @@ def worker(next_download):
 
         if last_timestamp > 0:
             log('Timestamp of last generated guide.xml is %s' % datetime.fromtimestamp(last_timestamp).strftime(
-                '%d.%m.%Y %H:%M'))
+                '%d.%m.%Y %H:%M'), xbmc.LOGNOTICE)
             if (int(time.time()) - timeoffset) < last_timestamp < int(time.time()):
                 log('Waiting for next EPG grab at %s' % datetime.fromtimestamp(next_download).strftime(
-                    '%d.%m.%Y %H:%M'))
+                    '%d.%m.%Y %H:%M'), xbmc.LOGNOTICE)
             else:
                 log('guide.xml is older than %s hours, initiate EPG grab' % (timeoffset / 86400))
                 initiate_download = True
@@ -102,7 +107,7 @@ def worker(next_download):
             if next_download < int(time.time()):
                 # suggested download time has passed (e.g. system was offline) or time is now, download epg
                 # and set a new timestamp for the next download
-                log('Download time has reached, initiate download')
+                log('Download time has reached, initiate download', xbmc.LOGNOTICE)
                 initiate_download = True
         else:
             initiate_download = True
@@ -134,7 +139,7 @@ def worker(next_download):
 
 
 def check_startup():
-    #Create Tempfile if not exist
+    #Create Tempfolder if not exist
     if not os.path.exists(temppath):
         os.makedirs(temppath)
     if storage_path == 'choose':
@@ -145,7 +150,8 @@ def check_startup():
         notify(addon_name, 'You need to enable at least 1 Grabber In Provider Settings', icon=xbmcgui.NOTIFICATION_ERROR)
         xbmc.sleep(2000)
         return False
-
+    ## Clean Tempfiles
+    for file in os.listdir(temppath): xbmcvfs.delete(os.path.join(temppath, file))
     return True
 
 
