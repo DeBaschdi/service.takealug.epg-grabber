@@ -38,7 +38,7 @@ def select_channels(provider,online_list,user_list):
     for channel in online_list.get('channellist', []):
         descriptor = xbmcgui.ListItem(label=channel['name'])
         descriptor.setArt({'icon': channel['pictures'][0]['href']})
-        descriptor.setProperty({'item': json.dumps(channel)})
+        descriptor.setProperty('item', json.dumps(channel))
         for user_item in user_list.get('channellist', []):
             if channel['contentId'] == user_item['contentId']:
                 # mark as 'selected', write mandantory index
@@ -49,10 +49,18 @@ def select_channels(provider,online_list,user_list):
             break
         items.append(descriptor)
         index += 1
+
     # check for outdated channels in user list
     for user_item in user_list.get('channellist', []):
-        if user_item['contentId'] not in online_list.get('channellist', [])['contentId']:
+        is_outdated = True
+        for online_item in online_list.get('channellist', []):
+            if user_item['contentId'] == online_item['contentId']:
+                is_outdated = False
+                break
+        if is_outdated:
             xbmc.log('content id {} is outdated'.format(user_item['contentId']))
+    print selected
+
     # build new userlist
     multilist = xbmcgui.Dialog().multiselect('Channels from Provider', items, preselect=selected, useDetails=True)
     if multilist is not None:

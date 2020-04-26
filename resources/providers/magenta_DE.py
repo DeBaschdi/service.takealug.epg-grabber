@@ -139,7 +139,8 @@ def download_broadcastfiles():
     with open(magenta_chlist_selected, 'r') as s:
         chlist_url = json.load(s)
     
-    items_to_download = chlist_url['counttotal']
+    #items_to_download = chlist_url['counttotal']
+    items_to_download = str(len(chlist_url['channellist']))
     items = 0
     log(provider + ' ' + items_to_download +' Broadcastfiles to be downloaded... ', xbmc.LOGNOTICE)
     pDialog = xbmcgui.DialogProgressBG()
@@ -174,7 +175,8 @@ def create_magenta_xml_channels():
 
     with open(magenta_chlist_selected, 'r') as c:
         chlist_url = json.load(c)
-    items_to_download = chlist_url['counttotal']
+    #items_to_download = chlist_url['counttotal']
+    items_to_download = str(len(chlist_url['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
     pDialog.create('Create XML Channels for {} {}'.format('', provider),'{} Prozent verbleibend'.format('100'))
@@ -249,7 +251,8 @@ def create_magenta_xml_broadcast():
 
     with open(magenta_chlist_selected, 'r') as c:
         chlist_url = json.load(c)
-    items_to_download = chlist_url['counttotal']
+    #items_to_download = chlist_url['counttotal']
+    items_to_download = str(len(chlist_url['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
     pDialog.create('Create XML Broadcast for {} {}'.format('', provider),'{} Prozent verbleibend'.format('100'))
