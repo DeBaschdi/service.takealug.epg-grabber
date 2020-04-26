@@ -63,6 +63,7 @@ def grab_magenta_DE():
 def copy_guide_to_destination():
     done = xbmcvfs.copy(guide_temp, guide_dest)
     if done == True:
+        ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
         xbmc.sleep(5000)
         notify(addon_name, 'EPG File (guide.xml) Created', icon=xbmcgui.NOTIFICATION_INFO)
         ADDON.setSetting('last_download', str(int(time.time())))

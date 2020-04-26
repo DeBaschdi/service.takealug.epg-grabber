@@ -112,8 +112,19 @@ def magenta_select_channels():
     ## Download chlist_magenta_provider.json
     magenta_get_channellist()
 
+    with open(magenta_chlist_provider, 'r') as o:
+        online_list = json.load(o)
+
+    with open(magenta_chlist_selected, 'r') as s:
+        user_list = json.load(s)
+
     ## Start Channel Selector
-    channel_selector.select_channels(provider,magenta_chlist_provider,magenta_chlist_selected)
+    user = channel_selector.select_channels(provider,online_list,user_list)
+    if user is not None:
+        with open(magenta_chlist_selected, 'w') as f:
+            json.dump(user, f, indent=4)
+    else:
+        log('user list not modified')
 
 
 def download_broadcastfiles():
@@ -399,4 +410,4 @@ try:
     if sys.argv[1] == 'select_channels':
         magenta_select_channels()
 except IndexError:
-    dummy = 'dummy'
+    pass
