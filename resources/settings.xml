@@ -21,7 +21,7 @@
 
     <category label="Misc Settings">
         <setting label="Manual Download" type="lsep"/> <!-- Manual Download -->
-        <setting id="manual_download" type="action" label="Start Manual Download" action="XBMC.RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
+        <setting id="manual_download" type="action" label="Run EPG Grabber Manual" action="XBMC.RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
     </category>
 
 </settings>

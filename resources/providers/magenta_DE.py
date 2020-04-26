@@ -104,22 +104,18 @@ def magenta_get_channellist():
     channels_url.close
     f.close
 
-    ## Dummy until Channel Selector is Working
-    if not os.path.isfile(magenta_chlist_selected):
-        xbmcvfs.copy(magenta_chlist_provider,magenta_chlist_selected)
-
 def magenta_select_channels():
     ## Download chlist_magenta_provider.json
     magenta_get_channellist()
 
     with open(magenta_chlist_provider, 'r') as o:
-        online_list = json.load(o)
+        provider_list = json.load(o)
 
     with open(magenta_chlist_selected, 'r') as s:
-        user_list = json.load(s)
+        selected_list = json.load(s)
 
     ## Start Channel Selector
-    user = channel_selector.select_channels(provider,online_list,user_list)
+    user = channel_selector.select_channels(provider,provider_list,selected_list)
     if user is not None:
         with open(magenta_chlist_selected, 'w') as f:
             json.dump(user, f, indent=4)
@@ -396,11 +392,24 @@ def create_magenta_xml_broadcast():
     ## Delete old Tempfiles, not needed any more
     for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
 
-def startup():
+def check_provider():
     ## Create Provider Temppath if not exist
     if not os.path.exists(provider_temppath):
         os.makedirs(provider_temppath)
 
+    ## Create empty (Selected) Channel List if not exist
+    if not os.path.isfile(magenta_chlist_selected):
+        with open((magenta_chlist_selected), 'w') as selected_list:
+            selected_list.write(json.dumps({}))
+            selected_list.close()
+        yn = OSD.yesno(provider, "No channel list currently configured, Do you want to create one ?")
+        if yn:
+            magenta_select_channels()
+        else:
+            exit
+
+def startup():
+    check_provider()
     magenta_get_channellist()
     download_broadcastfiles()
     xml_structure.xml_channels_start(provider)
