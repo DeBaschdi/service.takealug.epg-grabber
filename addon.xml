@@ -8,8 +8,13 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>EPG Grabber</summary>
-        <description> Grabbs EPG Data from Different Sources and generate an xmltv Guide</description>
-        <source>https://github.com/DeBaschdi/repo/tree/master/service.takealug.epg-grabbe/</source>
+        <description> Grabbs EPG Data from Different IPTV Sources and generate an xmltv Guide</description>
+        <source>https://github.com/DeBaschdi/repo/tree/master/service.takealug.epg-grabber/</source>
         <forum>https://www.kodinerds.net/</forum>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+        <news>Initial Release wit Magenta TV (DE)</news>
     </extension>
 </addon>
