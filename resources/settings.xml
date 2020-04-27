@@ -1,7 +1,7 @@
 <settings>
     <category label="Provider Settings">
         <setting label="Provider Selection" type="lsep"/> <!-- Provider Selection -->
-        <setting label=" Magenta TV (DE)" type="lsep"/> <!-- Login Data -->
+        <setting label="Magenta TV (DE)" type="lsep"/> <!-- Login Data -->
         <setting id="enable_grabber_magenta" type="bool" label="Enable Provider Magenta TV (DE)" default="false" /><!-- Provider Magenta -->
         <setting id="select_channels" type="action" label="Select Channels to Grab" action="XBMC.RunScript(service.takealug.epg-grabber, select_channels)" option="close" visible="!eq(-1,false)"/>
         <setting id="magenta_episode_format" type="select" label="Episode Format" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
@@ -17,6 +17,8 @@
         <setting id="timeoffset" type="enum" label="Grab EPG immediately if EPG is older than" default="0" values="24 Hours|36 Hours|48 Hours" enable="eq(-2,true)" />
         <setting label="Save generated guide.xml to Disk" type="lsep"/> <!-- Storage Location -->
         <setting id="storage_path" type="folder" label="Storage Path" default="choose" />
+        <setting label="Addon Settings" type="lsep" /> <!-- Addon Settings -->
+        <setting id="enable_rating_mapper" type="bool" label="Enable Rating Mapper" default="true" /><!-- Rating Mapper -->
     </category>
 
     <category label="Misc Settings">

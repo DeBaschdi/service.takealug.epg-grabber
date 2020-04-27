@@ -6,6 +6,7 @@ import xbmcgui
 import time
 from datetime import datetime
 import os
+import json
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
 import sys
@@ -23,6 +24,7 @@ storage_path = ADDON.getSetting('storage_path').encode('utf-8')
 auto_download = True if ADDON.getSetting('auto_download').lower() == 'true' else False
 timeswitch = int(ADDON.getSetting('timeswitch'))
 timeoffset = (int(ADDON.getSetting('timeoffset')) * 12 + 24) * 3600
+enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() == 'TRUE' else False
 
 ## Get Enabled Grabbers
 enable_grabber_magenta = True if ADDON.getSetting('enable_grabber_magenta').upper() == 'TRUE' else False
@@ -32,16 +34,8 @@ enabled_grabber = True if ADDON.getSetting('enable_grabber_magenta').upper() == 
 
 guide_temp = os.path.join(temppath, 'guide.xml')
 guide_dest = os.path.join(storage_path, 'guide.xml')
-
-## deal with setting 'last_download/next_download' which not exists at first time
-try:
-    next_download = int(ADDON.getSetting('next_download'))
-except ValueError:
-    ADDON.setSetting('next_download', str(int(time.time())))
-try:
-    last_download = int(ADDON.getSetting('last_download'))
-except ValueError:
-    ADDON.setSetting('last_download', str(int(time.time())))
+grabber_cron = os.path.join(datapath, 'grabber_cron.json')
+grabber_cron_tmp = os.path.join(temppath, 'grabber_cron.json')
 
 ## Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
@@ -56,17 +50,24 @@ Monitor = xbmc.Monitor()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-def grab_magenta_DE():
-    if enable_grabber_magenta == True:
-        magenta_DE.startup()
-
 def copy_guide_to_destination():
     done = xbmcvfs.copy(guide_temp, guide_dest)
     if done == True:
-        ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
         xbmc.sleep(5000)
         notify(addon_name, 'EPG File (guide.xml) Created', icon=xbmcgui.NOTIFICATION_INFO)
-        ADDON.setSetting('last_download', str(int(time.time())))
+
+        ## Write new setting last_download
+        with open(grabber_cron, 'r') as f:
+            data = json.load(f)
+            data['last_download'] = str(int(time.time()))
+
+        with open(grabber_cron_tmp, 'w') as f:
+            json.dump(data, f, indent=4)
+        ## rename temporary file replacing old file
+        xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
+        xbmcvfs.delete(grabber_cron_tmp)
+        f.close()
+
         log('EPG File (guide.xml) Created', xbmc.LOGNOTICE)
     else:
         notify(addon_name, 'Can not copy guide.xml to Destination', icon=xbmcgui.NOTIFICATION_ERROR)
@@ -75,15 +76,23 @@ def copy_guide_to_destination():
 def run_grabber():
     check_startup()
     xml_structure.xml_start()
-    grab_magenta_DE()
+    if enable_grabber_magenta == True:
+        magenta_DE.startup()
+        xml_structure.xml_channels_start('MAGENTA TV (DE)')
+        magenta_DE.create_magenta_xml_channels()
+        xml_structure.xml_broadcast_start('MAGENTA TV (DE)')
+        magenta_DE.create_magenta_xml_broadcast(enable_rating_mapper)
     xml_structure.xml_end()
     copy_guide_to_destination()
 
 
-def worker(next_download):
+def worker():
     dl_attempts = 0
     while not Monitor.waitForAbort(60):
-        ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
+        with open(grabber_cron, 'r') as j:
+            cron = json.load(j)
+            next_download = int(cron['next_download'])
+        j.close()
         log('Worker walk through...')
         initiate_download = False
 
@@ -91,24 +100,27 @@ def worker(next_download):
         # if timestamp is not older than 24 hours, there's nothing to do, otherwise download GZIP.
 
         try:
-            last_timestamp = int(ADDON.getSetting('last_download'))
+            with open(grabber_cron, 'r') as j:
+                cron = json.load(j)
+                last_timestamp = int(cron['last_download'])
+            j.close()
         except ValueError:
             last_timestamp = 0
 
         if last_timestamp > 0:
-            log('Timestamp of last generated guide.xml is %s' % datetime.fromtimestamp(last_timestamp).strftime(
-                '%d.%m.%Y %H:%M'), xbmc.LOGNOTICE)
+            log('Timestamp of last generated guide.xml is {}'.format(datetime.fromtimestamp(last_timestamp).strftime(
+                '%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
             if (int(time.time()) - timeoffset) < last_timestamp < int(time.time()):
-                log('Waiting for next EPG grab at %s' % datetime.fromtimestamp(next_download).strftime(
-                    '%d.%m.%Y %H:%M'), xbmc.LOGNOTICE)
+                log('Waiting for next EPG grab at {}'.format(datetime.fromtimestamp(next_download).strftime(
+                    '%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
             else:
-                log('guide.xml is older than %s hours, initiate EPG grab' % (timeoffset / 86400))
+                log('guide.xml is older than {} hours, initiate Automatic EPG grab'.format((timeoffset / 86400)), xbmc.LOGNOTICE)
                 initiate_download = True
 
             if next_download < int(time.time()):
                 # suggested download time has passed (e.g. system was offline) or time is now, download epg
                 # and set a new timestamp for the next download
-                log('Download time has reached, initiate download', xbmc.LOGNOTICE)
+                log('Download time has reached, initiate Automatic EPG grab', xbmc.LOGNOTICE)
                 initiate_download = True
         else:
             initiate_download = True
@@ -118,25 +130,45 @@ def worker(next_download):
                 notify(addon_name, 'Initialize Auto EPG Grab...', icon=xbmcgui.NOTIFICATION_INFO)
                 if run_grabber():
                     dl_attempts = 0
-                    #xbmcvfs.delete(cookie)
                 else:
                     dl_attempts += 1
             else:
                 # has tried 3x to download files in a row, giving up
-                ADDON.setSetting('last_download', str(int(time.time())))
+                ## Write new setting last_download
+                with open(grabber_cron, 'r') as f:
+                    data = json.load(f)
+                    data['last_download'] = str(int(time.time()))
+
+                with open(grabber_cron_tmp, 'w') as f:
+                    json.dump(data, f, indent=4)
+                ## rename temporary file replacing old file
+                xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
+                xbmcvfs.delete(grabber_cron_tmp)
+                f.close()
                 log("Tried downlad 3x without success", xbmc.LOGERROR)
 
-            calc_next_download = datetime.now()
-            calc_next_download = calc_next_download.replace(day=calc_next_download.day + 1, hour=timeswitch, minute=0,
-                                                            second=0, microsecond=0)
+        # Calculate Next_Download Setting
+        calc_next_download = datetime.now()
+        calc_next_download = calc_next_download.replace(day=calc_next_download.day + 1, hour=timeswitch, minute=0, second=0, microsecond=0)
 
-            # Deal with a windows strftime bug (Win don't know '%s' formatting)
-            try:
-                next_download = int(calc_next_download.strftime("%s"))
-            except ValueError:
-                next_download = int(time.mktime(calc_next_download.timetuple()))
+        # Deal with a windows strftime bug (Win don't know '%s' formatting)
+        try:
+            next_download = int(calc_next_download.strftime("%s"))
+        except ValueError:
+            next_download = int(time.mktime(calc_next_download.timetuple()))
 
-            ADDON.setSetting('next_download', str(next_download))
+        ## Write new setting next_download
+        with open(grabber_cron, 'r') as f:
+            data = json.load(f)
+            data['next_download'] = str(next_download)
+            tempfile = os.path.join(temppath, 'filename')
+
+        with open(tempfile, 'w') as f:
+            json.dump(data, f, indent=4)
+        ## rename temporary file replacing old file
+        xbmcvfs.copy(tempfile, grabber_cron)
+        xbmcvfs.delete(tempfile)
+        f.close()
 
 
 def check_startup():
@@ -151,6 +183,38 @@ def check_startup():
         notify(addon_name, 'You need to enable at least 1 Grabber In Provider Settings', icon=xbmcgui.NOTIFICATION_ERROR)
         xbmc.sleep(2000)
         return False
+
+    ## deal with setting 'last_download/next_download' which not exists at first time
+    if (not os.path.isfile(grabber_cron)):
+        with open(grabber_cron, 'w') as downloads:
+            downloads.write(json.dumps({}))
+            downloads.close()
+
+    # Calculate Next_Download Setting
+    calc_next_download = datetime.now()
+    calc_next_download = calc_next_download.replace(day=calc_next_download.day + 1, hour=timeswitch, minute=0, second=0, microsecond=0)
+
+    # Deal with a windows strftime bug (Win don't know '%s' formatting)
+    try:
+        next_download = int(calc_next_download.strftime("%s"))
+    except ValueError:
+        next_download = int(time.mktime(calc_next_download.timetuple()))
+
+    with open(grabber_cron, 'r') as f:
+        data = json.load(f)
+        if 'last_download' not in data:
+            data['last_download'] = str(int(time.time()))
+            log('creating setting last_download')
+        if 'next_download' not in data:
+            data['next_download'] = next_download
+        tempfile = os.path.join(temppath, 'filename')
+        with open(tempfile, 'w') as f:
+            json.dump(data, f, indent=4)
+        ## rename temporary file replacing old file
+        xbmcvfs.copy(tempfile, grabber_cron)
+        xbmcvfs.delete(tempfile)
+        f.close()
+
     ## Clean Tempfiles
     for file in os.listdir(temppath): xbmcvfs.delete(os.path.join(temppath, file))
     return True
@@ -180,4 +244,4 @@ if check_startup():
             elif enabled_grabber == False:
                 notify(addon_name, 'You need to enable at least 1 Grabber In Provider Settings', icon=xbmcgui.NOTIFICATION_ERROR)
             else:
-                worker(int(ADDON.getSetting('next_download')))
+                worker()
