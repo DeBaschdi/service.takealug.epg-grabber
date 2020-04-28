@@ -59,7 +59,6 @@ def select_channels(provider,provider_list,selected_list):
                 break
         if is_outdated:
             xbmc.log('content id {} is outdated'.format(user_item['contentId']))
-    print selected
 
     # build new userlist
     multilist = xbmcgui.Dialog().multiselect(provider + ' ]-Select Channels to Grab-[', items, preselect=selected, useDetails=True)

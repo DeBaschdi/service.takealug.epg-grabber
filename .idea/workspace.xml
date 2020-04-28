@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="93544438-b31e-4376-81f4-586f3c6f9604" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-    </list>
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1awNlT8Z02Qh8vcS6HcEUW06P3b" />
+  <component name="ProjectId" id="1b9dwEOljsx9AjwLfL8s8O2z2Qf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -29,142 +24,22 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="93544438-b31e-4376-81f4-586f3c6f9604" name="Default Changelist" comment="" />
-      <created>1587642846502</created>
+      <changelist id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
+      <created>1588048479091</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1587642846502</updated>
+      <updated>1588048479091</updated>
     </task>
-    <task id="LOCAL-00001" summary="Initial Commit">
-      <created>1587642921901</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1587642921901</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Fix EIT Mapping">
-      <created>1587656271365</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1587656271365</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Fix EIT Mapping(2)">
-      <created>1587658490035</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1587658490035</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Fix Episodeformat">
-      <created>1587658707903</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1587658707903</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Add Auto Grab Feature">
-      <created>1587699773305</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1587699773305</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Start to Implent an Channel Selector">
-      <created>1587739931366</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1587739931366</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Start to Implent an Channel Selector(2)">
-      <created>1587740776431</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1587740776431</updated>
-    </task>
-    <task id="LOCAL-00008" summary="reduct provider_chlist to the most necessary &#10;(content_id,name,picture)">
-      <created>1587742670591</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1587742670591</updated>
-    </task>
-    <task id="LOCAL-00009" summary="add channel_selector(1)">
-      <created>1587883277305</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1587883277305</updated>
-    </task>
-    <task id="LOCAL-00010" summary="add channel_selector(2)">
-      <created>1587887769877</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1587887769877</updated>
-    </task>
-    <task id="LOCAL-00011" summary="add channel_selector(3)">
-      <created>1587890402382</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1587890402382</updated>
-    </task>
-    <task id="LOCAL-00012" summary="-Add Rating Mapper&#10;-Save Cron Config in Json&#10;-Bug Fixes / Code Clean">
-      <created>1587977839905</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1587977839905</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Initial Commit" />
-    <MESSAGE value="Fix EIT Mapping" />
-    <MESSAGE value="Fix EIT Mapping(2)" />
-    <MESSAGE value="Fix Episodeformat" />
-    <MESSAGE value="Add Auto Grab Feature" />
-    <MESSAGE value="Start to Implent an Channel Selector" />
-    <MESSAGE value="Start to Implent an Channel Selector(2)" />
-    <MESSAGE value="reduct provider_chlist to the most necessary &#10;(content_id,name,picture)" />
-    <MESSAGE value="add channel_selector(1)" />
-    <MESSAGE value="add channel_selector(2)" />
-    <MESSAGE value="add channel_selector(3)" />
-    <MESSAGE value="-Add Rating Mapper&#10;-Save Cron Config in Json&#10;-Bug Fixes / Code Clean" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Add Rating Mapper&#10;-Save Cron Config in Json&#10;-Bug Fixes / Code Clean" />
-  </component>
   <component name="WindowStateProjectService">
-    <state x="589" y="198" width="740" height="640" key="#Inspections" timestamp="1587871378376">
+    <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="589" y="198" width="740" height="640" key="#Inspections/0.0.1920.1030@0.0.1920.1030" timestamp="1587871378376" />
-    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1587977839788">
+    <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
+    <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1587977839788" />
-    <state x="188" y="86" key="MergeDialog" timestamp="1587736336448">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="188" y="86" key="MergeDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1587736336448" />
-    <state x="456" y="150" width="1007" height="733" key="SettingsEditor" timestamp="1587954702945">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="456" y="150" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1587954702945" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1587977841991">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587977841991" />
-    <state x="753" y="430" width="413" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587736316151">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="753" y="430" width="413" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1587736316151" />
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1587967438945">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1030@0.0.1920.1030" timestamp="1587967438945" />
+    <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588062960752" />
   </component>
 </project>
