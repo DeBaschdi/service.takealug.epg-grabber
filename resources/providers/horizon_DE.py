@@ -97,7 +97,6 @@ def get_channellist():
     hznDE_chlist_url = requests.get(hznDE_channellist_url, headers=hznDE_header)
     hznDE_chlist_url.raise_for_status()
     response = hznDE_chlist_url.json()
-    print hznDE_chlist_url
     with open(hznDE_chlist_provider_tmp, 'w') as provider_list_tmp:
         json.dump(response, provider_list_tmp)
 
