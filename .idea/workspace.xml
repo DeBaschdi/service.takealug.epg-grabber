@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="Update Addon to 0.0.4&#10;-Horizon DE : Fix strftime %s Formating on Windows">
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/mapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/mapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/horizon_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +65,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588243531696</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Update Addon to 0.0.5&#10;-Magenta (DE) : Use uniform channel icons&#10;-Addon only starts when at least 1 grabber is activated">
+      <created>1588261747515</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1588261747515</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -77,21 +80,22 @@
     <MESSAGE value="Update Addon to 0.0.3&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
     <MESSAGE value="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
     <MESSAGE value="Update Addon to 0.0.4&#10;-Horizon DE : Fix strftime %s Formating on Windows" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.4&#10;-Horizon DE : Fix strftime %s Formating on Windows" />
+    <MESSAGE value="Update Addon to 0.0.5&#10;-Magenta (DE) : Use uniform channel icons&#10;-Addon only starts when at least 1 grabber is activated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.5&#10;-Magenta (DE) : Use uniform channel icons&#10;-Addon only starts when at least 1 grabber is activated" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588261632440">
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588261747436">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588261632440" />
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588261747436" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588243534229">
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588261748941">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588243534229" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588261748941" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>

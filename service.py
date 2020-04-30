@@ -84,11 +84,12 @@ def copy_guide_to_destination():
 def check_channel_dupes():
     with open(guide_temp) as f:
         ignore_name_string = "display-name"
+        ignore_icon_string = "icon src"
+        ignore_channel_end_string = "</channel"
         c = Counter(c.strip().lower() for c in f if c.strip())  # for case-insensitive search
         for line in c:
             if c[line] > 1:
-                line = line.replace('</channel>','')
-                if (not line == '' and not re.search(ignore_name_string, line)):
+                if (not line == '' and not re.search(ignore_name_string, line) and not re.search(ignore_icon_string, line) and not re.search(ignore_channel_end_string, line)):
                     log('Channel ID Duplicates Detected ' + line, xbmc.LOGERROR)
                     dialog = xbmcgui.Dialog()
                     ok = dialog.ok('-]ERROR[- Channel ID Duplicates Detected', line)
