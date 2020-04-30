@@ -35,8 +35,10 @@ enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').
 enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-enabled_grabber = True if ADDON.getSetting('enable_grabber_magenta').upper() == 'TRUE' else False
-enabled_grabber = True
+if (enable_grabber_magentaDE or enable_grabber_hznDE):
+    enabled_grabber = True
+else:
+    enabled_grabber = False
 
 guide_temp = os.path.join(temppath, 'guide.xml')
 guide_dest = os.path.join(storage_path, 'guide.xml')

@@ -21,37 +21,37 @@ OSD = xbmcgui.Dialog()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-def map_genres(items_genre,genre_format,genres_json,genres_warnings_tmp):
+def map_genres(items_genre,genre_format,genres_json,genres_warnings_tmp, lang):
     if genre_format == 'eit':
         with open(genres_json, 'r') as c: eit_genre = json.load(c)
         genrelist = items_genre.split(',')
         genres_mapped = list()
         for genre in genrelist:
-            if genre not in eit_genre['categories']['DE']:
+            if genre not in eit_genre['categories'][lang.upper()]:
                 warnings = '\n' + ']EIT GENRE WARNING[' + ' "' + genre + '" ' + 'Is not in EIT Genre List' + '\n'
                 with open(genres_warnings_tmp, 'ab') as f:
                     f.write(warnings)
                 genres_mapped.append(genre)
             else:
-                genres_mapped.append(eit_genre['categories']['DE'][genre])
+                genres_mapped.append(eit_genre['categories'][lang.upper()][genre])
         return ",".join(genres_mapped)
 
     elif genre_format == 'provider':
         channels_mapped = items_genre
         return str(channels_mapped)
 
-def map_channels(channel_id, channel_format,channels_json,channels_warnings_tmp):
+def map_channels(channel_id, channel_format,channels_json,channels_warnings_tmp, lang):
     if channel_format == 'rytec':
         with open(channels_json, 'r') as c:
             rytec_id = json.load(c)
 
-        if (channel_id) not in rytec_id['channels']['DE']:
+        if (channel_id) not in rytec_id['channels'][lang.upper()]:
             warnings = '\n' + ']CHANNEL WARNING[' + ' "' + channel_id + '" ' + 'Is not in Rytec List' + '\n'
             with open(channels_warnings_tmp, 'ab') as f:
                f.write(warnings)
             channels_mapped = channel_id
         else :
-            channel_mapped = rytec_id['channels']['DE'][channel_id]
+            channel_mapped = rytec_id['channels'][lang.upper()][channel_id]
             channels_mapped = channel_id.replace(channel_id, channel_mapped)
 
         c.close()

@@ -15,6 +15,7 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 
 provider = 'MAGENTA TV (DE)'
+lang = 'de'
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -61,6 +62,7 @@ starttime = now.strftime("%Y%m%d")
 endtime = then.strftime("%Y%m%d")
 
 ## Channel Files
+magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaDE_provider_tmp.json')
 magentaDE_chlist_provider = os.path.join(provider_temppath, 'chlist_magentaDE_provider.json')
 magentaDE_chlist_selected = os.path.join(datapath, 'chlist_magentaDE_selected.json')
 
@@ -106,9 +108,45 @@ def get_channellist():
     magenta_chlist_url.raise_for_status()
     response = magenta_chlist_url.json()
 
-    with open(magentaDE_chlist_provider, 'w') as provider_list:
-        json.dump(response, provider_list)
+    with open(magentaDE_chlist_provider_tmp, 'w') as provider_list_tmp:
+        json.dump(response, provider_list_tmp)
 
+    #### Transform magentaDE_chlist_provider_tmp to Standard chlist Format as magentaDE_chlist_provider
+
+    # Load Channellist from Provider
+    with open(magentaDE_chlist_provider_tmp, 'r') as provider_list_tmp:
+        magentaDE_channels = json.load(provider_list_tmp)
+
+    # Create empty new hznDE_chlist_provider
+    with open(magentaDE_chlist_provider, 'w') as provider_list:
+        provider_list.write(json.dumps({"channellist": []}))
+        provider_list.close()
+
+    ch_title = ''
+
+    # Load New Channellist from Provider
+    with open(magentaDE_chlist_provider) as provider_list:
+        data = json.load(provider_list)
+
+        temp = data['channellist']
+
+        for channels in magentaDE_channels['channellist']:
+            ch_id = channels['contentId']
+            ch_title = channels['name']
+            for image in channels['pictures']:
+                if image['imageType'] == '15':
+                    hdimage = image['href']
+            # channel to be appended
+            y = {"contentId": ch_id,
+                 "name": ch_title,
+                 "pictures": [{"href": hdimage}]}
+
+            # appending channels to data['channellist']
+            temp.append(y)
+
+    #Save New Channellist from Provider
+    with open(magentaDE_chlist_provider, 'w') as provider_list:
+        json.dump(data, provider_list, indent=4)
 
 def select_channels():
     ## Create Provider Temppath if not exist
@@ -236,10 +274,10 @@ def create_xml_channels():
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp, lang)
 
         ## Create XML Channel Information with provided Variables
-        xml_structure.xml_channels(channel_name, channel_id, channel_icon)
+        xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
 
@@ -281,7 +319,7 @@ def create_xml_broadcast(enable_rating_mapper):
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp, lang)
 
         try:
             for playbilllist in broadcastfiles['playbilllist']:
@@ -362,13 +400,13 @@ def create_xml_broadcast(enable_rating_mapper):
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, tkm_genres_json, magentaDE_genres_warnings_tmp)
+                    items_genre = mapper.map_genres(items_genre, genre_format, tkm_genres_json, magentaDE_genres_warnings_tmp, lang)
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime,
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
                                             item_date, item_season, item_episode, item_agerating, items_director,
-                                            items_producer, items_actor, enable_rating_mapper)
+                                            items_producer, items_actor, enable_rating_mapper, lang)
 
         except (KeyError, IndexError):
             log(provider + ' no Programminformation for Channel ' + user_item['name'] + ' with ID ' + user_item['contentId'] + ' avaivible')

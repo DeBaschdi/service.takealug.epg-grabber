@@ -24,10 +24,10 @@ def xml_channels_start(provider):
     with open(guide_temp,'ab') as f:
         f.write(start)
 
-def xml_channels(channel_name, channel_id, channel_icon):
+def xml_channels(channel_name, channel_id, channel_icon, lang):
     channels = []
     channels.append('<channel id="' + channel_id + '">' + '\n')
-    channels.append('  <display-name lang="de">' + channel_name + '</display-name>' + '\n')
+    channels.append('  <display-name lang="' + lang + '">' + channel_name + '</display-name>' + '\n')
     channels.append('  <icon src="' + channel_icon + '" />' + '\n')
     channels.append('</channel>' + '\n')
     s = ''.join(channels).replace('&','&amp;')
@@ -39,7 +39,7 @@ def xml_broadcast_start(provider):
     with open(guide_temp,'ab') as f:
         f.write(start)
 
-def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, items_director, items_producer, items_actor, enable_rating_mapper):
+def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, items_director, items_producer, items_actor, enable_rating_mapper, lang):
     guide = []
     guide.append('\n')
     
@@ -53,89 +53,89 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
     
     ## TITLE Condition
     if not item_title == '':
-        guide.append('  <title lang="de">' + item_title + '</title>' + '\n')
+        guide.append('  <title lang="' + lang + '">' + item_title + '</title>' + '\n')
     
     ## SUBTITLE Condition
     if not item_subtitle == '':
-        guide.append('  <sub-title lang="de">' + item_subtitle +'</sub-title>' + '\n')
+        guide.append('  <sub-title lang="' + lang + '">' + item_subtitle +'</sub-title>' + '\n')
     
     ## DESCRIPTION Condition
     if not item_description == '':
         if enable_rating_mapper == False:
-            guide.append('  <desc lang="de">' + item_description + '</desc>' + '\n')
+            guide.append('  <desc lang="' + lang + '">' + item_description + '</desc>' + '\n')
 
         ## Rating Mapper
         elif enable_rating_mapper == True:
             if (not item_date == '' and not item_country == '' and not item_agerating == ''  and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and not item_agerating == ''  and not item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and not item_agerating == '' and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and not item_agerating == '' and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and item_agerating == '' and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and item_agerating == '' and not item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'S' + item_season + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and item_agerating == '' and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + ' • ' + 'E' + item_episode +  '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + ' • ' + 'E' + item_episode +  '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and not item_country == '' and item_agerating == '' and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ') ' + item_date + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ') ' + item_date + '\n' + item_description + '</desc>' + '\n')
 
             elif (item_date == '' and not item_country == '' and not item_agerating == '' and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + ' • ' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + ' • ' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and not item_country == '' and not item_agerating == '' and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + ' • ' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + ' • ' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and not item_country == '' and not item_agerating == '' and not item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + ' • ' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + ' • ' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and not item_country == '' and not item_agerating == '' and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and not item_country == '' and item_agerating == ''  and not item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + ' • ' + 'S' + item_season + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + ' • ' + 'S' + item_season + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and not item_country == '' and not item_agerating == ''  and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + ' • ' + 'FSK' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + ' • ' + 'FSK' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and not item_country == '' and item_agerating == ''  and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + '(' + item_country + ')' + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + '(' + item_country + ')' + '\n' + item_description + '</desc>' + '\n')
 
 
             elif (not item_date == '' and item_country == '' and not item_agerating == ''  and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and item_country == '' and item_agerating == ''  and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_date + ' • ' + 'S' + item_season + ' E' + item_episode + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and item_country == '' and not item_agerating == ''  and not item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + item_date + ' • ' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_date + ' • ' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and item_country == '' and not item_agerating == ''  and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + item_date + ' • ' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_date + ' • ' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and item_country == '' and not item_agerating == ''  and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + item_date + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_date + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (not item_date == '' and item_country == '' and item_agerating == ''  and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + item_date + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_date + '\n' + item_description + '</desc>' + '\n')
 
             elif (item_date == '' and item_country == '' and not item_agerating == ''  and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'S' + item_season + ' E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and item_country == '' and item_agerating == ''  and not item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + 'S' + item_season + ' E' + item_episode + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'S' + item_season + ' E' + item_episode + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and item_country == '' and not item_agerating == ''  and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'S' + item_season + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and item_country == '' and item_agerating == '' and not item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + 'S' + item_season + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'S' + item_season + '\n' + item_description + '</desc>' + '\n')
 
             elif (item_date == '' and item_country == '' and not item_agerating == ''  and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'E' + item_episode + ' • ' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and item_country == '' and item_agerating == ''  and item_season == '' and not item_episode == ''):
-                guide.append('  <desc lang="de">' + 'E' + item_episode + ' • ' + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'E' + item_episode + ' • ' + '\n' + item_description + '</desc>' + '\n')
             elif (item_date == '' and item_country == '' and not item_agerating == ''  and item_season == '' and item_episode == ''):
-                guide.append('  <desc lang="de">' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + 'FSK ' + item_agerating + '\n' + item_description + '</desc>' + '\n')
 
             else:
-                guide.append('  <desc lang="de">' + item_description + '</desc>' + '\n')
+                guide.append('  <desc lang="' + lang + '">' + item_description + '</desc>' + '\n')
 
     ## GENRE Condition
     if not items_genre == '':
         genrelist = items_genre.split(',')
         for genre in genrelist:
-            guide.append('  <category lang="de">{}</category>'.format(genre) + '\n')
+            guide.append('  <category lang="' + lang + '">{}</category>'.format(genre) + '\n')
     
     ## DATE Condition
     if not item_date == '':

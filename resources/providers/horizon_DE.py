@@ -16,6 +16,7 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 
 provider = 'HORIZON (DE)'
+lang = 'de'
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -259,10 +260,10 @@ def create_xml_channels():
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp, lang)
 
         ## Create XML Channel Information with provided Variables
-        xml_structure.xml_channels(channel_name, channel_id, channel_icon)
+        xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
 
@@ -303,7 +304,7 @@ def create_xml_broadcast(enable_rating_mapper):
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp, lang)
 
         try:
             for playbilllist in broadcastfiles['listings']:
@@ -399,13 +400,13 @@ def create_xml_broadcast(enable_rating_mapper):
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, hzn_genres_json, hznDE_genres_warnings_tmp)
+                    items_genre = mapper.map_genres(items_genre, genre_format, hzn_genres_json, hznDE_genres_warnings_tmp, lang)
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, str(item_starttime), str(item_endtime),
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
                                             item_date, item_season, item_episode, item_agerating, items_director,
-                                            items_producer, items_actor, enable_rating_mapper)
+                                            items_producer, items_actor, enable_rating_mapper, lang)
 
         except (KeyError, IndexError):
             log(provider + ' no Programminformation for Channel ' + user_item['name'] + ' with ID ' + user_item['contentId'] + ' avaivible')
