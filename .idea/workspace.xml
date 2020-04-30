@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lib/mapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/mapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1b9dwEOljsx9AjwLfL8s8O2z2Qf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -30,16 +41,40 @@
       <option name="presentableId" value="Default" />
       <updated>1588048479091</updated>
     </task>
+    <task id="LOCAL-00001" summary="Update Addon to 0.0.2&#10;-Fix Runtime Error if no Channel is Selected">
+      <created>1588065348801</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588065348801</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update Addon to 0.0.2&#10;-Fix Runtime Error if no Channel is Selected" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.2&#10;-Fix Runtime Error if no Channel is Selected" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1588065348649">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588065348649" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588065351332">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588065351332" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588062960752" />
+    <state x="753" y="430" width="411" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588235718883">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="753" y="430" width="411" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588235718883" />
   </component>
 </project>

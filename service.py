@@ -5,10 +5,14 @@ import xbmcvfs
 import xbmcgui
 import time
 from datetime import datetime
+from datetime import timedelta
 import os
 import json
+import re
+from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
+from resources.providers import horizon_DE
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -27,10 +31,12 @@ timeoffset = (int(ADDON.getSetting('timeoffset')) * 12 + 24) * 3600
 enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() == 'TRUE' else False
 
 ## Get Enabled Grabbers
-enable_grabber_magenta = True if ADDON.getSetting('enable_grabber_magenta').upper() == 'TRUE' else False
+enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
+enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
 enabled_grabber = True if ADDON.getSetting('enable_grabber_magenta').upper() == 'TRUE' else False
+enabled_grabber = True
 
 guide_temp = os.path.join(temppath, 'guide.xml')
 guide_dest = os.path.join(storage_path, 'guide.xml')
@@ -73,15 +79,45 @@ def copy_guide_to_destination():
         notify(addon_name, 'Can not copy guide.xml to Destination', icon=xbmcgui.NOTIFICATION_ERROR)
         log('Can not copy guide.xml to Destination', xbmc.LOGERROR)
 
+def check_channel_dupes():
+    with open(guide_temp) as f:
+        ignore_name_string = "display-name"
+        c = Counter(c.strip().lower() for c in f if c.strip())  # for case-insensitive search
+        for line in c:
+            if c[line] > 1:
+                line = line.replace('</channel>','')
+                if (not line == '' and not re.search(ignore_name_string, line)):
+                    log('Channel ID Duplicates Detected ' + line, xbmc.LOGERROR)
+                    dialog = xbmcgui.Dialog()
+                    ok = dialog.ok('-]ERROR[- Channel ID Duplicates Detected', line)
+                    if ok:
+                        exit()
+
 def run_grabber():
     check_startup()
     xml_structure.xml_start()
-    if enable_grabber_magenta == True:
+    ## Check Provider
+    if enable_grabber_magentaDE == True:
         magenta_DE.startup()
-        xml_structure.xml_channels_start('MAGENTA TV (DE)')
-        magenta_DE.create_magenta_xml_channels()
-        xml_structure.xml_broadcast_start('MAGENTA TV (DE)')
-        magenta_DE.create_magenta_xml_broadcast(enable_rating_mapper)
+    if enable_grabber_hznDE == True:
+        horizon_DE.startup()
+
+    ## Create XML Channels
+    if enable_grabber_magentaDE == True:
+        magenta_DE.create_xml_channels()
+    if enable_grabber_hznDE == True:
+        horizon_DE.create_xml_channels()
+
+    # Check for Channel Dupes
+    check_channel_dupes()
+
+    ## Create XML Broadcast
+    if enable_grabber_magentaDE == True:
+        magenta_DE.create_xml_broadcast(enable_rating_mapper)
+    if enable_grabber_hznDE == True:
+        horizon_DE.create_xml_broadcast(enable_rating_mapper)
+
+    ## Finish XML
     xml_structure.xml_end()
     copy_guide_to_destination()
 
@@ -111,8 +147,7 @@ def worker():
             log('Timestamp of last generated guide.xml is {}'.format(datetime.fromtimestamp(last_timestamp).strftime(
                 '%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
             if (int(time.time()) - timeoffset) < last_timestamp < int(time.time()):
-                log('Waiting for next EPG grab at {}'.format(datetime.fromtimestamp(next_download).strftime(
-                    '%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+                log('Waiting for next EPG grab at {}'.format(datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
             else:
                 log('guide.xml is older than {} hours, initiate Automatic EPG grab'.format((timeoffset / 86400)), xbmc.LOGNOTICE)
                 initiate_download = True
@@ -149,7 +184,8 @@ def worker():
 
         # Calculate Next_Download Setting
         calc_next_download = datetime.now()
-        calc_next_download = calc_next_download.replace(day=calc_next_download.day + 1, hour=timeswitch, minute=0, second=0, microsecond=0)
+        calc_next_download = calc_next_download.replace(day=calc_next_download.day , hour=timeswitch, minute=0, second=0, microsecond=0)
+        calc_next_download += timedelta(days=1)
 
         # Deal with a windows strftime bug (Win don't know '%s' formatting)
         try:
@@ -192,7 +228,8 @@ def check_startup():
 
     # Calculate Next_Download Setting
     calc_next_download = datetime.now()
-    calc_next_download = calc_next_download.replace(day=calc_next_download.day + 1, hour=timeswitch, minute=0, second=0, microsecond=0)
+    calc_next_download = calc_next_download.replace(day=calc_next_download.day , hour=timeswitch, minute=0, second=0, microsecond=0)
+    calc_next_download += timedelta(days=1)
 
     # Deal with a windows strftime bug (Win don't know '%s' formatting)
     try:

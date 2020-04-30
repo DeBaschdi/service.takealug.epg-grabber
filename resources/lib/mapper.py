@@ -2,7 +2,6 @@
 import xbmc
 import xbmcaddon
 import xbmcgui
-
 import json
 import os
 
@@ -35,7 +34,7 @@ def map_genres(items_genre,genre_format,genres_json,genres_warnings_tmp):
                 genres_mapped.append(genre)
             else:
                 genres_mapped.append(eit_genre['categories']['DE'][genre])
-        return ", ".join(genres_mapped)
+        return ",".join(genres_mapped)
 
     elif genre_format == 'provider':
         channels_mapped = items_genre

@@ -35,7 +35,7 @@ def xml_channels(channel_name, channel_id, channel_icon):
         f.write(s)
 
 def xml_broadcast_start(provider):
-    start = '\n' + '<!--  ' + provider + ' PROGRAMME LIST -->' + '\n'
+    start = '\n' + '<!--  ' + provider + ' PROGRAMME LIST -->'
     with open(guide_temp,'ab') as f:
         f.write(start)
 
