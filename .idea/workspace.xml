@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/resources/providers/horizon_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
