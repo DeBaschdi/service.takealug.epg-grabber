@@ -65,16 +65,17 @@ calc_then += timedelta(days=days_to_grab)
 
 try:
     today = calc_today.strftime("%s")
+    starttime = str(today) + '000'
 except ValueError:
     today = time.mktime(calc_today.timetuple())
+    starttime = str(today).replace('.', '') + '00'
 
 try:
     then = calc_then.strftime("%s")
+    endtime = str(then) + '000'
 except ValueError:
     then = time.mktime(calc_then.timetuple())
-
-starttime = today + '000'
-endtime = then + '000'
+    endtime = str(then).replace('.', '') + '00'
 
 ## Channel Files
 hznDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_hznDE_provider_tmp.json')
