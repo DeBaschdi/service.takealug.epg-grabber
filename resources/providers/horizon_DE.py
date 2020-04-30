@@ -77,8 +77,6 @@ except ValueError:
     then = time.mktime(calc_then.timetuple())
     endtime = str(then).replace('.', '') + '00'
 
-
-
 ## Channel Files
 hznDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_hznDE_provider_tmp.json')
 hznDE_chlist_provider = os.path.join(provider_temppath, 'chlist_hznDE_provider.json')

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/providers/horizon_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
     </list>
@@ -50,27 +52,35 @@
       <option name="project" value="LOCAL" />
       <updated>1588240671080</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)">
+      <created>1588240753027</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1588240753027</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update Addon to 0.0.2&#10;-Fix Runtime Error if no Channel is Selected" />
     <MESSAGE value="Update Addon to 0.0.3&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.3&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
+    <MESSAGE value="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1588240670931">
+    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1588240752920">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588240670931" />
+    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588240752920" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588240674691">
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588240754362">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588240674691" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588240754362" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
