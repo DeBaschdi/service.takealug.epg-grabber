@@ -20,6 +20,7 @@ sys.setdefaultencoding('utf-8')
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
+loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 
@@ -136,7 +137,7 @@ def worker():
         initiate_download = False
 
         # check if property 'last_download' in settings already exists and check timestamp of this file.
-        # if timestamp is not older than 24 hours, there's nothing to do, otherwise download GZIP.
+        # if timestamp is not older than 24 hours, there's nothing to do, otherwise grab EPG.
 
         try:
             with open(grabber_cron, 'r') as j:
