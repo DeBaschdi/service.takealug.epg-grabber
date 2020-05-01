@@ -9,6 +9,8 @@ import sys
 import requests.cookies
 import requests
 import time
+import re
+import codecs
 from datetime import timedelta
 from datetime import datetime
 from resources.lib import xml_structure
@@ -124,12 +126,12 @@ def get_channellist():
 
         for channels in hzn_channels['channels']:
             ch_id = channels['stationSchedules'][0]['station']['id']
-            ch_title = channels['stationSchedules'][0]['station']['title']
+            ch_title_dirty = channels['stationSchedules'][0]['station']['title']
             for image in channels['stationSchedules'][0]['station']['images']:
                 if image['assetType'] == 'station-logo-large':
                     hdimage_url = image['url'].split('?w')
                     hdimage = hdimage_url[0]
-            ch_title = ch_title.encode('ascii', 'ignore')
+            ch_title = ch_title_dirty.replace(u'\u0086', '').replace(u'\u0087', '')
             # channel to be appended
             y = {"contentId": ch_id,
                  "name": ch_title,
@@ -269,6 +271,7 @@ def create_xml_channels():
 
 
 def create_xml_broadcast(enable_rating_mapper):
+    download_broadcastfiles()
     log(provider + ' Create XML EPG Broadcast...', xbmc.LOGNOTICE)
     if genre_format == 'eit':
         ## Save hzn_genres.json to Disk
@@ -396,6 +399,13 @@ def create_xml_broadcast(enable_rating_mapper):
                 if item_agerating == '-1':
                     item_agerating = ''
 
+                if not item_season == '':
+                    if int(item_season) >999:
+                        item_season = ''
+                if not item_episode == '':
+                    if int(item_episode) >99999:
+                        item_episode = ''
+
                 item_starttime = datetime.utcfromtimestamp(item_starttime / 1000).strftime('%Y%m%d%H%M%S')
                 item_endtime = datetime.utcfromtimestamp(item_endtime / 1000).strftime('%Y%m%d%H%M%S')
 
@@ -454,7 +464,6 @@ def check_provider():
 def startup():
     check_provider()
     get_channellist()
-    download_broadcastfiles()
 
 
 # Channel Selector

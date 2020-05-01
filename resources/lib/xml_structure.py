@@ -31,7 +31,7 @@ def xml_channels(channel_name, channel_id, channel_icon, lang):
     channels.append('  <display-name lang="' + lang + '">' + channel_name + '</display-name>' + '\n')
     channels.append('  <icon src="' + channel_icon + '" />' + '\n')
     channels.append('</channel>' + '\n')
-    s = ''.join(channels).replace('&','&amp;')
+    s = ''.join(channels).replace('&','&amp;').decode('utf-8')
     with open(guide_temp,'ab') as f:
         f.write(s)
 
@@ -232,7 +232,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
         guide.append('  </credits>' + '\n')
     
     guide.append('</programme>' + '\n')
-    s = ''.join(guide).replace('&','&amp;')
+    s = ''.join(guide).replace('&','&amp;').decode('utf-8')
     with open(guide_temp,'ab') as f:
         f.write(s)
 

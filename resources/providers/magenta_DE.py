@@ -283,6 +283,7 @@ def create_xml_channels():
 
 
 def create_xml_broadcast(enable_rating_mapper):
+    download_broadcastfiles()
     log(provider + ' Create XML EPG Broadcast...', xbmc.LOGNOTICE)
     if genre_format == 'eit':
         ## Save tkm_genres.json to Disk
@@ -454,8 +455,6 @@ def check_provider():
 def startup():
     check_provider()
     get_channellist()
-    download_broadcastfiles()
-
 
 # Channel Selector
 try:
