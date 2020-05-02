@@ -148,21 +148,43 @@ msgctxt "#32302"
 msgid "48 Hours"
 msgstr "48 Stunden"
 
-###################################
-# Notifications 32350 - 32399     #
-###################################
+#####################################
+# Notifications / LOG 32350 - 32399 #
+#####################################
+
+msgctxt "#32350"
+msgid "EPG File (guide.xml) Created"
+msgstr "EPG Datei (guide.xml) Erstellt!"
+
+msgctxt "#32351"
+msgid "Can not copy guide.xml to Destination!"
+msgstr "Kann guide.xml nicht zum Ziel Kopieren!"
+
+msgctxt "#32352"
+msgid ""
+msgstr ""
+
+#####################################
+# Messages 32400 - 32499            #
+#####################################
+
+msgctxt "#32400"
+msgid "Channel ID Duplicates Detected"
+msgstr "Doppelt vorhandene Kanäle erkannt"
+
+msgctxt "#32401"
+msgid ""
+msgstr ""
+
+msgctxt "#32402"
+msgid ""
+msgstr ""
+
+#####################################
+# Progress 32500 -32549             #
+#####################################
 
 
-###################################
-# Messages 32400 - 32499          #
-###################################
-
-
-###################################
-# Progress 32500 -32549           #
-###################################
-
-
-###################################
-# List Items, Labels 32550 -32599 #
-###################################
+#####################################
+# List Items, Labels 32550 -32599   #
+#####################################

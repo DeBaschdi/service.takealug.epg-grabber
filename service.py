@@ -62,8 +62,9 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 def copy_guide_to_destination():
     done = xbmcvfs.copy(guide_temp, guide_dest)
     if done == True:
-        xbmc.sleep(5000)
-        notify(addon_name, 'EPG File (guide.xml) Created', icon=xbmcgui.NOTIFICATION_INFO)
+        xbmc.sleep(3000)
+        notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
+        log(loc(32350), xbmc.LOGNOTICE)
 
         ## Write new setting last_download
         with open(grabber_cron, 'r') as f:
@@ -77,10 +78,9 @@ def copy_guide_to_destination():
         xbmcvfs.delete(grabber_cron_tmp)
         f.close()
 
-        log('EPG File (guide.xml) Created', xbmc.LOGNOTICE)
     else:
-        notify(addon_name, 'Can not copy guide.xml to Destination', icon=xbmcgui.NOTIFICATION_ERROR)
-        log('Can not copy guide.xml to Destination', xbmc.LOGERROR)
+        notify(addon_name, loc(32351), icon=xbmcgui.NOTIFICATION_ERROR)
+        log(loc(32351), xbmc.LOGERROR)
 
 def check_channel_dupes():
     with open(guide_temp) as f:
@@ -91,9 +91,9 @@ def check_channel_dupes():
         for line in c:
             if c[line] > 1:
                 if (not line == '' and not re.search(ignore_name_string, line) and not re.search(ignore_icon_string, line) and not re.search(ignore_channel_end_string, line)):
-                    log('Channel ID Duplicates Detected ' + line, xbmc.LOGERROR)
+                    log('{} {}'.format(loc(32400),line), xbmc.LOGERROR)
                     dialog = xbmcgui.Dialog()
-                    ok = dialog.ok('-]ERROR[- Channel ID Duplicates Detected', line)
+                    ok = dialog.ok('-]ERROR[- {}'.format(loc(32400)), line)
                     if ok:
                         exit()
 
@@ -133,7 +133,6 @@ def worker():
             cron = json.load(j)
             next_download = int(cron['next_download'])
         j.close()
-        log('Worker walk through...')
         initiate_download = False
 
         # check if property 'last_download' in settings already exists and check timestamp of this file.

@@ -29,7 +29,7 @@ def map_genres(items_genre,genre_format,genres_json,genres_warnings_tmp, lang):
         genres_mapped = list()
         for genre in genrelist:
             if genre not in eit_genre['categories'][lang.upper()]:
-                warnings = '\n' + ']EIT GENRE WARNING[' + ' "' + genre + '" ' + 'Is not in EIT Genre List' + '\n'
+                warnings = '\n ]EIT GENRE WARNING[ "{}" Is not in EIT Genre List \n'.format(genre)
                 with open(genres_warnings_tmp, 'ab') as f:
                     f.write(warnings)
                 genres_mapped.append(genre)
@@ -47,7 +47,7 @@ def map_channels(channel_id, channel_format,channels_json,channels_warnings_tmp,
             rytec_id = json.load(c)
 
         if (channel_id) not in rytec_id['channels'][lang.upper()]:
-            warnings = '\n' + ']CHANNEL WARNING[' + ' "' + channel_id + '" ' + 'Is not in Rytec List' + '\n'
+            warnings = '\n ]CHANNEL WARNING[ "{}" Is not in Rytec List \n'.format(channel_id)
             with open(channels_warnings_tmp, 'ab') as f:
                f.write(warnings)
             channels_mapped = channel_id
@@ -77,7 +77,7 @@ def create_channel_warnings(channels_warnings_tmp, channels_warnings, provider,c
             f.write(channel_pull)
         ## Print Content of Channel Warnings Textfile in Kodi LOG
         warnings_channels = open(channels_warnings, "r").read()
-        log(provider + '' + warnings_channels, xbmc.LOGNOTICE)
+        log('{} {}'.format(provider,warnings_channels), xbmc.LOGNOTICE)
 
 def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_pull):
     ## Create Genre Warnings Textfile
@@ -94,4 +94,4 @@ def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_
             f.write(genre_pull)
         ## Print Content of Genres Warnings Textfile in Kodi LOG
         warnings_genres = open(genres_warnings, "r").read()
-        log(provider + '' + warnings_genres, xbmc.LOGNOTICE)
+        log('{} {}'.format(provider, warnings_genres), xbmc.LOGNOTICE)
