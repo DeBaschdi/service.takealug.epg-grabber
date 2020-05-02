@@ -161,8 +161,44 @@ msgid "Can not copy guide.xml to Destination!"
 msgstr "Kann guide.xml nicht zum Ziel Kopieren!"
 
 msgctxt "#32352"
-msgid ""
-msgstr ""
+msgid "Timestamp of last generated guide.xml is"
+msgstr "Zeitstempel der zuletzt erstellten guide.xml ist"
+
+msgctxt "#32353"
+msgid "Waiting for next EPG grab at"
+msgstr "Warte auf den nächsten EPG grab am"
+
+msgctxt "#32354"
+msgid "guide.xml is older than"
+msgstr "guide.xml ist älter als"
+
+msgctxt "#32355"
+msgid "hours, initiate automatic EPG grab"
+msgstr "stunden, starte automatischen EPG Grab"
+
+msgctxt "#32356"
+msgid "EPG Grab time has reached, initiate Automatic EPG grab"
+msgstr "EPG Grab Zeit wurde erreicht, leite automatischen EPG Grab ein"
+
+msgctxt "#32357"
+msgid "Initialize automatic EPG Grab..."
+msgstr "Initialisiere automatischen EPG Grab...."
+
+msgctxt "#32358"
+msgid "Tried to start Grabber 3x without success, giving up"
+msgstr "Der Grabber wurde 3x erfolgslos gestartet, ich gebe auf... "
+
+msgctxt "#32359"
+msgid "You need to setup an Storage Path first"
+msgstr "Du musst zu erst einen Speicherpfad einstellen"
+
+msgctxt "#32360"
+msgid "You need to enable at least 1 Grabber In Provider Settings"
+msgstr "Du musst mindestens einen Grabber in den Provider Einstellungen aktivieren"
+
+msgctxt "#32361"
+msgid "Start manual grabbing EPG Data ?"
+msgstr "Starte manuelles grabben der EPG Daten?"
 
 #####################################
 # Messages 32400 - 32499            #

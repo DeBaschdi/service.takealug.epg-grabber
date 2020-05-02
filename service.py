@@ -147,25 +147,24 @@ def worker():
             last_timestamp = 0
 
         if last_timestamp > 0:
-            log('Timestamp of last generated guide.xml is {}'.format(datetime.fromtimestamp(last_timestamp).strftime(
-                '%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+            log('{} {}'.format(loc(32352),datetime.fromtimestamp(last_timestamp).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
             if (int(time.time()) - timeoffset) < last_timestamp < int(time.time()):
-                log('Waiting for next EPG grab at {}'.format(datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+                log('{} {}'.format(loc(32353),datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
             else:
-                log('guide.xml is older than {} hours, initiate Automatic EPG grab'.format((timeoffset / 86400)), xbmc.LOGNOTICE)
+                log('{} {} {}'.format(loc(32354),(timeoffset / 86400),loc(32355)), xbmc.LOGNOTICE)
                 initiate_download = True
 
             if next_download < int(time.time()):
                 # suggested download time has passed (e.g. system was offline) or time is now, download epg
                 # and set a new timestamp for the next download
-                log('Download time has reached, initiate Automatic EPG grab', xbmc.LOGNOTICE)
+                log(loc(32356), xbmc.LOGNOTICE)
                 initiate_download = True
         else:
             initiate_download = True
 
         if initiate_download:
             if dl_attempts < 3:
-                notify(addon_name, 'Initialize Auto EPG Grab...', icon=xbmcgui.NOTIFICATION_INFO)
+                notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
                 if run_grabber():
                     dl_attempts = 0
                 else:
@@ -183,7 +182,7 @@ def worker():
                 xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
                 xbmcvfs.delete(grabber_cron_tmp)
                 f.close()
-                log("Tried downlad 3x without success", xbmc.LOGERROR)
+                log(loc(32358), xbmc.LOGERROR)
 
         # Calculate Next_Download Setting
         calc_next_download = datetime.now()
@@ -215,11 +214,11 @@ def check_startup():
     if not os.path.exists(temppath):
         os.makedirs(temppath)
     if storage_path == 'choose':
-        notify(addon_name, 'You need to setup an Storage Path first', icon=xbmcgui.NOTIFICATION_ERROR)
+        notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
         return False
 
     if enabled_grabber == False:
-        notify(addon_name, 'You need to enable at least 1 Grabber In Provider Settings', icon=xbmcgui.NOTIFICATION_ERROR)
+        notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
         xbmc.sleep(2000)
         return False
 
@@ -266,22 +265,22 @@ if check_startup():
     try:
         if sys.argv[1] == 'manual_download':
             if storage_path == 'choose':
-                notify(addon_name, 'You need to setup an Storage Path first', icon=xbmcgui.NOTIFICATION_ERROR)
+                notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
             elif enabled_grabber == False:
-                notify(addon_name, 'You need to enable at least 1 Grabber In Provider Settings', icon=xbmcgui.NOTIFICATION_ERROR)
+                notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
             else:
                 dialog = xbmcgui.Dialog()
-                ret = dialog.yesno('Takealug EPG Grabber', 'Start grabbing EPG Data ?')
+                ret = dialog.yesno('Takealug EPG Grabber', loc(32361))
                 if ret:
                     manual = True
-                    notify(addon_name, 'Initialize Manual EPG Grab...', icon=xbmcgui.NOTIFICATION_INFO)
+                    notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
                     run_grabber()
 
     except IndexError:
         if auto_download:
             if storage_path == 'choose':
-                notify(addon_name, 'You need to setup an Storage Path first', icon=xbmcgui.NOTIFICATION_ERROR)
+                notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
             elif enabled_grabber == False:
-                notify(addon_name, 'You need to enable at least 1 Grabber In Provider Settings', icon=xbmcgui.NOTIFICATION_ERROR)
+                notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
             else:
                 worker()

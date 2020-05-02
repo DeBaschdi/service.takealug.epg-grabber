@@ -161,7 +161,43 @@ msgid "Can not copy guide.xml to Destination!"
 msgstr ""
 
 msgctxt "#32352"
-msgid ""
+msgid "Timestamp of last generated guide.xml is"
+msgstr ""
+
+msgctxt "#32353"
+msgid "Waiting for next EPG grab at"
+msgstr ""
+
+msgctxt "#32354"
+msgid "guide.xml is older than"
+msgstr ""
+
+msgctxt "#32355"
+msgid "hours, initiate automatic EPG grab"
+msgstr ""
+
+msgctxt "#32356"
+msgid "EPG Grab time has reached, initiate Automatic EPG grab"
+msgstr ""
+
+msgctxt "#32357"
+msgid "Initialize automatic EPG Grab..."
+msgstr ""
+
+msgctxt "#32358"
+msgid "Tried to start Grabber 3x without success, giving up"
+msgstr ""
+
+msgctxt "#32359"
+msgid "You need to setup an Storage Path first"
+msgstr ""
+
+msgctxt "#32360"
+msgid "You need to enable at least 1 Grabber In Provider Settings"
+msgstr ""
+
+msgctxt "#32361"
+msgid "Start manual grabbing EPG Data ?"
 msgstr ""
 
 #####################################
