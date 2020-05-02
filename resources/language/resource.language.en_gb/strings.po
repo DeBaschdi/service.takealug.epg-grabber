@@ -197,7 +197,67 @@ msgid "You need to enable at least 1 Grabber In Provider Settings"
 msgstr ""
 
 msgctxt "#32361"
-msgid "Start manual grabbing EPG Data ?"
+msgid "Broadcastfiles to be downloaded... "
+msgstr ""
+
+msgctxt "#32362"
+msgid "Create XML Channels..."
+msgstr ""
+
+msgctxt "#32363"
+msgid "Broadcast Files downloaded!"
+msgstr ""
+
+msgctxt "#32364"
+msgid "XML Channels Created!"
+msgstr ""
+
+msgctxt "#32365"
+msgid "Create XML EPG Broadcast..."
+msgstr ""
+
+msgctxt "#32366"
+msgid "XML EPG Broadcast Created"
+msgstr ""
+
+msgctxt "#32367"
+msgid "no Programminformation for Channel"
+msgstr ""
+
+msgctxt "#32368"
+msgid "with ID"
+msgstr ""
+
+msgctxt "#32369"
+msgid "avaivible!"
+msgstr ""
+
+msgctxt "#32370"
+msgid "EPG for Provider"
+msgstr ""
+
+msgctxt "#32371"
+msgid "Grabbed!"
+msgstr ""
+
+msgctxt "#32372"
+msgid "Warnings Found, please check Logfile"
+msgstr ""
+
+msgctxt "#32373"
+msgid "Channelname has Changed from"
+msgstr ""
+
+msgctxt "#32374"
+msgid "to"
+msgstr ""
+
+msgctxt "#32375"
+msgid "no more exist, removing from Selected List"
+msgstr ""
+
+msgctxt "#32376"
+msgid ""
 msgstr ""
 
 #####################################
@@ -209,10 +269,30 @@ msgid "Channel ID Duplicates Detected"
 msgstr ""
 
 msgctxt "#32401"
-msgid ""
+msgid "Start manual grabbing EPG Data ?"
 msgstr ""
 
 msgctxt "#32402"
+msgid "New Channellist saved!"
+msgstr ""
+
+msgctxt "#32403"
+msgid "You need to Select at least 1 Channel!"
+msgstr ""
+
+msgctxt "#32404"
+msgid "Channellist unchanged!"
+msgstr ""
+
+msgctxt "#32405"
+msgid "No channel list currently configured, Do you want to create one ?"
+msgstr ""
+
+msgctxt "#32406"
+msgid "Select Channels to Grab"
+msgstr ""
+
+msgctxt "#32407"
 msgid ""
 msgstr ""
 
@@ -220,6 +300,21 @@ msgstr ""
 # Progress 32500 -32549             #
 #####################################
 
+msgctxt "#32500"
+msgid "Downloading Broadcast Files for"
+msgstr ""
+
+msgctxt "#32501"
+msgid "Percent remain"
+msgstr ""
+
+msgctxt "#32502"
+msgid "Create XML Channels for"
+msgstr ""
+
+msgctxt "#32503"
+msgid "Create XML Broadcast for"
+msgstr ""
 
 #####################################
 # List Items, Labels 32550 -32599   #

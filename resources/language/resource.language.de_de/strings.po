@@ -197,8 +197,68 @@ msgid "You need to enable at least 1 Grabber In Provider Settings"
 msgstr "Du musst mindestens einen Grabber in den Provider Einstellungen aktivieren"
 
 msgctxt "#32361"
-msgid "Start manual grabbing EPG Data ?"
-msgstr "Starte manuelles grabben der EPG Daten?"
+msgid "Broadcastfiles to be downloaded... "
+msgstr "Sender Daten die heruntergeladen werden müssen..."
+
+msgctxt "#32362"
+msgid "Create XML Channels..."
+msgstr "Erstelle XML Kanäle..."
+
+msgctxt "#32363"
+msgid "Broadcast Files downloaded!"
+msgstr "Senderdaten heruntergeladen!"
+
+msgctxt "#32364"
+msgid "XML Channels Created!"
+msgstr "XML Kanäle erstellt!"
+
+msgctxt "#32365"
+msgid "Create XML EPG Broadcast..."
+msgstr "Erstelle XML EPG Senderdaten..."
+
+msgctxt "#32366"
+msgid "XML EPG Broadcast Created"
+msgstr "XML EPG Senderdaten erstellt!"
+
+msgctxt "#32367"
+msgid "no Programminformation for Channel"
+msgstr "Keine Programminformationen für Kanal"
+
+msgctxt "#32368"
+msgid "with ID"
+msgstr "mit der ID"
+
+msgctxt "#32369"
+msgid "avaivible!"
+msgstr "vorhanden!"
+
+msgctxt "#32370"
+msgid "EPG for Provider"
+msgstr "EPG vom Provider"
+
+msgctxt "#32371"
+msgid "Grabbed!"
+msgstr "Gegrabbt!"
+
+msgctxt "#32372"
+msgid "Warnings Found, please check Logfile"
+msgstr "Warnungen gefunden, bitte überprüfe das Kodilog"
+
+msgctxt "#32373"
+msgid "Channelname has Changed from"
+msgstr "Kanalname hat sich geändert von"
+
+msgctxt "#32374"
+msgid "to"
+msgstr "zu"
+
+msgctxt "#32375"
+msgid "no more exist, removing from Selected List"
+msgstr "existiert nicht mehr, entferne von der Liste"
+
+msgctxt "#32376"
+msgid ""
+msgstr ""
 
 #####################################
 # Messages 32400 - 32499            #
@@ -209,10 +269,30 @@ msgid "Channel ID Duplicates Detected"
 msgstr "Doppelt vorhandene Kanäle erkannt"
 
 msgctxt "#32401"
-msgid ""
-msgstr ""
+msgid "Start manual grabbing EPG Data ?"
+msgstr "Sollen die EPG Daten manuell gegrabbt und erstellt werden?"
 
 msgctxt "#32402"
+msgid "New Channellist saved!"
+msgstr "Neue Kanalliste abgespeichert!"
+
+msgctxt "#32403"
+msgid "You need to Select at least 1 Channel!"
+msgstr "Du musst mindestens einen Kanal auswählen"
+
+msgctxt "#32404"
+msgid "Channellist unchanged!"
+msgstr "Kanalliste unverändert!"
+
+msgctxt "#32405"
+msgid "No channel list currently configured, Do you want to create one ?"
+msgstr "Keine Kanalliste aktuell konfiguriert, willst du eine erstellen ?"
+
+msgctxt "#32406"
+msgid "Select Channels to Grab"
+msgstr "Wähle Kanäle zum Grabben aus"
+
+msgctxt "#32407"
 msgid ""
 msgstr ""
 
@@ -220,6 +300,21 @@ msgstr ""
 # Progress 32500 -32549             #
 #####################################
 
+msgctxt "#32500"
+msgid "Downloading Broadcast Files for"
+msgstr "Lade Senderdaten für"
+
+msgctxt "#32501"
+msgid "Percent remain"
+msgstr "Prozent verbleibend"
+
+msgctxt "#32502"
+msgid "Create XML Channels for"
+msgstr "Erstelle XML Kanäle für"
+
+msgctxt "#32503"
+msgid "Create XML Broadcast for"
+msgstr "Erstelle XML Senderdaten für"
 
 #####################################
 # List Items, Labels 32550 -32599   #

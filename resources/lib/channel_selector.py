@@ -47,7 +47,8 @@ def select_channels(provider,provider_list,selected_list):
                 if channel['name'] != user_item['name']:
                     # mark as 'channelname has changed' (label2)
                     descriptor.setLabel2(user_item['name'])
-                    log('Channelname has Changed from {} to {}'.format(user_item['name'],channel['name']), xbmc.LOGNOTICE)
+                    ## Notify if Channelname has Changed
+                    log('{} {} {} {}'.format(loc(32373),user_item['name'],loc(32374),channel['name']), xbmc.LOGNOTICE)
                 break
         items.append(descriptor)
         index += 1
@@ -60,10 +61,11 @@ def select_channels(provider,provider_list,selected_list):
                 is_outdated = False
                 break
         if is_outdated:
-            xbmc.log('content id {} is outdated, removing from List'.format(user_item['contentId']))
+            ## Notify if Selected Channel no more exist by Provider
+            xbmc.log('contentID {} {}'.format(user_item['contentId'],loc(32375)))
 
     # build new userlist
-    multilist = xbmcgui.Dialog().multiselect('{} ]-Select Channels to Grab-['.format(provider), items, preselect=selected, useDetails=True)
+    multilist = xbmcgui.Dialog().multiselect('{} ]-{}-['.format(provider,loc(32406)), items, preselect=selected, useDetails=True)
     if multilist is not None:
         selected_list = list()
         for selected in multilist:

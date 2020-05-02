@@ -84,18 +84,22 @@ def copy_guide_to_destination():
 
 def check_channel_dupes():
     with open(guide_temp) as f:
-        ignore_name_string = "display-name"
-        ignore_icon_string = "icon src"
-        ignore_channel_end_string = "</channel"
         c = Counter(c.strip().lower() for c in f if c.strip())  # for case-insensitive search
+        dupe = []
         for line in c:
             if c[line] > 1:
-                if (not line == '' and not re.search(ignore_name_string, line) and not re.search(ignore_icon_string, line) and not re.search(ignore_channel_end_string, line)):
-                    log('{} {}'.format(loc(32400),line), xbmc.LOGERROR)
-                    dialog = xbmcgui.Dialog()
-                    ok = dialog.ok('-]ERROR[- {}'.format(loc(32400)), line)
-                    if ok:
-                        exit()
+                if ('display-name' in line or 'icon src' in line or '</channel' in line):
+                    pass
+                else:
+                    dupe.append(line + '\n')
+        dupes = ''.join(dupe)
+
+        if (not dupes == ''):
+            log('{} {}'.format(loc(32400),line), xbmc.LOGERROR)
+            dialog = xbmcgui.Dialog()
+            ok = dialog.ok('-]ERROR[- {}'.format(loc(32400)), dupes)
+            if ok:
+                exit()
 
 def run_grabber():
     check_startup()
@@ -270,7 +274,7 @@ if check_startup():
                 notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
             else:
                 dialog = xbmcgui.Dialog()
-                ret = dialog.yesno('Takealug EPG Grabber', loc(32361))
+                ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
                 if ret:
                     manual = True
                     notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
