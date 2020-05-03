@@ -38,7 +38,7 @@ magentaDE_channels_warnings_tmp = os.path.join(provider_temppath, 'magentaDE_cha
 magentaDE_channels_warnings = os.path.join(temppath, 'magentaDE_channels_warnings.txt')
 
 ## Read Magenta DE Settings
-days_to_grab = ADDON.getSetting('magentaDE_days_to_grab')
+days_to_grab = int(ADDON.getSetting('magentaDE_days_to_grab'))
 episode_format = ADDON.getSetting('magentaDE_episode_format')
 channel_format = ADDON.getSetting('magentaDE_channel_format')
 genre_format = ADDON.getSetting('magentaDE_genre_format')
@@ -56,11 +56,15 @@ OSD = xbmcgui.Dialog()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-now = datetime.now()
-then = now + timedelta(days=int(days_to_grab))
+# Calculate Date and Time
+today = datetime.today()
+calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
 
-starttime = now.strftime("%Y%m%d")
-endtime = then.strftime("%Y%m%d")
+calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
+calc_then += timedelta(days=days_to_grab)
+
+starttime = calc_today.strftime("%Y%m%d%H%M%S")
+endtime = calc_then.strftime("%Y%m%d%H%M%S")
 
 ## Channel Files
 magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaDE_provider_tmp.json')
@@ -230,7 +234,7 @@ def download_broadcastfiles():
         items += 1
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        magentaDE_data = {'channelid': contentID, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime + '235959', 'begintime': starttime + '000000'}
+        magentaDE_data = {'channelid': contentID, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime, 'begintime': starttime}
         magenta_playbil_url = session.post(magentaDE_data_url, data=json.dumps(magentaDE_data), headers=magentaDE_header)
         magenta_playbil_url.raise_for_status()
         response = magenta_playbil_url.json()

@@ -9,7 +9,6 @@ import sys
 import requests.cookies
 import requests
 import time
-import re
 from datetime import timedelta
 from datetime import datetime
 from resources.lib import xml_structure
@@ -59,26 +58,25 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
 # Calculate Date and Time in Microsoft Timestamp
-now = datetime.now()
-calc_today = datetime.now()
-calc_today = calc_today.replace(day=calc_today.day, hour=00, minute=00, second=01, microsecond=0)
+today = datetime.today()
+calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
 
-calc_then = calc_today.replace(day=calc_today.day , hour=23, minute=59, second=59, microsecond=0)
+calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
 calc_then += timedelta(days=days_to_grab)
 
 try:
     today = calc_today.strftime("%s")
-    starttime = str(today) + '000'
+    starttime = '{}000'.format(int(today))
 except ValueError:
     today = time.mktime(calc_today.timetuple())
-    starttime = str(today).replace('.', '') + '00'
+    starttime = '{}00'.format(int(today)).replace('.', '')
 
 try:
     then = calc_then.strftime("%s")
-    endtime = str(then) + '000'
+    endtime = '{}000'.format(int(then))
 except ValueError:
     then = time.mktime(calc_then.timetuple())
-    endtime = str(then).replace('.', '') + '00'
+    endtime = '{}00'.format(int(then)).replace('.', '')
 
 ## Channel Files
 hznDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_hznDE_provider_tmp.json')
