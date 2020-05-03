@@ -25,7 +25,7 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 
 def map_genres(items_genre,genre_format,genres_json,genres_warnings_tmp, lang):
     if genre_format == 'eit':
-        with open(genres_json, 'r') as c: eit_genre = json.load(c)
+        with codecs.open(genres_json, 'r', 'utf-8') as c: eit_genre = json.load(c)
         genrelist = items_genre.split(',')
         genres_mapped = list()
         for genre in genrelist:
@@ -44,7 +44,7 @@ def map_genres(items_genre,genre_format,genres_json,genres_warnings_tmp, lang):
 
 def map_channels(channel_id, channel_format,channels_json,channels_warnings_tmp, lang):
     if channel_format == 'rytec':
-        with open(channels_json, 'r') as c:
+        with codecs.open(channels_json, 'r', 'utf-8') as c:
             rytec_id = json.load(c)
 
         if (channel_id) not in rytec_id['channels'][lang.upper()]:
@@ -67,8 +67,8 @@ def create_channel_warnings(channels_warnings_tmp, channels_warnings, provider,c
     ## Create Channel Warnings Textfile
     if os.path.isfile(channels_warnings_tmp):
         lines_seen = set()  # holds lines already seen
-        outfile = open(channels_warnings, "w")
-        for line in open(channels_warnings_tmp, "r"):
+        outfile = codecs.open(channels_warnings, "w", 'utf-8')
+        for line in codecs.open(channels_warnings_tmp, "r", 'utf-8'):
             if line not in lines_seen:  # not a duplicate
                 outfile.write(line)
                 lines_seen.add(line)
@@ -77,15 +77,15 @@ def create_channel_warnings(channels_warnings_tmp, channels_warnings, provider,c
         with codecs.open(channels_warnings, 'ab', 'utf-8') as f:
             f.write(channel_pull)
         ## Print Content of Channel Warnings Textfile in Kodi LOG
-        warnings_channels = open(channels_warnings, "r").read()
+        warnings_channels = codecs.open(channels_warnings, "r", 'utf-8').read()
         log('{} {}'.format(provider,warnings_channels), xbmc.LOGNOTICE)
 
 def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_pull):
     ## Create Genre Warnings Textfile
     if os.path.isfile(genres_warnings_tmp):
         lines_seen = set()  # holds lines already seen
-        outfile = open(genres_warnings, "w")
-        for line in open(genres_warnings_tmp, "r"):
+        outfile = codecs.open(genres_warnings, "w", 'utf-8')
+        for line in codecs.open(genres_warnings_tmp, "r", 'utf-8'):
             if line not in lines_seen:  # not a duplicate
                 outfile.write(line)
                 lines_seen.add(line)
@@ -94,5 +94,5 @@ def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_
         with codecs.open(genres_warnings, 'ab', 'utf-8') as f:
             f.write(genre_pull)
         ## Print Content of Genres Warnings Textfile in Kodi LOG
-        warnings_genres = open(genres_warnings, "r").read()
+        warnings_genres = codecs.open(genres_warnings, "r", 'utf-8').read()
         log('{} {}'.format(provider, warnings_genres), xbmc.LOGNOTICE)

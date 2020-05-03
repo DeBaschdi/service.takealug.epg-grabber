@@ -3,14 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/language/resource.language.de_de/strings.po" beforeDir="false" afterPath="$PROJECT_DIR$/resources/language/resource.language.de_de/strings.po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/language/resource.language.en_gb/strings.po" beforeDir="false" afterPath="$PROJECT_DIR$/resources/language/resource.language.en_gb/strings.po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/channel_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/channel_selector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lib/mapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/mapper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/horizon_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588398938167</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications">
+      <created>1588437091753</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1588437091753</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -127,25 +129,26 @@
     <MESSAGE value="Update Addon to 0.0.7&#10;-Start adding Translations&#10;-Fix UTF8 Problems (general)&#10;-Horizon : Remove useless Series +Episode Strings" />
     <MESSAGE value="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations" />
     <MESSAGE value="Update Addon to 0.0.8&#10;-Add more Translations(2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.8&#10;-Add more Translations(2)" />
+    <MESSAGE value="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications" />
   </component>
   <component name="WindowStateProjectService">
     <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588306279743">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588306279743" />
-    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588398938117">
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588437091654">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588398938117" />
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588437091654" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588398939625">
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588437093561">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588398939625" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588437093561" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
