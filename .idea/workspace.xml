@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshot1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshot2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +135,21 @@
       <option name="project" value="LOCAL" />
       <updated>1588575132053</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Update Addon to 0.0.9&#10;-Add Readme">
+      <created>1588579964004</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1588579964004</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Update Addon to 0.0.9&#10;-Add Readme">
+      <created>1588580144165</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1588580144165</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -155,27 +167,28 @@
     <MESSAGE value="Update Addon to 0.0.9&#10;-Some Code Cleanup" />
     <MESSAGE value="Update Addon to 0.0.9&#10;-Add Python 3 Compatibility (for Matrix)" />
     <MESSAGE value="Update Addon to 0.0.9&#10;-Add Python 3 Compatibility(2) (for Matrix)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.9&#10;-Add Python 3 Compatibility(2) (for Matrix)" />
+    <MESSAGE value="Update Addon to 0.0.9&#10;-Add Readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.9&#10;-Add Readme" />
   </component>
   <component name="WindowStateProjectService">
     <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588306279743">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588306279743" />
-    <state x="444" y="0" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588579963453">
+    <state x="444" y="0" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588580143649">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588579963453" />
+    <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588580143649" />
     <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479586304" />
     <state x="365" y="117" width="914" height="707" key="SettingsEditor" timestamp="1588571094978">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588571094978" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="445" y="199" key="Vcs.Push.Dialog.v2" timestamp="1588579967789">
+    <state x="445" y="199" key="Vcs.Push.Dialog.v2" timestamp="1588580145449">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588579967789" />
+    <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588580145449" />
     <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479588324" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
