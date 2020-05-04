@@ -3,7 +3,7 @@
         <setting label="32131" type="lsep"/> <!-- Provider Selection -->
         <setting label="32140" type="lsep"/> <!-- Magenta (DE) -->
         <setting id="enable_grabber_magentaDE" type="bool" label="32141" default="false" /><!-- Enable Magenta (DE)-->
-        <setting id="select_channels_magentaDE" type="action" label="32136" action="XBMC.RunScript(service.takealug.epg-grabber, select_channels_magentaDE)" option="close" visible="!eq(-1,false)"/>
+        <setting id="select_channels_magentaDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_magentaDE)" option="close" visible="!eq(-1,false)"/>
         <setting id="magentaDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
         <setting id="magentaDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="magentaDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
@@ -11,7 +11,7 @@
 
         <setting label="32142" type="lsep"/> <!-- Horizon (DE) -->
         <setting id="enable_grabber_hznDE" type="bool" label="32143" default="false" /><!-- Enable Horizon (DE) -->
-        <setting id="select_channels_hznDE" type="action" label="32136" action="XBMC.RunScript(service.takealug.epg-grabber, select_channels_hznDE)" option="close" visible="!eq(-1,false)"/>
+        <setting id="select_channels_hznDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_hznDE)" option="close" visible="!eq(-1,false)"/>
         <setting id="hznDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
         <setting id="hznDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="hznDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
@@ -31,7 +31,7 @@
 
     <category label="32100"> <!-- Misc Settings -->
         <setting label="32101" type="lsep"/> <!-- Manual Download -->
-        <setting id="manual_download" type="action" label="32102" action="XBMC.RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
+        <setting id="manual_download" type="action" label="32102" action="RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
     </category>
 
 </settings>

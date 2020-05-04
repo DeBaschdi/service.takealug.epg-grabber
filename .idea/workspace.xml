@@ -2,6 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/language/resource.language.de_de/strings.po" beforeDir="false" afterPath="$PROJECT_DIR$/resources/language/resource.language.de_de/strings.po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/language/resource.language.en_gb/strings.po" beforeDir="false" afterPath="$PROJECT_DIR$/resources/language/resource.language.en_gb/strings.po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lib/mapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/mapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/horizon_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,9 +155,10 @@
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479586304" />
-    <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
-      <screen x="0" y="0" width="1920" height="1030" />
+    <state x="365" y="117" width="914" height="707" key="SettingsEditor" timestamp="1588571094978">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588571094978" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
     <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588479588324">
       <screen x="0" y="0" width="1920" height="1030" />

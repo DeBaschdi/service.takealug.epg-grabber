@@ -257,7 +257,7 @@ msgid "no more exist, removing from Selected List"
 msgstr ""
 
 msgctxt "#32376"
-msgid ""
+msgid "Initialize manual EPG Grab..."
 msgstr ""
 
 #####################################

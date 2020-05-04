@@ -13,8 +13,15 @@ from resources.lib import xml_structure
 from resources.providers import magenta_DE
 from resources.providers import horizon_DE
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+
+## Python 3 Compatibility
+if sys.version_info[0] > 2:
+    # python 3
+    pass
+else:
+    # python 2
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -24,7 +31,7 @@ datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 
 ## Read Global Settings
-storage_path = ADDON.getSetting('storage_path').encode('utf-8')
+storage_path = ADDON.getSetting('storage_path')
 auto_download = True if ADDON.getSetting('auto_download').lower() == 'true' else False
 timeswitch = int(ADDON.getSetting('timeswitch'))
 timeoffset = (int(ADDON.getSetting('timeoffset')) * 12 + 24) * 3600
@@ -276,7 +283,7 @@ if check_startup():
                 ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
                 if ret:
                     manual = True
-                    notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
+                    notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
                     run_grabber()
 
     except IndexError:

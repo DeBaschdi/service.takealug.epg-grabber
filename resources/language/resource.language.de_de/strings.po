@@ -257,8 +257,8 @@ msgid "no more exist, removing from Selected List"
 msgstr "existiert nicht mehr, entferne von der Liste"
 
 msgctxt "#32376"
-msgid ""
-msgstr ""
+msgid "Initialize manual EPG Grab..."
+msgstr "Initialisiere manuellen EPG Grab...."
 
 #####################################
 # Messages 32400 - 32499            #

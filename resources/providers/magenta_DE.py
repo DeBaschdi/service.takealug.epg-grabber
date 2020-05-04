@@ -243,7 +243,7 @@ def download_broadcastfiles():
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
             json.dump(response, playbill)
-        pDialog.update(percent_completed, '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
         if str(percent_completed) == str(100):
             log('{} {}'.format(provider,loc(32363)), xbmc.LOGNOTICE)
     pDialog.close()
@@ -276,7 +276,7 @@ def create_xml_channels():
         channel_name = user_item['name']
         channel_icon = user_item['pictures'][0]['href']
         channel_id = channel_name
-        pDialog.update(percent_completed, '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
         if str(percent_completed) == str(100):
             log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
 
@@ -317,7 +317,7 @@ def create_xml_broadcast(enable_rating_mapper):
         contentID = user_item['contentId']
         channel_name = user_item['name']
         channel_id = channel_name
-        pDialog.update(percent_completed, '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
         if str(percent_completed) == str(100):
             log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
 
