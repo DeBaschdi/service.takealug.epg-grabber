@@ -1,0 +1,321 @@
+# XBMC Media Center language file
+# Addon Name: Takealug EPG Grabber
+# Addon id: service.takealug.epg-grabber
+# Addon version: 0.0.7
+# Addon Provider: DeBaschdi
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: 2020-05-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Bastian Kleinschmidt\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "Addon Summary"
+msgid "EPG Grabber"
+msgstr ""
+
+msgctxt "Addon Description"
+msgid "Grabbs EPG Data from Different IPTV Sources and generate an xmltv Guide"
+msgstr ""
+
+#############################
+# settings.xml              #
+#############################
+
+## Misc Settings ## 32100 -32109
+
+msgctxt "#32100"
+msgid "Misc Settings"
+msgstr ""
+
+msgctxt "#32101"
+msgid "Manual EPG Download"
+msgstr ""
+
+msgctxt "#32102"
+msgid "Run EPG Grabber Manual"
+msgstr ""
+
+## Global Settings ## 32110 - 32129
+
+msgctxt "#32110"
+msgid "Global Settings"
+msgstr ""
+
+msgctxt "#32111"
+msgid "Automatic EPG Grab"
+msgstr ""
+
+msgctxt "#32112"
+msgid "Enable Auto EPG Grab"
+msgstr ""
+
+msgctxt "#32113"
+msgid "Grab EPG daily at"
+msgstr ""
+
+msgctxt "#32114"
+msgid "Grab EPG immediately if EPG is older than"
+msgstr ""
+
+msgctxt "#32115"
+msgid "Save generated guide.xml to Disk"
+msgstr ""
+
+msgctxt "#32116"
+msgid "Storage Path"
+msgstr ""
+
+msgctxt "#32117"
+msgid "Addon Settings"
+msgstr ""
+
+msgctxt "#32118"
+msgid "Enable Rating Mapper"
+msgstr ""
+
+## Provider Settings ## 32130 - 32299
+
+# Basics 32130 -32139
+
+msgctxt "#32130"
+msgid "Provider Settings"
+msgstr ""
+
+msgctxt "#32131"
+msgid "Provider Selection"
+msgstr ""
+
+msgctxt "#32132"
+msgid "Episode Format"
+msgstr ""
+
+msgctxt "#32133"
+msgid "Channel ID Format"
+msgstr ""
+
+msgctxt "#32134"
+msgid "Genre Format"
+msgstr ""
+
+msgctxt "#32135"
+msgid "Days to Grab"
+msgstr ""
+
+msgctxt "#32136"
+msgid "Select Channels to Grab"
+msgstr ""
+
+# Provider Specific 32140 -32299
+
+msgctxt "#32140"
+msgid "Magenta TV (DE)"
+msgstr ""
+
+msgctxt "#32141"
+msgid "Enable Provider Magenta TV (DE)"
+msgstr ""
+
+msgctxt "#32142"
+msgid "Horizon (DE)"
+msgstr ""
+
+msgctxt "#32143"
+msgid "Enable Provider Horizon (DE)"
+msgstr ""
+
+
+#####################################
+# Values 32300 - 32349              #
+#####################################
+
+msgctxt "#32300"
+msgid "24 Hours"
+msgstr ""
+
+msgctxt "#32301"
+msgid "36 Hours"
+msgstr ""
+
+msgctxt "#32302"
+msgid "48 Hours"
+msgstr ""
+
+#####################################
+# Notifications / LOG 32350 - 32399 #
+#####################################
+
+msgctxt "#32350"
+msgid "EPG File (guide.xml) Created"
+msgstr ""
+
+msgctxt "#32351"
+msgid "Can not copy guide.xml to Destination!"
+msgstr ""
+
+msgctxt "#32352"
+msgid "Timestamp of last generated guide.xml is"
+msgstr ""
+
+msgctxt "#32353"
+msgid "Waiting for next EPG grab at"
+msgstr ""
+
+msgctxt "#32354"
+msgid "guide.xml is older than"
+msgstr ""
+
+msgctxt "#32355"
+msgid "hours, initiate automatic EPG grab"
+msgstr ""
+
+msgctxt "#32356"
+msgid "EPG Grab time has reached, initiate Automatic EPG grab"
+msgstr ""
+
+msgctxt "#32357"
+msgid "Initialize automatic EPG Grab..."
+msgstr ""
+
+msgctxt "#32358"
+msgid "Tried to start Grabber 3x without success, giving up"
+msgstr ""
+
+msgctxt "#32359"
+msgid "You need to setup an Storage Path first"
+msgstr ""
+
+msgctxt "#32360"
+msgid "You need to enable at least 1 Grabber In Provider Settings"
+msgstr ""
+
+msgctxt "#32361"
+msgid "Broadcastfiles to be downloaded... "
+msgstr ""
+
+msgctxt "#32362"
+msgid "Create XML Channels..."
+msgstr ""
+
+msgctxt "#32363"
+msgid "Broadcast Files downloaded!"
+msgstr ""
+
+msgctxt "#32364"
+msgid "XML Channels Created!"
+msgstr ""
+
+msgctxt "#32365"
+msgid "Create XML EPG Broadcast..."
+msgstr ""
+
+msgctxt "#32366"
+msgid "XML EPG Broadcast Created"
+msgstr ""
+
+msgctxt "#32367"
+msgid "no Programminformation for Channel"
+msgstr ""
+
+msgctxt "#32368"
+msgid "with ID"
+msgstr ""
+
+msgctxt "#32369"
+msgid "avaivible!"
+msgstr ""
+
+msgctxt "#32370"
+msgid "EPG for Provider"
+msgstr ""
+
+msgctxt "#32371"
+msgid "Grabbed!"
+msgstr ""
+
+msgctxt "#32372"
+msgid "Warnings Found, please check Logfile"
+msgstr ""
+
+msgctxt "#32373"
+msgid "Channelname has Changed from"
+msgstr ""
+
+msgctxt "#32374"
+msgid "to"
+msgstr ""
+
+msgctxt "#32375"
+msgid "no more exist, removing from Selected List"
+msgstr ""
+
+msgctxt "#32376"
+msgid ""
+msgstr ""
+
+#####################################
+# Messages 32400 - 32499            #
+#####################################
+
+msgctxt "#32400"
+msgid "Channel ID Duplicates Detected"
+msgstr ""
+
+msgctxt "#32401"
+msgid "Start manual grabbing EPG Data ?"
+msgstr ""
+
+msgctxt "#32402"
+msgid "New Channellist saved!"
+msgstr ""
+
+msgctxt "#32403"
+msgid "You need to Select at least 1 Channel!"
+msgstr ""
+
+msgctxt "#32404"
+msgid "Channellist unchanged!"
+msgstr ""
+
+msgctxt "#32405"
+msgid "No channel list currently configured, Do you want to create one ?"
+msgstr ""
+
+msgctxt "#32406"
+msgid "Select Channels to Grab"
+msgstr ""
+
+msgctxt "#32407"
+msgid ""
+msgstr ""
+
+#####################################
+# Progress 32500 -32549             #
+#####################################
+
+msgctxt "#32500"
+msgid "Downloading Broadcast Files for"
+msgstr ""
+
+msgctxt "#32501"
+msgid "Percent remain"
+msgstr ""
+
+msgctxt "#32502"
+msgid "Create XML Channels for"
+msgstr ""
+
+msgctxt "#32503"
+msgid "Create XML Broadcast for"
+msgstr ""
+
+#####################################
+# List Items, Labels 32550 -32599   #
+#####################################

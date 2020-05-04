@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/horizon_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,35 +56,111 @@
       <option name="project" value="LOCAL" />
       <updated>1588240753027</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Update Addon to 0.0.4&#10;-Horizon DE : Fix strftime %s Formating on Windows">
+      <created>1588243531696</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1588243531696</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Update Addon to 0.0.5&#10;-Magenta (DE) : Use uniform channel icons&#10;-Addon only starts when at least 1 grabber is activated">
+      <created>1588261747515</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1588261747515</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Update Addon to 0.0.6&#10;-Fix Dupe Detection">
+      <created>1588270669785</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1588270669785</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Update Addon to 0.0.7&#10;-Start adding Translations">
+      <created>1588311858238</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1588311858238</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Update Addon to 0.0.7&#10;-Start adding Translations&#10;-Fix UTF8 Problems (general)&#10;-Horizon : Remove useless Series +Episode Strings">
+      <created>1588341364783</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1588341364783</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations">
+      <created>1588396082532</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1588396082532</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Update Addon to 0.0.8&#10;-Add more Translations(2)">
+      <created>1588398938167</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1588398938167</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications">
+      <created>1588437091753</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1588437091753</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Update Addon to 0.0.9&#10;-Some Code Cleanup">
+      <created>1588479586398</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1588479586398</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update Addon to 0.0.2&#10;-Fix Runtime Error if no Channel is Selected" />
     <MESSAGE value="Update Addon to 0.0.3&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
     <MESSAGE value="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)" />
+    <MESSAGE value="Update Addon to 0.0.4&#10;-Horizon DE : Fix strftime %s Formating on Windows" />
+    <MESSAGE value="Update Addon to 0.0.5&#10;-Magenta (DE) : Use uniform channel icons&#10;-Addon only starts when at least 1 grabber is activated" />
+    <MESSAGE value="Update Addon to 0.0.6&#10;-Fix Dupe Detection" />
+    <MESSAGE value="Update Addon to 0.0.7&#10;-Start adding Translations" />
+    <MESSAGE value="Update Addon to 0.0.7&#10;-Start adding Translations&#10;-Fix UTF8 Problems (general)&#10;-Horizon : Remove useless Series +Episode Strings" />
+    <MESSAGE value="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations" />
+    <MESSAGE value="Update Addon to 0.0.8&#10;-Add more Translations(2)" />
+    <MESSAGE value="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications" />
+    <MESSAGE value="Update Addon to 0.0.9&#10;-Some Code Cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.9&#10;-Some Code Cleanup" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="62" key="CommitChangelistDialog2" timestamp="1588240752920">
+    <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588306279743">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="62" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588240752920" />
+    <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588306279743" />
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588479586304">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479586304" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor" timestamp="1588062667563">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588240754362">
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2" timestamp="1588479588324">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588240754362" />
+    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479588324" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588062960752" />
-    <state x="753" y="430" width="411" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588235718883">
+    <state x="753" y="430" width="413" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588259627874">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="753" y="430" width="411" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588235718883" />
+    <state x="753" y="430" width="413" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588259627874" />
   </component>
 </project>

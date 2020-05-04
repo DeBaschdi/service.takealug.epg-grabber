@@ -15,10 +15,12 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 
 provider = 'MAGENTA TV (DE)'
+lang = 'de'
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
+loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 provider_temppath = os.path.join(temppath, "magentaDE")
@@ -36,7 +38,7 @@ magentaDE_channels_warnings_tmp = os.path.join(provider_temppath, 'magentaDE_cha
 magentaDE_channels_warnings = os.path.join(temppath, 'magentaDE_channels_warnings.txt')
 
 ## Read Magenta DE Settings
-days_to_grab = ADDON.getSetting('magentaDE_days_to_grab')
+days_to_grab = int(ADDON.getSetting('magentaDE_days_to_grab'))
 episode_format = ADDON.getSetting('magentaDE_episode_format')
 channel_format = ADDON.getSetting('magentaDE_channel_format')
 genre_format = ADDON.getSetting('magentaDE_genre_format')
@@ -54,13 +56,18 @@ OSD = xbmcgui.Dialog()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-now = datetime.now()
-then = now + timedelta(days=int(days_to_grab))
+# Calculate Date and Time
+today = datetime.today()
+calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
 
-starttime = now.strftime("%Y%m%d")
-endtime = then.strftime("%Y%m%d")
+calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
+calc_then += timedelta(days=days_to_grab)
+
+starttime = calc_today.strftime("%Y%m%d%H%M%S")
+endtime = calc_then.strftime("%Y%m%d%H%M%S")
 
 ## Channel Files
+magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaDE_provider_tmp.json')
 magentaDE_chlist_provider = os.path.join(provider_temppath, 'chlist_magentaDE_provider.json')
 magentaDE_chlist_selected = os.path.join(datapath, 'chlist_magentaDE_selected.json')
 
@@ -106,9 +113,45 @@ def get_channellist():
     magenta_chlist_url.raise_for_status()
     response = magenta_chlist_url.json()
 
-    with open(magentaDE_chlist_provider, 'w') as provider_list:
-        json.dump(response, provider_list)
+    with open(magentaDE_chlist_provider_tmp, 'w') as provider_list_tmp:
+        json.dump(response, provider_list_tmp)
 
+    #### Transform magentaDE_chlist_provider_tmp to Standard chlist Format as magentaDE_chlist_provider
+
+    # Load Channellist from Provider
+    with open(magentaDE_chlist_provider_tmp, 'r') as provider_list_tmp:
+        magentaDE_channels = json.load(provider_list_tmp)
+
+    # Create empty new hznDE_chlist_provider
+    with open(magentaDE_chlist_provider, 'w') as provider_list:
+        provider_list.write(json.dumps({"channellist": []}))
+        provider_list.close()
+
+    ch_title = ''
+
+    # Load New Channellist from Provider
+    with open(magentaDE_chlist_provider) as provider_list:
+        data = json.load(provider_list)
+
+        temp = data['channellist']
+
+        for channels in magentaDE_channels['channellist']:
+            ch_id = channels['contentId']
+            ch_title = channels['name']
+            for image in channels['pictures']:
+                if image['imageType'] == '15':
+                    hdimage = image['href']
+            # channel to be appended
+            y = {"contentId": ch_id,
+                 "name": ch_title,
+                 "pictures": [{"href": hdimage}]}
+
+            # appending channels to data['channellist']
+            temp.append(y)
+
+    #Save New Channellist from Provider
+    with open(magentaDE_chlist_provider, 'w') as provider_list:
+        json.dump(data, provider_list, indent=4)
 
 def select_channels():
     ## Create Provider Temppath if not exist
@@ -140,20 +183,22 @@ def select_channels():
         if os.path.isfile(magentaDE_chlist_selected):
             valid = check_selected_list()
             if valid is True:
-                ok = dialog.ok(provider, 'New Channellist saved!')
-                log('New Channellist saved!')
+                ok = dialog.ok(provider, loc(32402))
+                if ok:
+                    log(loc(32402), xbmc.LOGNOTICE)
             elif valid is False:
-                log('no channels selected')
-                yn = OSD.yesno(provider, "You need to Select at least 1 Channel!")
+                log(loc(32403), xbmc.LOGNOTICE)
+                yn = OSD.yesno(provider, loc(32403))
                 if yn:
                     select_channels()
                 else:
                     xbmcvfs.delete(magentaDE_chlist_selected)
                     exit()
     else:
-        log('user list not modified')
         check_selected_list()
-        ok = dialog.ok(provider, 'Channellist unchanged!')
+        ok = dialog.ok(provider, loc(32404))
+        if ok:
+            log(loc(32404), xbmc.LOGNOTICE)
 
 def check_selected_list():
     check = 'invalid'
@@ -181,29 +226,31 @@ def download_broadcastfiles():
 
     items_to_download = str(len(selected_list['channellist']))
     items = 0
-    log(provider + ' ' + items_to_download + ' Broadcastfiles to be downloaded... ', xbmc.LOGNOTICE)
+    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('Downloading Broadcast Files for {} {}'.format('', provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
+
     for user_item in selected_list['channellist']:
         items += 1
-        channel = user_item['contentId']
-        magentaDE_data = {'channelid': channel, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime + '235959', 'begintime': starttime + '000000'}
+        contentID = user_item['contentId']
+        channel_name = user_item['name']
+        magentaDE_data = {'channelid': contentID, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime, 'begintime': starttime}
         magenta_playbil_url = session.post(magentaDE_data_url, data=json.dumps(magentaDE_data), headers=magentaDE_header)
         magenta_playbil_url.raise_for_status()
         response = magenta_playbil_url.json()
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
-        broadcast_files = os.path.join(provider_temppath, channel + '_broadcast.json')
+        broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
             json.dump(response, playbill)
-        pDialog.update(percent_completed, 'Downloading Broadcast Files for ' + user_item['name'] + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
+        pDialog.update(percent_completed, '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
         if str(percent_completed) == str(100):
-            log(provider + ' Broadcast Files downloaded', xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32363)), xbmc.LOGNOTICE)
     pDialog.close()
 
 
 def create_xml_channels():
-    log(provider + ' Create XML Channels...', xbmc.LOGNOTICE)
+    log('{} {}'.format(provider,loc(32362)), xbmc.LOGNOTICE)
     if channel_format == 'rytec':
         ## Save tkm_channels.json to Disk
         tkm_channels_response = requests.get(tkm_channels_url).json()
@@ -217,7 +264,7 @@ def create_xml_channels():
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('Create XML Channels for {} {}'.format('', provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32502),provider), '{} {}'.format('100',loc(32501)))
 
     ## Create XML Channels Provider information
     xml_structure.xml_channels_start(provider)
@@ -229,22 +276,22 @@ def create_xml_channels():
         channel_name = user_item['name']
         channel_icon = user_item['pictures'][0]['href']
         channel_id = channel_name
-        pDialog.update(percent_completed, 'Create XML Channels for ' + channel_name + ' ' + provider,
-                       '{} Prozent verbleibend'.format(percent_remain))
+        pDialog.update(percent_completed, '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
         if str(percent_completed) == str(100):
-            log(provider + ' XML Channels Created', xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp, lang)
 
         ## Create XML Channel Information with provided Variables
-        xml_structure.xml_channels(channel_name, channel_id, channel_icon)
+        xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
 
 def create_xml_broadcast(enable_rating_mapper):
-    log(provider + ' Create XML EPG Broadcast...', xbmc.LOGNOTICE)
+    download_broadcastfiles()
+    log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
     if genre_format == 'eit':
         ## Save tkm_genres.json to Disk
         tkm_genres_response = requests.get(tkm_genres_url).json()
@@ -258,7 +305,7 @@ def create_xml_broadcast(enable_rating_mapper):
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('Create XML Broadcast for {} {}'.format('', provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32503),provider), '{} Prozent verbleibend'.format('100'))
 
     ## Create XML Broadcast Provider information
     xml_structure.xml_broadcast_start(provider)
@@ -267,21 +314,20 @@ def create_xml_broadcast(enable_rating_mapper):
         items += 1
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
-        channel = user_item['contentId']
+        contentID = user_item['contentId']
         channel_name = user_item['name']
         channel_id = channel_name
-        pDialog.update(percent_completed, 'Create XML Broadcast for ' + channel_name + ' ' + provider,
-                       '{} Prozent verbleibend'.format(percent_remain))
+        pDialog.update(percent_completed, '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
         if str(percent_completed) == str(100):
-            log(provider + ' XML EPG Broadcast Created', xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
 
-        broadcast_files = os.path.join(provider_temppath, channel + '_broadcast.json')
+        broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'r') as b:
             broadcastfiles = json.load(b)
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, magentaDE_channels_warnings_tmp, lang)
 
         try:
             for playbilllist in broadcastfiles['playbilllist']:
@@ -362,16 +408,16 @@ def create_xml_broadcast(enable_rating_mapper):
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, tkm_genres_json, magentaDE_genres_warnings_tmp)
+                    items_genre = mapper.map_genres(items_genre, genre_format, tkm_genres_json, magentaDE_genres_warnings_tmp, lang)
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime,
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
                                             item_date, item_season, item_episode, item_agerating, items_director,
-                                            items_producer, items_actor, enable_rating_mapper)
+                                            items_producer, items_actor, enable_rating_mapper, lang)
 
         except (KeyError, IndexError):
-            log(provider + ' no Programminformation for Channel ' + user_item['name'] + ' with ID ' + user_item['contentId'] + ' avaivible')
+            log('{} {} {} {} {} {}'.format(provider,loc(32367),channel_name,loc(32368),contentID,loc(32369)))
     pDialog.close()
 
     ## Create Channel Warnings Textile
@@ -382,12 +428,12 @@ def create_xml_broadcast(enable_rating_mapper):
     genre_pull = '\n' + 'Please Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/tkm_genres.json' + '\n'
     mapper.create_genre_warnings(magentaDE_genres_warnings_tmp, magentaDE_genres_warnings, provider, genre_pull)
 
-    notify(addon_name, 'EPG for Provider ' + provider + ' Grabbed!', icon=xbmcgui.NOTIFICATION_INFO)
-    log(provider + ' EPG Grabbed!', xbmc.LOGNOTICE)
+    notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
+    log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
     xbmc.sleep(4000)
 
     if (os.path.isfile(magentaDE_channels_warnings) or os.path.isfile(magentaDE_genres_warnings)):
-        notify(addon_name, 'Warnings Found, please check Logfile', icon=xbmcgui.NOTIFICATION_WARNING)
+        notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
         xbmc.sleep(3000)
 
     ## Delete old Tempfiles, not needed any more
@@ -404,7 +450,8 @@ def check_provider():
         with open((magentaDE_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({}))
             selected_list.close()
-        yn = OSD.yesno(provider, "No channel list currently configured, Do you want to create one ?")
+        ## If no Channellist exist, ask to create one
+        yn = OSD.yesno(provider, loc(32405))
         if yn:
             select_channels()
         else:
@@ -415,8 +462,6 @@ def check_provider():
 def startup():
     check_provider()
     get_channellist()
-    download_broadcastfiles()
-
 
 # Channel Selector
 try:

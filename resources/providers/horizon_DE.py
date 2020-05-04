@@ -16,10 +16,12 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 
 provider = 'HORIZON (DE)'
+lang = 'de'
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
+loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 provider_temppath = os.path.join(temppath, "horizonDE")
@@ -56,26 +58,25 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
 # Calculate Date and Time in Microsoft Timestamp
-now = datetime.now()
-calc_today = datetime.now()
-calc_today = calc_today.replace(day=calc_today.day, hour=00, minute=00, second=01, microsecond=0)
+today = datetime.today()
+calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
 
-calc_then = calc_today.replace(day=calc_today.day , hour=23, minute=59, second=59, microsecond=0)
+calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
 calc_then += timedelta(days=days_to_grab)
 
 try:
     today = calc_today.strftime("%s")
-    starttime = str(today) + '000'
+    starttime = '{}000'.format(int(today))
 except ValueError:
     today = time.mktime(calc_today.timetuple())
-    starttime = str(today).replace('.', '') + '00'
+    starttime = '{}00'.format(int(today)).replace('.', '')
 
 try:
     then = calc_then.strftime("%s")
-    endtime = str(then) + '000'
+    endtime = '{}000'.format(int(then))
 except ValueError:
     then = time.mktime(calc_then.timetuple())
-    endtime = str(then).replace('.', '') + '00'
+    endtime = '{}00'.format(int(then)).replace('.', '')
 
 ## Channel Files
 hznDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_hznDE_provider_tmp.json')
@@ -122,12 +123,12 @@ def get_channellist():
 
         for channels in hzn_channels['channels']:
             ch_id = channels['stationSchedules'][0]['station']['id']
-            ch_title = channels['stationSchedules'][0]['station']['title']
+            ch_title_dirty = channels['stationSchedules'][0]['station']['title']
             for image in channels['stationSchedules'][0]['station']['images']:
                 if image['assetType'] == 'station-logo-large':
                     hdimage_url = image['url'].split('?w')
                     hdimage = hdimage_url[0]
-            ch_title = ch_title.encode('ascii', 'ignore')
+            ch_title = ch_title_dirty.replace(u'\u0086', '').replace(u'\u0087', '')
             # channel to be appended
             y = {"contentId": ch_id,
                  "name": ch_title,
@@ -170,20 +171,22 @@ def select_channels():
         if os.path.isfile(hznDE_chlist_selected):
             valid = check_selected_list()
             if valid is True:
-                ok = dialog.ok(provider, 'New Channellist saved!')
-                log('New Channellist saved!')
+                ok = dialog.ok(provider, loc(32402))
+                if ok:
+                    log(loc(32402), xbmc.LOGNOTICE)
             elif valid is False:
-                log('no channels selected')
-                yn = OSD.yesno(provider, "You need to Select at least 1 Channel!")
+                log(loc(32403), xbmc.LOGNOTICE)
+                yn = OSD.yesno(provider, loc(32403))
                 if yn:
                     select_channels()
                 else:
                     xbmcvfs.delete(hznDE_chlist_selected)
                     exit()
     else:
-        log('user list not modified')
         check_selected_list()
-        ok = dialog.ok(provider, 'Channellist unchanged!')
+        ok = dialog.ok(provider, loc(32404))
+        if ok:
+            log(loc(32404), xbmc.LOGNOTICE)
 
 def check_selected_list():
     check = 'invalid'
@@ -203,31 +206,30 @@ def download_broadcastfiles():
 
     items_to_download = str(len(selected_list['channellist']))
     items = 0
-    log(provider + ' ' + items_to_download + ' Broadcastfiles to be downloaded... ', xbmc.LOGNOTICE)
+    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('Downloading Broadcast Files for {} {}'.format('', provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
 
     for user_item in selected_list['channellist']:
         items += 1
-        channel = user_item['contentId']
-        hznDE_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/DE/deu/web/listings?byStationId=' + channel +'&byStartTime=' + starttime + '~' + endtime + '&sort=startTime&range=1-10000'
+        contentID = user_item['contentId']
+        channel_name = user_item['name']
+        hznDE_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/DE/deu/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(contentID,starttime,endtime)
         hznDE_data = requests.get(hznDE_data_url, headers=hznDE_header)
         hznDE_data.raise_for_status()
         response = hznDE_data.json()
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
-        broadcast_files = os.path.join(provider_temppath, channel + '_broadcast.json')
-
+        broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
             json.dump(response, playbill)
-        pDialog.update(percent_completed, 'Downloading Broadcast Files for ' + user_item['name'] + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
+        pDialog.update(percent_completed, '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
         if str(percent_completed) == str(100):
-            log(provider + ' Broadcast Files downloaded', xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
     pDialog.close()
 
-
 def create_xml_channels():
-    log(provider + ' Create XML Channels...', xbmc.LOGNOTICE)
+    log('{} {}'.format(provider, loc(32362)), xbmc.LOGNOTICE)
     if channel_format == 'rytec':
         ## Save hzn_channels.json to Disk
         rytec_file = requests.get(hzn_channels_url).json()
@@ -241,7 +243,7 @@ def create_xml_channels():
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('Create XML Channels for {} {}'.format('', provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32502),provider), '{} {}'.format('100',loc(32501)))
 
     ## Create XML Channels Provider information
     xml_structure.xml_channels_start(provider)
@@ -253,21 +255,22 @@ def create_xml_channels():
         channel_name = user_item['name']
         channel_icon = user_item['pictures'][0]['href']
         channel_id = channel_name
-        pDialog.update(percent_completed, 'Create XML Channels for ' + channel_name + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
+        pDialog.update(percent_completed, '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
         if str(percent_completed) == str(100):
-            log(provider + ' XML Channels Created', xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp, lang)
 
         ## Create XML Channel Information with provided Variables
-        xml_structure.xml_channels(channel_name, channel_id, channel_icon)
+        xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
 
 def create_xml_broadcast(enable_rating_mapper):
-    log(provider + ' Create XML EPG Broadcast...', xbmc.LOGNOTICE)
+    download_broadcastfiles()
+    log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
     if genre_format == 'eit':
         ## Save hzn_genres.json to Disk
         genres_file = requests.get(hzn_genres_url).json()
@@ -281,7 +284,7 @@ def create_xml_broadcast(enable_rating_mapper):
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('Create XML Broadcast for {} {}'.format('', provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32503),provider), '{} Prozent verbleibend'.format('100'))
 
     ## Create XML Broadcast Provider information
     xml_structure.xml_broadcast_start(provider)
@@ -290,20 +293,20 @@ def create_xml_broadcast(enable_rating_mapper):
         items += 1
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
-        channel = user_item['contentId']
+        contentID = user_item['contentId']
         channel_name = user_item['name']
         channel_id = channel_name
-        pDialog.update(percent_completed, 'Create XML Broadcast for ' + channel_name + ' ' + provider,'{} Prozent verbleibend'.format(percent_remain))
+        pDialog.update(percent_completed, '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(percent_remain,loc(32501),provider))
         if str(percent_completed) == str(100):
-            log(provider + ' XML EPG Broadcast Created', xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
 
-        broadcast_files = os.path.join(provider_temppath, channel + '_broadcast.json')
+        broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'r') as b:
             broadcastfiles = json.load(b)
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp, lang)
 
         try:
             for playbilllist in broadcastfiles['listings']:
@@ -394,21 +397,28 @@ def create_xml_broadcast(enable_rating_mapper):
                 if item_agerating == '-1':
                     item_agerating = ''
 
+                if not item_season == '':
+                    if int(item_season) >999:
+                        item_season = ''
+                if not item_episode == '':
+                    if int(item_episode) >99999:
+                        item_episode = ''
+
                 item_starttime = datetime.utcfromtimestamp(item_starttime / 1000).strftime('%Y%m%d%H%M%S')
                 item_endtime = datetime.utcfromtimestamp(item_endtime / 1000).strftime('%Y%m%d%H%M%S')
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, hzn_genres_json, hznDE_genres_warnings_tmp)
+                    items_genre = mapper.map_genres(items_genre, genre_format, hzn_genres_json, hznDE_genres_warnings_tmp, lang)
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, str(item_starttime), str(item_endtime),
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
                                             item_date, item_season, item_episode, item_agerating, items_director,
-                                            items_producer, items_actor, enable_rating_mapper)
+                                            items_producer, items_actor, enable_rating_mapper, lang)
 
         except (KeyError, IndexError):
-            log(provider + ' no Programminformation for Channel ' + user_item['name'] + ' with ID ' + user_item['contentId'] + ' avaivible')
+            log('{} {} {} {} {} {}'.format(provider,loc(32367),channel_name,loc(32368),contentID,loc(32369)))
     pDialog.close()
 
     ## Create Channel Warnings Textile
@@ -419,12 +429,12 @@ def create_xml_broadcast(enable_rating_mapper):
     genre_pull = '\n' + 'Please Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/hzn_genres.json' + '\n'
     mapper.create_genre_warnings(hznDE_genres_warnings_tmp, hznDE_genres_warnings, provider, genre_pull)
 
-    notify(addon_name, 'EPG for Provider ' + provider + ' Grabbed!', icon=xbmcgui.NOTIFICATION_INFO)
-    log(provider + ' EPG Grabbed!', xbmc.LOGNOTICE)
+    notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
+    log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
     xbmc.sleep(4000)
 
     if (os.path.isfile(hznDE_channels_warnings) or os.path.isfile(hznDE_genres_warnings)):
-        notify(addon_name, 'Warnings Found, please check Logfile', icon=xbmcgui.NOTIFICATION_WARNING)
+        notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
         xbmc.sleep(3000)
 
     ## Delete old Tempfiles, not needed any more
@@ -441,7 +451,8 @@ def check_provider():
         with open((hznDE_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({}))
             selected_list.close()
-        yn = OSD.yesno(provider, "No channel list currently configured, Do you want to create one ?")
+        ## If no Channellist exist, ask to create one
+        yn = OSD.yesno(provider, loc(32405))
         if yn:
             select_channels()
         else:
@@ -452,7 +463,6 @@ def check_provider():
 def startup():
     check_provider()
     get_channellist()
-    download_broadcastfiles()
 
 
 # Channel Selector

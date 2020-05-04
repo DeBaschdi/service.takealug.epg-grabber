@@ -9,6 +9,7 @@ import os
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
+loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 
@@ -46,6 +47,8 @@ def select_channels(provider,provider_list,selected_list):
                 if channel['name'] != user_item['name']:
                     # mark as 'channelname has changed' (label2)
                     descriptor.setLabel2(user_item['name'])
+                    ## Notify if Channelname has Changed
+                    log('{} {} {} {}'.format(loc(32373),user_item['name'],loc(32374),channel['name']), xbmc.LOGNOTICE)
                 break
         items.append(descriptor)
         index += 1
@@ -58,14 +61,14 @@ def select_channels(provider,provider_list,selected_list):
                 is_outdated = False
                 break
         if is_outdated:
-            xbmc.log('content id {} is outdated'.format(user_item['contentId']))
+            ## Notify if Selected Channel no more exist by Provider
+            xbmc.log('contentID {} {}'.format(user_item['contentId'],loc(32375)))
 
     # build new userlist
-    multilist = xbmcgui.Dialog().multiselect(provider + ' ]-Select Channels to Grab-[', items, preselect=selected, useDetails=True)
+    multilist = xbmcgui.Dialog().multiselect('{} ]-{}-['.format(provider,loc(32406)), items, preselect=selected, useDetails=True)
     if multilist is not None:
         selected_list = list()
         for selected in multilist:
             selected_list.append(json.loads(items[selected].getProperty('item')))
         return dict({'channellist': selected_list})
-    xbmc.log('selection of channela aborted')
     return None
