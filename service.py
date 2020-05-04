@@ -8,7 +8,6 @@ from datetime import datetime
 from datetime import timedelta
 import os
 import json
-import re
 from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
@@ -189,8 +188,8 @@ def worker():
                 log(loc(32358), xbmc.LOGERROR)
 
         # Calculate Next_Download Setting
-        calc_next_download = datetime.now()
-        calc_next_download = calc_next_download.replace(day=calc_next_download.day , hour=timeswitch, minute=0, second=0, microsecond=0)
+        calc_next_download = datetime.today()
+        calc_next_download = datetime(calc_next_download.year, calc_next_download.month, day=calc_next_download.day,hour=timeswitch, minute=0, second=0, microsecond=0)
         calc_next_download += timedelta(days=1)
 
         # Deal with a windows strftime bug (Win don't know '%s' formatting)
@@ -233,8 +232,8 @@ def check_startup():
             downloads.close()
 
     # Calculate Next_Download Setting
-    calc_next_download = datetime.now()
-    calc_next_download = calc_next_download.replace(day=calc_next_download.day , hour=timeswitch, minute=0, second=0, microsecond=0)
+    calc_next_download = datetime.today()
+    calc_next_download = datetime(calc_next_download.year, calc_next_download.month, day=calc_next_download.day , hour=timeswitch, minute=0, second=0, microsecond=0)
     calc_next_download += timedelta(days=1)
 
     # Deal with a windows strftime bug (Win don't know '%s' formatting)
