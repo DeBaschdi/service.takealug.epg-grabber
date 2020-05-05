@@ -16,6 +16,14 @@
         <setting id="hznDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="hznDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="hznDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7" visible="!eq(-5,false)" /> <!-- Days to Grab -->
+
+        <setting label="32144" type="lsep"/> <!-- Horizon (AT) -->
+        <setting id="enable_grabber_hznAT" type="bool" label="32145" default="false" /><!-- Enable Horizon (AT) -->
+        <setting id="select_channels_hznAT" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_hznAT)" option="close" visible="!eq(-1,false)"/>
+        <setting id="hznAT_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
+        <setting id="hznAT_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
+        <setting id="hznAT_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
+        <setting id="hznAT_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7" visible="!eq(-5,false)" /> <!-- Days to Grab -->
     </category>
 
     <category label="32110"> <!-- Global Settings -->

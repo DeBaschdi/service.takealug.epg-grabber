@@ -131,6 +131,13 @@ msgctxt "#32143"
 msgid "Enable Provider Horizon (DE)"
 msgstr ""
 
+msgctxt "#32144"
+msgid "Horizon (AT)"
+msgstr ""
+
+msgctxt "#32145"
+msgid "Enable Provider Horizon (AT)"
+msgstr ""
 
 #####################################
 # Values 32300 - 32349              #

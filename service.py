@@ -11,7 +11,7 @@ import json
 from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
-from resources.providers import horizon_DE
+from resources.providers import horizon
 import sys
 
 ## Python 3 Compatibility
@@ -40,9 +40,10 @@ enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() 
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
 enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
+enable_grabber_hznAT = True if ADDON.getSetting('enable_grabber_hznAT').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_hznDE):
+if (enable_grabber_magentaDE or enable_grabber_hznDE or enable_grabber_hznAT):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -114,13 +115,17 @@ def run_grabber():
     if enable_grabber_magentaDE == True:
         magenta_DE.startup()
     if enable_grabber_hznDE == True:
-        horizon_DE.startup()
+        horizon.startup()
+    if enable_grabber_hznAT == True:
+        horizon.startup()
 
     ## Create XML Channels
     if enable_grabber_magentaDE == True:
         magenta_DE.create_xml_channels()
     if enable_grabber_hznDE == True:
-        horizon_DE.create_xml_channels()
+        horizon.create_xml_channels()
+    if enable_grabber_hznAT == True:
+        horizon.create_xml_channels()
 
     # Check for Channel Dupes
     check_channel_dupes()
@@ -129,7 +134,9 @@ def run_grabber():
     if enable_grabber_magentaDE == True:
         magenta_DE.create_xml_broadcast(enable_rating_mapper)
     if enable_grabber_hznDE == True:
-        horizon_DE.create_xml_broadcast(enable_rating_mapper)
+        horizon.create_xml_broadcast(enable_rating_mapper)
+    if enable_grabber_hznAT == True:
+        horizon.create_xml_broadcast(enable_rating_mapper)
 
     ## Finish XML
     xml_structure.xml_end()
