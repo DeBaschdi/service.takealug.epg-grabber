@@ -101,7 +101,7 @@ def check_channel_dupes():
         dupes = ''.join(dupe)
 
         if (not dupes == ''):
-            log('{} {}'.format(loc(32400),line), xbmc.LOGERROR)
+            log('{} {}'.format(loc(32400),dupes), xbmc.LOGERROR)
             dialog = xbmcgui.Dialog()
             ok = dialog.ok('-]ERROR[- {}'.format(loc(32400)), dupes)
             if ok:

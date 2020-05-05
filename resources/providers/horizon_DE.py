@@ -331,11 +331,46 @@ def create_xml_broadcast(enable_rating_mapper):
                 except (KeyError, IndexError):
                     item_country = ''
                 try:
-                    for image in playbilllist['program']['images']:
-                        if image['assetType'] == 'boxart-xlarge':
-                            hd_boxart_url = image['url'].split('?w')
-                            hd_boxart = hd_boxart_url[0]
-                    item_picture = hd_boxart
+                    if playbilllist['program']['images'][0]['assetType'] == 'HighResPortrait':
+                        item_picture = playbilllist['program']['images'][0]['url']
+                    elif playbilllist['program']['images'][1]['assetType'] == 'HighResPortrait':
+                        item_picture = playbilllist['program']['images'][1]['url']
+                    elif playbilllist['program']['images'][2]['assetType'] == 'HighResPortrait':
+                        item_picture = playbilllist['program']['images'][2]['url']
+                    elif playbilllist['program']['images'][3]['assetType'] == 'HighResPortrait':
+                        item_picture = playbilllist['program']['images'][3]['url']
+                    elif playbilllist['program']['images'][4]['assetType'] == 'HighResPortrait':
+                        item_picture = playbilllist['program']['images'][4]['url']
+                    elif playbilllist['program']['images'][5]['assetType'] == 'HighResPortrait':
+                        item_picture = playbilllist['program']['images'][5]['url']
+
+                    elif playbilllist['program']['images'][0]['assetType'] == 'boxart-xlarge':
+                        item_picture = playbilllist['program']['images'][0]['url']
+                    elif playbilllist['program']['images'][1]['assetType'] == 'boxart-xlarge':
+                        item_picture = playbilllist['program']['images'][1]['url']
+                    elif playbilllist['program']['images'][2]['assetType'] == 'boxart-xlarge':
+                        item_picture = playbilllist['program']['images'][2]['url']
+                    elif playbilllist['program']['images'][3]['assetType'] == 'boxart-xlarge':
+                        item_picture = playbilllist['program']['images'][3]['url']
+                    elif playbilllist['program']['images'][4]['assetType'] == 'boxart-xlarge':
+                        item_picture = playbilllist['program']['images'][4]['url']
+                    elif playbilllist['program']['images'][5]['assetType'] == 'boxart-xlarge':
+                        item_picture = playbilllist['program']['images'][5]['url']
+
+                    elif playbilllist['program']['images'][0]['assetType'] == 'tva-boxcover':
+                        item_picture = playbilllist['program']['images'][0]['url']
+                    elif playbilllist['program']['images'][1]['assetType'] == 'tva-boxcover':
+                        item_picture = playbilllist['program']['images'][1]['url']
+                    elif playbilllist['program']['images'][2]['assetType'] == 'tva-boxcover':
+                        item_picture = playbilllist['program']['images'][2]['url']
+                    elif playbilllist['program']['images'][3]['assetType'] == 'tva-boxcover':
+                        item_picture = playbilllist['program']['images'][3]['url']
+                    elif playbilllist['program']['images'][4]['assetType'] == 'tva-boxcover':
+                        item_picture = playbilllist['program']['images'][4]['url']
+                    elif playbilllist['program']['images'][5]['assetType'] == 'tva-boxcover':
+                        item_picture = playbilllist['program']['images'][5]['url']
+                    else:
+                        item_picture = ''
                 except (KeyError, IndexError):
                     item_picture = ''
                 try:
