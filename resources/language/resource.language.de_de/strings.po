@@ -139,6 +139,70 @@ msgctxt "#32145"
 msgid "Enable Provider Horizon (AT)"
 msgstr "Aktiviere Provider Horizon (AT)"
 
+msgctxt "#32146"
+msgid "Horizon (CH)"
+msgstr "Horizon (CH)"
+
+msgctxt "#32147"
+msgid "Enable Provider Horizon (CH)"
+msgstr "Aktiviere Provider Horizon (CH)"
+
+msgctxt "#32148"
+msgid "Horizon (NL)"
+msgstr "Horizon (NL)"
+
+msgctxt "#32149"
+msgid "Enable Provider Horizon (NL)"
+msgstr "Aktiviere Provider Horizon (NL)"
+
+msgctxt "#32150"
+msgid "Horizon (PL)"
+msgstr "Horizon (PL)"
+
+msgctxt "#32151"
+msgid "Enable Provider Horizon (PL)"
+msgstr "Aktiviere Provider Horizon (PL)"
+
+msgctxt "#32152"
+msgid "Horizon (IE)"
+msgstr "Horizon (IE)"
+
+msgctxt "#32153"
+msgid "Enable Provider Horizon (IE)"
+msgstr "Aktiviere Provider Horizon (IE)"
+
+msgctxt "#32154"
+msgid "Horizon (SK)"
+msgstr "Horizon (SK)"
+
+msgctxt "#32155"
+msgid "Enable Provider Horizon (SK)"
+msgstr "Aktiviere Provider Horizon (SK)"
+
+msgctxt "#32156"
+msgid "Horizon (CZ)"
+msgstr "Horizon (CZ)"
+
+msgctxt "#32157"
+msgid "Enable Provider Horizon (CZ)"
+msgstr "Aktiviere Provider Horizon (CZ)"
+
+msgctxt "#32158"
+msgid "Horizon (HU)"
+msgstr "Horizon (HU)"
+
+msgctxt "#32159"
+msgid "Enable Provider Horizon (HU)"
+msgstr "Aktiviere Provider Horizon (HU)"
+
+msgctxt "#32160"
+msgid "Horizon (RO)"
+msgstr "Horizon (RO)"
+
+msgctxt "#32161"
+msgid "Enable Provider Horizon (RO)"
+msgstr "Aktiviere Provider Horizon (RO)"
+
 ###################################
 # Values 32300 - 32349            #
 ###################################

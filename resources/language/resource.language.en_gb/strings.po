@@ -139,6 +139,70 @@ msgctxt "#32145"
 msgid "Enable Provider Horizon (AT)"
 msgstr ""
 
+msgctxt "#32146"
+msgid "Horizon (CH)"
+msgstr ""
+
+msgctxt "#32147"
+msgid "Enable Provider Horizon (CH)"
+msgstr ""
+
+msgctxt "#32148"
+msgid "Horizon (NL)"
+msgstr ""
+
+msgctxt "#32149"
+msgid "Enable Provider Horizon (NL)"
+msgstr ""
+
+msgctxt "#32150"
+msgid "Horizon (PL)"
+msgstr ""
+
+msgctxt "#32151"
+msgid "Enable Provider Horizon (PL)"
+msgstr ""
+
+msgctxt "#32152"
+msgid "Horizon (IE)"
+msgstr ""
+
+msgctxt "#32153"
+msgid "Enable Provider Horizon (IE)"
+msgstr ""
+
+msgctxt "#32154"
+msgid "Horizon (SK)"
+msgstr ""
+
+msgctxt "#32155"
+msgid "Enable Provider Horizon (SK)"
+msgstr ""
+
+msgctxt "#32156"
+msgid "Horizon (CZ)"
+msgstr ""
+
+msgctxt "#32157"
+msgid "Enable Provider Horizon (CZ)"
+msgstr ""
+
+msgctxt "#32158"
+msgid "Horizon (HU)"
+msgstr ""
+
+msgctxt "#32159"
+msgid "Enable Provider Horizon (HU)"
+msgstr ""
+
+msgctxt "#32160"
+msgid "Horizon (RO)"
+msgstr ""
+
+msgctxt "#32161"
+msgid "Enable Provider Horizon (RO)"
+msgstr ""
+
 #####################################
 # Values 32300 - 32349              #
 #####################################
