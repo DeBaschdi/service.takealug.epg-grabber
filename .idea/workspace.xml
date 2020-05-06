@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="Update Addon to 0.0.9&#10;-Add Readme">
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="Update Addon to 0.1.1&#10;-Add Horizon (CH,NL,PL,IE,SK,CZ,HU,RO)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/language/resource.language.de_de/strings.po" beforeDir="false" afterPath="$PROJECT_DIR$/resources/language/resource.language.de_de/strings.po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/language/resource.language.en_gb/strings.po" beforeDir="false" afterPath="$PROJECT_DIR$/resources/language/resource.language.en_gb/strings.po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/horizon.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="testing" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -186,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588582267870</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Update Addon to 0.1.1&#10;-Add Horizon (CH,NL,PL,IE,SK,CZ,HU,RO)">
+      <created>1588749980294</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1588749980294</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -205,28 +207,29 @@
     <MESSAGE value="Update Addon to 0.0.9&#10;-Add Python 3 Compatibility (for Matrix)" />
     <MESSAGE value="Update Addon to 0.0.9&#10;-Add Python 3 Compatibility(2) (for Matrix)" />
     <MESSAGE value="Update Addon to 0.0.9&#10;-Add Readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.0.9&#10;-Add Readme" />
+    <MESSAGE value="Update Addon to 0.1.1&#10;-Add Horizon (CH,NL,PL,IE,SK,CZ,HU,RO)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.1.1&#10;-Add Horizon (CH,NL,PL,IE,SK,CZ,HU,RO)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588306279743">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="694" y="317" width="529" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1588306279743" />
-    <state x="444" y="0" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588669893246">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2" timestamp="1588750832599">
+      <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588669893246" />
-    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479586304" />
+    <state x="555" y="62" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1588750832598" />
     <state x="365" y="117" width="914" height="707" key="SettingsEditor" timestamp="1588571094978">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588571094978" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="445" y="199" key="Vcs.Push.Dialog.v2" timestamp="1588582269851">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1588750860981">
+      <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588582269851" />
-    <state x="556" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588479588324" />
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588750860981" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588062960752">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
@@ -236,5 +239,9 @@
     </state>
     <state x="602" y="344" width="379" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1588653685690" />
     <state x="753" y="430" width="413" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1588733087376" />
+    <state x="713" y="207" key="git4idea.branch.GitSmartOperationDialog" timestamp="1588750801446">
+      <screen x="0" y="0" width="1920" height="1030" />
+    </state>
+    <state x="713" y="207" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1588750801446" />
   </component>
 </project>
