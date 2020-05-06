@@ -15,8 +15,51 @@ from resources.lib import xml_structure
 from resources.lib import channel_selector
 from resources.lib import mapper
 
-provider = 'HORIZON (DE)'
-lang = 'de'
+
+def get_hzndict(grabber):
+    ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url
+    hzndict = dict({'de': ['HORIZON (DE)', 'de', 'horizonDE', 'hznDE_genres_warnings.txt', 'hznDE_channels_warnings.txt', 'hznDE_days_to_grab', 'hznDE_episode_format', 'hznDE_channel_format' ,'hznDE_genre_format', 'chlist_hznDE_provider_tmp.json', 'chlist_hznDE_provider.json', 'chlist_hznDE_selected.json','DE/deu'],
+                    'at': ['HORIZON (AT)', 'at', 'horizonAT', 'hznAT_genres_warnings.txt', 'hznAT_channels_warnings.txt', 'hznAT_days_to_grab', 'hznAT_episode_format', 'hznAT_channel_format' ,'hznAT_genre_format', 'chlist_hznAT_provider_tmp.json', 'chlist_hznAT_provider.json', 'chlist_hznAT_selected.json','AT/deu'],
+                    'ch': ['HORIZON (CH)', 'ch', 'horizonCH', 'hznCH_genres_warnings.txt', 'hznCH_channels_warnings.txt', 'hznCH_days_to_grab', 'hznCH_episode_format', 'hznCH_channel_format' ,'hznCH_genre_format', 'chlist_hznCH_provider_tmp.json', 'chlist_hznCH_provider.json', 'chlist_hznCH_selected.json','CH/deu'],
+                    'nl': ['HORIZON (NL)', 'nl', 'horizonNL', 'hznNL_genres_warnings.txt', 'hznNL_channels_warnings.txt', 'hznNL_days_to_grab', 'hznNL_episode_format', 'hznNL_channel_format' ,'hznNL_genre_format', 'chlist_hznNL_provider_tmp.json', 'chlist_hznNL_provider.json', 'chlist_hznNL_selected.json','NL/nld'],
+                    'pl': ['HORIZON (PL)', 'pl', 'horizonPL', 'hznPL_genres_warnings.txt', 'hznPL_channels_warnings.txt', 'hznPL_days_to_grab', 'hznPL_episode_format', 'hznPL_channel_format' ,'hznPL_genre_format', 'chlist_hznPL_provider_tmp.json', 'chlist_hznPL_provider.json', 'chlist_hznPL_selected.json','PL/pol'],
+                    'ie': ['HORIZON (IE)', 'ie', 'horizonIE', 'hznIE_genres_warnings.txt', 'hznIE_channels_warnings.txt', 'hznIE_days_to_grab', 'hznIE_episode_format', 'hznIE_channel_format' ,'hznIE_genre_format', 'chlist_hznIE_provider_tmp.json', 'chlist_hznIE_provider.json', 'chlist_hznIE_selected.json','IE/eng'],
+                    'sk': ['HORIZON (SK)', 'sk', 'horizonSK', 'hznSK_genres_warnings.txt', 'hznSK_channels_warnings.txt', 'hznSK_days_to_grab', 'hznSK_episode_format', 'hznSK_channel_format' ,'hznSK_genre_format', 'chlist_hznSK_provider_tmp.json', 'chlist_hznSK_provider.json', 'chlist_hznSK_selected.json','SK/slk'],
+                    'cz': ['HORIZON (CZ)', 'cz', 'horizonCZ', 'hznCZ_genres_warnings.txt', 'hznCZ_channels_warnings.txt', 'hznCZ_days_to_grab', 'hznCZ_episode_format', 'hznCZ_channel_format' ,'hznCZ_genre_format', 'chlist_hznCZ_provider_tmp.json', 'chlist_hznCZ_provider.json', 'chlist_hznCZ_selected.json','CZ/ces'],
+                    'hu': ['HORIZON (HU)', 'hu', 'horizonHU', 'hznHU_genres_warnings.txt', 'hznHU_channels_warnings.txt', 'hznHU_days_to_grab', 'hznHU_episode_format', 'hznHU_channel_format' ,'hznHU_genre_format', 'chlist_hznHU_provider_tmp.json', 'chlist_hznHU_provider.json', 'chlist_hznHU_selected.json','HU/hun'],
+                    'ro': ['HORIZON (RO)', 'ro', 'horizonRO', 'hznRO_genres_warnings.txt', 'hznRO_channels_warnings.txt', 'hznRO_days_to_grab', 'hznRO_episode_format', 'hznRO_channel_format' ,'hznRO_genre_format', 'chlist_hznRO_provider_tmp.json', 'chlist_hznRO_provider.json', 'chlist_hznRO_selected.json','RO/ron'],
+                  })
+    return hzndict
+
+def get_settings(grabber):
+    hzndict = get_hzndict(grabber)
+    provider_temppath = os.path.join(temppath, hzndict[grabber][2])
+
+    # EIT Genre + Rytec Format Mapping Files
+    hzn_genres_json = os.path.join(provider_temppath, 'hzn_genres.json')
+    hzn_channels_json = os.path.join(provider_temppath, 'hzn_channels.json')
+
+    ## Log Files
+    hzn_genres_warnings_tmp = os.path.join(provider_temppath, hzndict[grabber][3])
+    hzn_genres_warnings = os.path.join(temppath, hzndict[grabber][3])
+    hzn_channels_warnings_tmp = os.path.join(provider_temppath, hzndict[grabber][4])
+    hzn_channels_warnings = os.path.join(temppath, hzndict[grabber][4])
+
+    ## Read Horizon Settings
+    days_to_grab = int(ADDON.getSetting(hzndict[grabber][5]))
+    episode_format = ADDON.getSetting(hzndict[grabber][6])
+    channel_format = ADDON.getSetting(hzndict[grabber][7])
+    genre_format = ADDON.getSetting(hzndict[grabber][8])
+
+    ## Channel Files
+    hzn_chlist_provider_tmp = os.path.join(provider_temppath, hzndict[grabber][9])
+    hzn_chlist_provider = os.path.join(provider_temppath, hzndict[grabber][10])
+    hzn_chlist_selected = os.path.join(datapath, hzndict[grabber][11])
+
+    provider = hzndict[grabber][0]
+    lang = hzndict[grabber][1]
+
+    return provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings,hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -24,26 +67,10 @@ addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
-provider_temppath = os.path.join(temppath, "horizonDE")
 
 ## MAPPING Variables Thx @ sunsettrack4
 hzn_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/hzn_genres.json'
-hzn_genres_json = os.path.join(provider_temppath, 'hzn_genres.json')
 hzn_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/hzn_channels.json'
-hzn_channels_json = os.path.join(provider_temppath, 'hzn_channels.json')
-
-## Log Files
-hznDE_genres_warnings_tmp = os.path.join(provider_temppath, 'hznDE_genres_warnings.txt')
-hznDE_genres_warnings = os.path.join(temppath, 'hznDE_genres_warnings.txt')
-hznDE_channels_warnings_tmp = os.path.join(provider_temppath, 'hznDE_channels_warnings.txt')
-hznDE_channels_warnings = os.path.join(temppath, 'hznDE_channels_warnings.txt')
-
-## Read Horizon DE Settings
-days_to_grab = int(ADDON.getSetting('hznDE_days_to_grab'))
-episode_format = ADDON.getSetting('hznDE_episode_format')
-channel_format = ADDON.getSetting('hznDE_channel_format')
-genre_format = ADDON.getSetting('hznDE_genre_format')
-
 
 # Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
@@ -57,66 +84,67 @@ OSD = xbmcgui.Dialog()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-# Calculate Date and Time in Microsoft Timestamp
-today = datetime.today()
-calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
+def get_epgLength(days_to_grab):
+    # Calculate Date and Time in Microsoft Timestamp
+    today = datetime.today()
+    calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
 
-calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
-calc_then += timedelta(days=days_to_grab)
+    calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
+    calc_then += timedelta(days=days_to_grab)
 
-try:
-    today = calc_today.strftime("%s")
-    starttime = '{}000'.format(int(today))
-except ValueError:
-    today = time.mktime(calc_today.timetuple())
-    starttime = '{}000'.format(int(today)).replace('.', '')
+    try:
+        today = calc_today.strftime("%s")
+        starttime = '{}000'.format(int(today))
+    except ValueError:
+        today = time.mktime(calc_today.timetuple())
+        starttime = '{}000'.format(int(today)).replace('.', '')
 
-try:
-    then = calc_then.strftime("%s")
-    endtime = '{}000'.format(int(then))
-except ValueError:
-    then = time.mktime(calc_then.timetuple())
-    endtime = '{}000'.format(int(then)).replace('.', '')
+    try:
+        then = calc_then.strftime("%s")
+        endtime = '{}000'.format(int(then))
+    except ValueError:
+        then = time.mktime(calc_then.timetuple())
+        endtime = '{}000'.format(int(then)).replace('.', '')
 
-## Channel Files
-hznDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_hznDE_provider_tmp.json')
-hznDE_chlist_provider = os.path.join(provider_temppath, 'chlist_hznDE_provider.json')
-hznDE_chlist_selected = os.path.join(datapath, 'chlist_hznDE_selected.json')
+    return starttime, endtime
 
-hznDE_login_url = 'https://web-api-pepper.horizon.tv'
-hznDE_channellist_url = 'https://web-api-pepper.horizon.tv/oesp/v2/DE/deu/web/channels'
 
-hznDE_header = {'Host': 'web-api-pepper.horizon.tv',
+
+hzn_login_url = 'https://web-api-pepper.horizon.tv'
+
+
+hzn_header = {'Host': 'web-api-pepper.horizon.tv',
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                   'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
-                  'Accept-Encoding': 'gzip, deflate, br',
+                  'Accept-Encoding': 'gzip',
                   'Connection': 'keep-alive',
                   'Upgrade-Insecure-Requests': '1'}
 
 ## Get channel list(url)
-def get_channellist():
-    hznDE_chlist_url = requests.get(hznDE_channellist_url, headers=hznDE_header)
-    hznDE_chlist_url.raise_for_status()
-    response = hznDE_chlist_url.json()
-    with open(hznDE_chlist_provider_tmp, 'w') as provider_list_tmp:
+def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider):
+    hzn_channellist_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/channels'.format(hzndict[grabber][12])
+    hzn_chlist_url = requests.get(hzn_channellist_url, headers=hzn_header)
+    hzn_chlist_url.raise_for_status()
+    response = hzn_chlist_url.json()
+    with open(hzn_chlist_provider_tmp, 'w') as provider_list_tmp:
         json.dump(response, provider_list_tmp)
 
-    #### Transform hznDE_chlist_provider_tmp to Standard chlist Format as hznDE_chlist_provider
+    #### Transform hzn_chlist_provider_tmp to Standard chlist Format as hzn_chlist_provider
 
     # Load Channellist from Provider
-    with open(hznDE_chlist_provider_tmp, 'r') as provider_list_tmp:
+    with open(hzn_chlist_provider_tmp, 'r') as provider_list_tmp:
         hzn_channels = json.load(provider_list_tmp)
 
-    # Create empty new hznDE_chlist_provider
-    with open(hznDE_chlist_provider, 'w') as provider_list:
+    # Create empty new hzn_chlist_provider
+    with open(hzn_chlist_provider, 'w') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
         provider_list.close()
 
     ch_title = ''
 
     # Load New Channellist from Provider
-    with open(hznDE_chlist_provider) as provider_list:
+    with open(hzn_chlist_provider) as provider_list:
         data = json.load(provider_list)
 
         temp = data['channellist']
@@ -138,38 +166,40 @@ def get_channellist():
             temp.append(y)
 
     #Save New Channellist from Provider
-    with open(hznDE_chlist_provider, 'w') as provider_list:
+    with open(hzn_chlist_provider, 'w') as provider_list:
         json.dump(data, provider_list, indent=4)
 
-def select_channels():
+def select_channels(grabber):
+    provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
+    hzndict = get_hzndict(grabber)
     ## Create Provider Temppath if not exist
     if not os.path.exists(provider_temppath):
         os.makedirs(provider_temppath)
 
     ## Create empty (Selected) Channel List if not exist
-    if not os.path.isfile(hznDE_chlist_selected):
-        with open(hznDE_chlist_selected, 'w') as selected_list:
+    if not os.path.isfile(hzn_chlist_selected):
+        with open(hzn_chlist_selected, 'w') as selected_list:
             selected_list.write(json.dumps({}))
             selected_list.close()
 
-    ## Download chlist_hznDE_provider.json
-    get_channellist()
+    ## Download chlist_provider.json
+    get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
     dialog = xbmcgui.Dialog()
 
-    with open(hznDE_chlist_provider, 'r') as o:
+    with open(hzn_chlist_provider, 'r') as o:
         provider_list = json.load(o)
 
-    with open(hznDE_chlist_selected, 'r') as s:
+    with open(hzn_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
     ## Start Channel Selector
     user_select = channel_selector.select_channels(provider, provider_list, selected_list)
 
     if user_select is not None:
-        with open(hznDE_chlist_selected, 'w') as f:
+        with open(hzn_chlist_selected, 'w') as f:
             json.dump(user_select, f, indent=4)
-        if os.path.isfile(hznDE_chlist_selected):
-            valid = check_selected_list()
+        if os.path.isfile(hzn_chlist_selected):
+            valid = check_selected_list(hzn_chlist_selected)
             if valid is True:
                 ok = dialog.ok(provider, loc(32402))
                 if ok:
@@ -178,9 +208,9 @@ def select_channels():
                 log(loc(32403), xbmc.LOGNOTICE)
                 yn = OSD.yesno(provider, loc(32403))
                 if yn:
-                    select_channels()
+                    select_channels(grabber)
                 else:
-                    xbmcvfs.delete(hznDE_chlist_selected)
+                    xbmcvfs.delete(hzn_chlist_selected)
                     exit()
     else:
         check_selected_list()
@@ -188,9 +218,9 @@ def select_channels():
         if ok:
             log(loc(32404), xbmc.LOGNOTICE)
 
-def check_selected_list():
+def check_selected_list(hzn_chlist_selected):
     check = 'invalid'
-    with open(hznDE_chlist_selected, 'r') as c:
+    with open(hzn_chlist_selected, 'r') as c:
         selected_list = json.load(c)
     for user_list in selected_list['channellist']:
         if 'contentId' in user_list:
@@ -200,8 +230,10 @@ def check_selected_list():
     else:
         return False
 
-def download_broadcastfiles():
-    with open(hznDE_chlist_selected, 'r') as s:
+def download_broadcastfiles(grabber,hzn_chlist_selected,provider,provider_temppath,hzndict,days_to_grab):
+    starttime, endtime = get_epgLength(days_to_grab)
+
+    with open(hzn_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -214,10 +246,10 @@ def download_broadcastfiles():
         items += 1
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        hznDE_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/DE/deu/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(contentID,starttime,endtime)
-        hznDE_data = requests.get(hznDE_data_url, headers=hznDE_header)
-        hznDE_data.raise_for_status()
-        response = hznDE_data.json()
+        hzn_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][12],contentID,starttime,endtime)
+        hzn_data = requests.get(hzn_data_url, headers=hzn_header)
+        hzn_data.raise_for_status()
+        response = hzn_data.json()
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
@@ -228,7 +260,8 @@ def download_broadcastfiles():
             log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
     pDialog.close()
 
-def create_xml_channels():
+def create_xml_channels(grabber):
+    provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
     log('{} {}'.format(provider, loc(32362)), xbmc.LOGNOTICE)
     if channel_format == 'rytec':
         ## Save hzn_channels.json to Disk
@@ -237,7 +270,7 @@ def create_xml_channels():
             json.dump(rytec_file, rytec_list)
         rytec_list.close()
 
-    with open(hznDE_chlist_selected, 'r') as c:
+    with open(hzn_chlist_selected, 'r') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -261,15 +294,17 @@ def create_xml_channels():
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hzn_channels_warnings, lang)
 
         ## Create XML Channel Information with provided Variables
         xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
 
-def create_xml_broadcast(enable_rating_mapper):
-    download_broadcastfiles()
+def create_xml_broadcast(grabber, enable_rating_mapper):
+    provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
+    hzndict = get_hzndict(grabber)
+    download_broadcastfiles(grabber, hzn_chlist_selected, provider, provider_temppath, hzndict, days_to_grab)
     log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
     if genre_format == 'eit':
         ## Save hzn_genres.json to Disk
@@ -278,7 +313,7 @@ def create_xml_broadcast(enable_rating_mapper):
             json.dump(genres_file, genres_list)
         genres_list.close()
 
-    with open(hznDE_chlist_selected, 'r') as c:
+    with open(hzn_chlist_selected, 'r') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -306,7 +341,7 @@ def create_xml_broadcast(enable_rating_mapper):
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hznDE_channels_warnings_tmp, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hzn_channels_warnings, lang)
 
         try:
             for playbilllist in broadcastfiles['listings']:
@@ -327,52 +362,18 @@ def create_xml_broadcast(enable_rating_mapper):
                 except (KeyError, IndexError):
                     item_description = ''
                 try:
-                    item_country = playbilllist['program']['dummy_country']
+                    item_picture = 'https://www.staticwhich.co.uk/static/images/products/no-image/no-image-available.png'
+                    found = False
+                    asset_types = ['HighResPortrait', 'boxart-xlarge', 'boxart-large', 'boxart-medium', 'tva-poster', 'tva-boxcover']
+                    for asset_type in asset_types:
+                        for i in range(0, len(playbilllist['program']['images'])):
+                            if playbilllist['program']['images'][i]['assetType'] == asset_type:
+                                item_picture = playbilllist['program']['images'][i]['url']
+                                found = True
+                                break
+                        if found: break
                 except (KeyError, IndexError):
-                    item_country = ''
-                try:
-                    if playbilllist['program']['images'][0]['assetType'] == 'HighResPortrait':
-                        item_picture = playbilllist['program']['images'][0]['url']
-                    elif playbilllist['program']['images'][1]['assetType'] == 'HighResPortrait':
-                        item_picture = playbilllist['program']['images'][1]['url']
-                    elif playbilllist['program']['images'][2]['assetType'] == 'HighResPortrait':
-                        item_picture = playbilllist['program']['images'][2]['url']
-                    elif playbilllist['program']['images'][3]['assetType'] == 'HighResPortrait':
-                        item_picture = playbilllist['program']['images'][3]['url']
-                    elif playbilllist['program']['images'][4]['assetType'] == 'HighResPortrait':
-                        item_picture = playbilllist['program']['images'][4]['url']
-                    elif playbilllist['program']['images'][5]['assetType'] == 'HighResPortrait':
-                        item_picture = playbilllist['program']['images'][5]['url']
-
-                    elif playbilllist['program']['images'][0]['assetType'] == 'boxart-xlarge':
-                        item_picture = playbilllist['program']['images'][0]['url']
-                    elif playbilllist['program']['images'][1]['assetType'] == 'boxart-xlarge':
-                        item_picture = playbilllist['program']['images'][1]['url']
-                    elif playbilllist['program']['images'][2]['assetType'] == 'boxart-xlarge':
-                        item_picture = playbilllist['program']['images'][2]['url']
-                    elif playbilllist['program']['images'][3]['assetType'] == 'boxart-xlarge':
-                        item_picture = playbilllist['program']['images'][3]['url']
-                    elif playbilllist['program']['images'][4]['assetType'] == 'boxart-xlarge':
-                        item_picture = playbilllist['program']['images'][4]['url']
-                    elif playbilllist['program']['images'][5]['assetType'] == 'boxart-xlarge':
-                        item_picture = playbilllist['program']['images'][5]['url']
-
-                    elif playbilllist['program']['images'][0]['assetType'] == 'tva-boxcover':
-                        item_picture = playbilllist['program']['images'][0]['url']
-                    elif playbilllist['program']['images'][1]['assetType'] == 'tva-boxcover':
-                        item_picture = playbilllist['program']['images'][1]['url']
-                    elif playbilllist['program']['images'][2]['assetType'] == 'tva-boxcover':
-                        item_picture = playbilllist['program']['images'][2]['url']
-                    elif playbilllist['program']['images'][3]['assetType'] == 'tva-boxcover':
-                        item_picture = playbilllist['program']['images'][3]['url']
-                    elif playbilllist['program']['images'][4]['assetType'] == 'tva-boxcover':
-                        item_picture = playbilllist['program']['images'][4]['url']
-                    elif playbilllist['program']['images'][5]['assetType'] == 'tva-boxcover':
-                        item_picture = playbilllist['program']['images'][5]['url']
-                    else:
-                        item_picture = ''
-                except (KeyError, IndexError):
-                    item_picture = ''
+                    item_picture = 'https://www.staticwhich.co.uk/static/images/products/no-image/no-image-available.png'
                 try:
                     item_subtitle = playbilllist['program']['secondaryTitle']
                 except (KeyError, IndexError):
@@ -418,17 +419,13 @@ def create_xml_broadcast(enable_rating_mapper):
                 except (KeyError, IndexError):
                     items_director = ''
                 try:
-                    items_producer = playbilllist['program']['dummy_producer']
-                except (KeyError, IndexError):
-                    items_producer = ''
-                try:
                     items_actor = ','.join(playbilllist['program']['cast'])
                 except (KeyError, IndexError):
                     items_actor = ''
 
                 # Transform items to Readable XML Format
-                if not item_country == '':
-                    item_country = item_country.upper()
+                item_country = ''
+                items_producer = ''
                 if item_agerating == '-1':
                     item_agerating = ''
 
@@ -444,7 +441,7 @@ def create_xml_broadcast(enable_rating_mapper):
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, hzn_genres_json, hznDE_genres_warnings_tmp, lang)
+                    items_genre = mapper.map_genres(items_genre, genre_format, hzn_genres_json, hzn_genres_warnings_tmp, lang)
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, str(item_starttime), str(item_endtime),
@@ -458,17 +455,17 @@ def create_xml_broadcast(enable_rating_mapper):
 
     ## Create Channel Warnings Textile
     channel_pull = '\n' + 'Please Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/hzn_channels.json' + '\n'
-    mapper.create_channel_warnings(hznDE_channels_warnings_tmp, hznDE_channels_warnings, provider, channel_pull)
+    mapper.create_channel_warnings(hzn_channels_warnings_tmp, hzn_channels_warnings, provider, channel_pull)
 
     ## Create Genre Warnings Textfile
     genre_pull = '\n' + 'Please Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/hzn_genres.json' + '\n'
-    mapper.create_genre_warnings(hznDE_genres_warnings_tmp, hznDE_genres_warnings, provider, genre_pull)
+    mapper.create_genre_warnings(hzn_genres_warnings_tmp, hzn_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
     log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
     xbmc.sleep(4000)
 
-    if (os.path.isfile(hznDE_channels_warnings) or os.path.isfile(hznDE_genres_warnings)):
+    if (os.path.isfile(hzn_channels_warnings) or os.path.isfile(hzn_genres_warnings)):
         notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
         xbmc.sleep(3000)
 
@@ -476,33 +473,52 @@ def create_xml_broadcast(enable_rating_mapper):
     for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
 
 
-def check_provider():
+def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
     ## Create Provider Temppath if not exist
     if not os.path.exists(provider_temppath):
         os.makedirs(provider_temppath)
 
     ## Create empty (Selected) Channel List if not exist
-    if not os.path.isfile(hznDE_chlist_selected):
-        with open((hznDE_chlist_selected), 'w') as selected_list:
+    if not os.path.isfile(hzn_chlist_selected):
+        with open((hzn_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({}))
             selected_list.close()
         ## If no Channellist exist, ask to create one
         yn = OSD.yesno(provider, loc(32405))
         if yn:
-            select_channels()
+            select_channels(grabber)
         else:
-            xbmcvfs.delete(hznDE_chlist_selected)
+            xbmcvfs.delete(hzn_chlist_selected)
             exit()
 
-
-def startup():
-    check_provider()
-    get_channellist()
-
+def startup(grabber):
+    provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
+    hzndict = get_hzndict(grabber)
+    check_provider(grabber, provider_temppath, hzn_chlist_selected, provider)
+    get_channellist(grabber, hzndict, hzn_chlist_provider_tmp, hzn_chlist_provider)
 
 # Channel Selector
 try:
     if sys.argv[1] == 'select_channels_hznDE':
-        select_channels()
+        select_channels('de')
+    if sys.argv[1] == 'select_channels_hznAT':
+        select_channels('at')
+    if sys.argv[1] == 'select_channels_hznCH':
+        select_channels('ch')
+    if sys.argv[1] == 'select_channels_hznNL':
+        select_channels('nl')
+    if sys.argv[1] == 'select_channels_hznPL':
+        select_channels('pl')
+    if sys.argv[1] == 'select_channels_hznIE':
+        select_channels('ie')
+    if sys.argv[1] == 'select_channels_hznSK':
+        select_channels('sk')
+    if sys.argv[1] == 'select_channels_hznCZ':
+        select_channels('cz')
+    if sys.argv[1] == 'select_channels_hznHU':
+        select_channels('hu')
+    if sys.argv[1] == 'select_channels_hznRO':
+        select_channels('ro')
+
 except IndexError:
     pass

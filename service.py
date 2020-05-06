@@ -11,7 +11,7 @@ import json
 from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
-from resources.providers import horizon_DE
+from resources.providers import horizon
 import sys
 
 ## Python 3 Compatibility
@@ -40,9 +40,18 @@ enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() 
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
 enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
+enable_grabber_hznAT = True if ADDON.getSetting('enable_grabber_hznAT').upper() == 'TRUE' else False
+enable_grabber_hznCH = True if ADDON.getSetting('enable_grabber_hznCH').upper() == 'TRUE' else False
+enable_grabber_hznNL = True if ADDON.getSetting('enable_grabber_hznNL').upper() == 'TRUE' else False
+enable_grabber_hznPL = True if ADDON.getSetting('enable_grabber_hznPL').upper() == 'TRUE' else False
+enable_grabber_hznIE = True if ADDON.getSetting('enable_grabber_hznIE').upper() == 'TRUE' else False
+enable_grabber_hznSK = True if ADDON.getSetting('enable_grabber_hznSK').upper() == 'TRUE' else False
+enable_grabber_hznCZ = True if ADDON.getSetting('enable_grabber_hznCZ').upper() == 'TRUE' else False
+enable_grabber_hznHU = True if ADDON.getSetting('enable_grabber_hznHU').upper() == 'TRUE' else False
+enable_grabber_hznRO = True if ADDON.getSetting('enable_grabber_hznRO').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_hznDE):
+if (enable_grabber_magentaDE or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -110,17 +119,40 @@ def check_channel_dupes():
 def run_grabber():
     check_startup()
     xml_structure.xml_start()
-    ## Check Provider
+    ## Check Provider , Create XML Channels
     if enable_grabber_magentaDE == True:
         magenta_DE.startup()
-    if enable_grabber_hznDE == True:
-        horizon_DE.startup()
-
-    ## Create XML Channels
-    if enable_grabber_magentaDE == True:
         magenta_DE.create_xml_channels()
     if enable_grabber_hznDE == True:
-        horizon_DE.create_xml_channels()
+        horizon.startup('de')
+        horizon.create_xml_channels('de')
+    if enable_grabber_hznAT == True:
+        horizon.startup('at')
+        horizon.create_xml_channels('at')
+    if enable_grabber_hznCH == True:
+        horizon.startup('ch')
+        horizon.create_xml_channels('ch')
+    if enable_grabber_hznNL == True:
+        horizon.startup('nl')
+        horizon.create_xml_channels('nl')
+    if enable_grabber_hznPL == True:
+        horizon.startup('pl')
+        horizon.create_xml_channels('pl')
+    if enable_grabber_hznIE == True:
+        horizon.startup('ie')
+        horizon.create_xml_channels('ie')
+    if enable_grabber_hznSK == True:
+        horizon.startup('sk')
+        horizon.create_xml_channels('sk')
+    if enable_grabber_hznCZ == True:
+        horizon.startup('cz')
+        horizon.create_xml_channels('cz')
+    if enable_grabber_hznHU == True:
+        horizon.startup('hu')
+        horizon.create_xml_channels('hu')
+    if enable_grabber_hznRO == True:
+        horizon.startup('ro')
+        horizon.create_xml_channels('ro')
 
     # Check for Channel Dupes
     check_channel_dupes()
@@ -129,7 +161,25 @@ def run_grabber():
     if enable_grabber_magentaDE == True:
         magenta_DE.create_xml_broadcast(enable_rating_mapper)
     if enable_grabber_hznDE == True:
-        horizon_DE.create_xml_broadcast(enable_rating_mapper)
+        horizon.create_xml_broadcast('de', enable_rating_mapper)
+    if enable_grabber_hznAT == True:
+        horizon.create_xml_broadcast('at', enable_rating_mapper)
+    if enable_grabber_hznCH == True:
+        horizon.create_xml_broadcast('ch', enable_rating_mapper)
+    if enable_grabber_hznNL == True:
+        horizon.create_xml_broadcast('nl', enable_rating_mapper)
+    if enable_grabber_hznPL == True:
+        horizon.create_xml_broadcast('pl', enable_rating_mapper)
+    if enable_grabber_hznIE == True:
+        horizon.create_xml_broadcast('ie', enable_rating_mapper)
+    if enable_grabber_hznSK == True:
+        horizon.create_xml_broadcast('sk', enable_rating_mapper)
+    if enable_grabber_hznCZ == True:
+        horizon.create_xml_broadcast('cz', enable_rating_mapper)
+    if enable_grabber_hznHU == True:
+        horizon.create_xml_broadcast('hu', enable_rating_mapper)
+    if enable_grabber_hznRO == True:
+        horizon.create_xml_broadcast('ro', enable_rating_mapper)
 
     ## Finish XML
     xml_structure.xml_end()
