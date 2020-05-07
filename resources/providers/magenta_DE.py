@@ -161,7 +161,7 @@ def select_channels():
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(magentaDE_chlist_selected):
         with open((magentaDE_chlist_selected), 'w') as selected_list:
-            selected_list.write(json.dumps({}))
+            selected_list.write(json.dumps({"channellist": []}))
             selected_list.close()
 
     ## Download chlist_magenta_provider.json
@@ -195,10 +195,19 @@ def select_channels():
                     xbmcvfs.delete(magentaDE_chlist_selected)
                     exit()
     else:
-        check_selected_list()
-        ok = dialog.ok(provider, loc(32404))
-        if ok:
-            log(loc(32404), xbmc.LOGNOTICE)
+        valid = check_selected_list()
+        if valid is True:
+            ok = dialog.ok(provider, loc(32404))
+            if ok:
+                log(loc(32404), xbmc.LOGNOTICE)
+        elif valid is False:
+            log(loc(32403), xbmc.LOGNOTICE)
+            yn = OSD.yesno(provider, loc(32403))
+            if yn:
+                select_channels()
+            else:
+                xbmcvfs.delete(magentaDE_chlist_selected)
+                exit()
 
 def check_selected_list():
     check = 'invalid'
@@ -448,7 +457,7 @@ def check_provider():
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(magentaDE_chlist_selected):
         with open((magentaDE_chlist_selected), 'w') as selected_list:
-            selected_list.write(json.dumps({}))
+            selected_list.write(json.dumps({"channellist": []}))
             selected_list.close()
         ## If no Channellist exist, ask to create one
         yn = OSD.yesno(provider, loc(32405))
@@ -458,6 +467,15 @@ def check_provider():
             xbmcvfs.delete(magentaDE_chlist_selected)
             exit()
 
+    ## If a Selected list exist, check valid
+    valid = check_selected_list()
+    if valid is False:
+        yn = OSD.yesno(provider, loc(32405))
+        if yn:
+            select_channels()
+        else:
+            xbmcvfs.delete(magentaDE_chlist_selected)
+            exit()
 
 def startup():
     check_provider()

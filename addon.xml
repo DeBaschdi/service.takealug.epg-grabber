@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="0.1.1" provider-name="DeBaschdi">
+<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="0.1.2" provider-name="DeBaschdi">
     <requires>
         <import addon="xbmc.python" version="2.14.0"/>
         <import addon="script.module.requests"/>
@@ -8,13 +8,19 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>EPG Grabber</summary>
-        <description> Grabbs EPG Data from Different IPTV Sources and generate an xmltv Guide</description>
+        <description lang="en">Grabbs EPG Data from Different IPTV Sources and generate an xmltv Guide</description>
+        <description lang="de">Grabbt EPG Daten von verschiedenen IPTV Quellen und erstellt eine guide.xml</description>
         <source>https://github.com/DeBaschdi/repo/tree/master/service.takealug.epg-grabber/</source>
-        <forum>https://www.kodinerds.net/</forum>
+        <forum>https://www.kodinerds.net/index.php/Thread/64901-RELEASE-Takealug-EPG-Grabber/</forum>
         <assets>
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
+            <screenshot>fanart.jpg</screenshot>
+            <screenshot>screenshot3.png</screenshot>
+            <screenshot>screenshot1.png</screenshot>
+            <screenshot>screenshot2.png</screenshot>
         </assets>
-        <news>Add New Provider Horizon DE</news>
+        <news lang="en">Add New Provider Horizon (DE,AT,CH,NL,PL,IE,SK,CZ,HU,RO)</news>
+        <news lang="de">Neue Provider Horizon (DE,AT,CH,NL,PL,IE,SK,CZ,HU,RO) hinzugefügt</news>
     </extension>
 </addon>

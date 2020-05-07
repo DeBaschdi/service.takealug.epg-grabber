@@ -28,6 +28,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
 ```    
 
 <img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot1.png" height="270" width="480">
+<img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot3.png" height="270" width="480">
 <img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot2.png" height="270" width="480">
 <img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/fanart.jpg" height="270" width="480">
 

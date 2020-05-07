@@ -179,7 +179,7 @@ def select_channels(grabber):
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(hzn_chlist_selected):
         with open(hzn_chlist_selected, 'w') as selected_list:
-            selected_list.write(json.dumps({}))
+            selected_list.write(json.dumps({"channellist": []}))
             selected_list.close()
 
     ## Download chlist_provider.json
@@ -213,10 +213,19 @@ def select_channels(grabber):
                     xbmcvfs.delete(hzn_chlist_selected)
                     exit()
     else:
-        check_selected_list()
-        ok = dialog.ok(provider, loc(32404))
-        if ok:
-            log(loc(32404), xbmc.LOGNOTICE)
+        valid = check_selected_list(hzn_chlist_selected)
+        if valid is True:
+            ok = dialog.ok(provider, loc(32404))
+            if ok:
+                log(loc(32404), xbmc.LOGNOTICE)
+        elif valid is False:
+            log(loc(32403), xbmc.LOGNOTICE)
+            yn = OSD.yesno(provider, loc(32403))
+            if yn:
+                select_channels()
+            else:
+                xbmcvfs.delete(hzn_chlist_selected)
+                exit()
 
 def check_selected_list(hzn_chlist_selected):
     check = 'invalid'
@@ -481,12 +490,22 @@ def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(hzn_chlist_selected):
         with open((hzn_chlist_selected), 'w') as selected_list:
-            selected_list.write(json.dumps({}))
+            selected_list.write(json.dumps({"channellist": []}))
             selected_list.close()
         ## If no Channellist exist, ask to create one
         yn = OSD.yesno(provider, loc(32405))
         if yn:
             select_channels(grabber)
+        else:
+            xbmcvfs.delete(hzn_chlist_selected)
+            exit()
+
+    ## If a Selected list exist, check valid
+    valid = check_selected_list(hzn_chlist_selected)
+    if valid is False:
+        yn = OSD.yesno(provider, loc(32405))
+        if yn:
+            select_channels()
         else:
             xbmcvfs.delete(hzn_chlist_selected)
             exit()

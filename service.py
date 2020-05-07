@@ -326,7 +326,7 @@ if check_startup():
         if sys.argv[1] == 'manual_download':
             if storage_path == 'choose':
                 notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
-            elif enabled_grabber == False:
+            if enabled_grabber == False:
                 notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
             else:
                 dialog = xbmcgui.Dialog()
