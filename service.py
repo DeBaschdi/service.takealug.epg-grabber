@@ -8,6 +8,8 @@ from datetime import datetime
 from datetime import timedelta
 import os
 import json
+import re
+import subprocess
 from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
@@ -36,6 +38,8 @@ auto_download = True if ADDON.getSetting('auto_download').lower() == 'true' else
 timeswitch = int(ADDON.getSetting('timeswitch'))
 timeoffset = (int(ADDON.getSetting('timeoffset')) * 12 + 24) * 3600
 enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() == 'TRUE' else False
+use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' else False
+tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
@@ -56,7 +60,7 @@ if (enable_grabber_magentaDE or enable_grabber_hznDE or enable_grabber_hznAT or 
 else:
     enabled_grabber = False
 
-guide_temp = os.path.join(temppath, 'guide.xml')
+guide_temp = os.path.join(datapath, 'guide.xml')
 guide_dest = os.path.join(storage_path, 'guide.xml')
 grabber_cron = os.path.join(datapath, 'grabber_cron.json')
 grabber_cron_tmp = os.path.join(temppath, 'grabber_cron.json')
@@ -76,7 +80,7 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 
 def copy_guide_to_destination():
     done = xbmcvfs.copy(guide_temp, guide_dest)
-    if done == True:
+    if done :
         xbmc.sleep(3000)
         notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
         log(loc(32350), xbmc.LOGNOTICE)
@@ -120,37 +124,37 @@ def run_grabber():
     check_startup()
     xml_structure.xml_start()
     ## Check Provider , Create XML Channels
-    if enable_grabber_magentaDE == True:
+    if enable_grabber_magentaDE:
         magenta_DE.startup()
         magenta_DE.create_xml_channels()
-    if enable_grabber_hznDE == True:
+    if enable_grabber_hznDE:
         horizon.startup('de')
         horizon.create_xml_channels('de')
-    if enable_grabber_hznAT == True:
+    if enable_grabber_hznAT:
         horizon.startup('at')
         horizon.create_xml_channels('at')
-    if enable_grabber_hznCH == True:
+    if enable_grabber_hznCH:
         horizon.startup('ch')
         horizon.create_xml_channels('ch')
-    if enable_grabber_hznNL == True:
+    if enable_grabber_hznNL:
         horizon.startup('nl')
         horizon.create_xml_channels('nl')
-    if enable_grabber_hznPL == True:
+    if enable_grabber_hznPL:
         horizon.startup('pl')
         horizon.create_xml_channels('pl')
-    if enable_grabber_hznIE == True:
+    if enable_grabber_hznIE:
         horizon.startup('ie')
         horizon.create_xml_channels('ie')
-    if enable_grabber_hznSK == True:
+    if enable_grabber_hznSK:
         horizon.startup('sk')
         horizon.create_xml_channels('sk')
-    if enable_grabber_hznCZ == True:
+    if enable_grabber_hznCZ:
         horizon.startup('cz')
         horizon.create_xml_channels('cz')
-    if enable_grabber_hznHU == True:
+    if enable_grabber_hznHU:
         horizon.startup('hu')
         horizon.create_xml_channels('hu')
-    if enable_grabber_hznRO == True:
+    if enable_grabber_hznRO:
         horizon.startup('ro')
         horizon.create_xml_channels('ro')
 
@@ -158,33 +162,52 @@ def run_grabber():
     check_channel_dupes()
 
     ## Create XML Broadcast
-    if enable_grabber_magentaDE == True:
+    if enable_grabber_magentaDE:
         magenta_DE.create_xml_broadcast(enable_rating_mapper)
-    if enable_grabber_hznDE == True:
+    if enable_grabber_hznDE:
         horizon.create_xml_broadcast('de', enable_rating_mapper)
-    if enable_grabber_hznAT == True:
+    if enable_grabber_hznAT:
         horizon.create_xml_broadcast('at', enable_rating_mapper)
-    if enable_grabber_hznCH == True:
+    if enable_grabber_hznCH:
         horizon.create_xml_broadcast('ch', enable_rating_mapper)
-    if enable_grabber_hznNL == True:
+    if enable_grabber_hznNL:
         horizon.create_xml_broadcast('nl', enable_rating_mapper)
-    if enable_grabber_hznPL == True:
+    if enable_grabber_hznPL:
         horizon.create_xml_broadcast('pl', enable_rating_mapper)
-    if enable_grabber_hznIE == True:
+    if enable_grabber_hznIE:
         horizon.create_xml_broadcast('ie', enable_rating_mapper)
-    if enable_grabber_hznSK == True:
+    if enable_grabber_hznSK:
         horizon.create_xml_broadcast('sk', enable_rating_mapper)
-    if enable_grabber_hznCZ == True:
+    if enable_grabber_hznCZ:
         horizon.create_xml_broadcast('cz', enable_rating_mapper)
-    if enable_grabber_hznHU == True:
+    if enable_grabber_hznHU:
         horizon.create_xml_broadcast('hu', enable_rating_mapper)
-    if enable_grabber_hznRO == True:
+    if enable_grabber_hznRO:
         horizon.create_xml_broadcast('ro', enable_rating_mapper)
 
     ## Finish XML
     xml_structure.xml_end()
     copy_guide_to_destination()
 
+    ## Write Guide in TVH Socked
+    if use_local_sock:
+        write_to_sock()
+
+def write_to_sock():
+    if check_startup():
+        if (use_local_sock and os.path.isfile(guide_temp)):
+            try:
+                log('{} {}'.format(loc(32380),tvh_local_sock), xbmc.LOGNOTICE)
+                notify(addon_name, loc(32380), icon=xbmcgui.NOTIFICATION_INFO)
+                command = 'curl -d @{} -X POST -m 5 --unix-socket {} localhost'.format(guide_temp, tvh_local_sock)
+                subprocess.Popen(command, shell=True)
+            except:
+                notify(addon_name, loc(32379), icon=xbmcgui.NOTIFICATION_ERROR)
+                log(loc(32379), xbmc.LOGERROR)
+        else:
+            ok = dialog.ok(loc(32119), loc(32409))
+            if ok:
+                log(loc(32409), xbmc.LOGERROR)
 
 def worker():
     dl_attempts = 0
@@ -275,12 +298,25 @@ def check_startup():
         os.makedirs(temppath)
     if storage_path == 'choose':
         notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
+        log(loc(32359), xbmc.LOGERROR)
         return False
 
-    if enabled_grabber == False:
+    if not enabled_grabber:
         notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
-        xbmc.sleep(2000)
+        log(loc(32360), xbmc.LOGERROR)
         return False
+
+    if use_local_sock:
+        if (not os.path.isfile(tvh_local_sock)):
+            notify(addon_name, loc(32378), icon=xbmcgui.NOTIFICATION_ERROR)
+            log(loc(32378), xbmc.LOGERROR)
+            return False
+        else:
+            socked_string = '.sock'
+            if not re.search(socked_string, tvh_local_sock):
+                notify(addon_name, loc(32378), icon=xbmcgui.NOTIFICATION_ERROR)
+                log(loc(32378), xbmc.LOGERROR)
+                return False
 
     ## deal with setting 'last_download/next_download' which not exists at first time
     if (not os.path.isfile(grabber_cron)):
@@ -323,24 +359,18 @@ def check_startup():
 
 if check_startup():
     try:
+        dialog = xbmcgui.Dialog()
         if sys.argv[1] == 'manual_download':
-            if storage_path == 'choose':
-                notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
-            if enabled_grabber == False:
-                notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
-            else:
-                dialog = xbmcgui.Dialog()
-                ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
-                if ret:
-                    manual = True
-                    notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
-                    run_grabber()
+            ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
+            if ret:
+                manual = True
+                notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
+                run_grabber()
+        if sys.argv[1] == 'write_to_sock':
+            ret = dialog.yesno(loc(32119), loc(32408))
+            if ret:
+                write_to_sock()
 
     except IndexError:
         if auto_download:
-            if storage_path == 'choose':
-                notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
-            elif enabled_grabber == False:
-                notify(addon_name, loc(32360), icon=xbmcgui.NOTIFICATION_ERROR)
-            else:
-                worker()
+            worker()

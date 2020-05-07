@@ -43,6 +43,10 @@ msgctxt "#32102"
 msgid "Run EPG Grabber Manual"
 msgstr ""
 
+msgctxt "#32103"
+msgid "Write EPG in xmltv.sock"
+msgstr ""
+
 ## Global Settings ## 32110 - 32129
 
 msgctxt "#32110"
@@ -70,7 +74,7 @@ msgid "Save generated guide.xml to Disk"
 msgstr ""
 
 msgctxt "#32116"
-msgid "Storage Path"
+msgid "EPG Storage Path"
 msgstr ""
 
 msgctxt "#32117"
@@ -79,6 +83,18 @@ msgstr ""
 
 msgctxt "#32118"
 msgid "Enable Rating Mapper"
+msgstr ""
+
+msgctxt "#32119"
+msgid "Tvheadend"
+msgstr "Tvheadend"
+
+msgctxt "#32120"
+msgid "Enable local TVH xmltv.sock"
+msgstr ""
+
+msgctxt "#32121"
+msgid "Choose xmltv.sock File"
 msgstr ""
 
 ## Provider Settings ## 32130 - 32299
@@ -331,6 +347,19 @@ msgctxt "#32376"
 msgid "Initialize manual EPG Grab..."
 msgstr ""
 
+msgctxt "#32378"
+msgid "No valid TVH Socked found, check Location"
+msgstr ""
+
+msgctxt "#32379"
+msgid "Can´t write EPG in TVH Socked"
+msgstr ""
+
+msgctxt "#32380"
+msgid "write EPG in TVH Socked..."
+msgstr ""
+
+
 #####################################
 # Messages 32400 - 32499            #
 #####################################
@@ -365,6 +394,14 @@ msgstr ""
 
 msgctxt "#32407"
 msgid ""
+msgstr ""
+
+msgctxt "#32408"
+msgid "Write guide.xml now in Tvheadend socked ?"
+msgstr ""
+
+msgctxt "#32409"
+msgid "You must first activate the socket in the global settings, make sure that you have created a guide.xml"
 msgstr ""
 
 #####################################

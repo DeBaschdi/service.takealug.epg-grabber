@@ -43,6 +43,10 @@ msgctxt "#32102"
 msgid "Run EPG Grabber Manual"
 msgstr "Starte EPG Grabber Manuell"
 
+msgctxt "#32103"
+msgid "Write EPG in xmltv.sock"
+msgstr ""
+
 ## Global Settings ## 32110 - 32129
 
 msgctxt "#32110"
@@ -70,8 +74,8 @@ msgid "Save generated guide.xml to Disk"
 msgstr "Speichere Erstellte guide.xml ab"
 
 msgctxt "#32116"
-msgid "Storage Path"
-msgstr "Speicherort"
+msgid "EPG Storage Path"
+msgstr "EPG Speicherort"
 
 msgctxt "#32117"
 msgid "Addon Settings"
@@ -80,6 +84,18 @@ msgstr "Addon Einstellungen"
 msgctxt "#32118"
 msgid "Enable Rating Mapper"
 msgstr "Aktiviere Rating Mapper"
+
+msgctxt "#32119"
+msgid "Tvheadend"
+msgstr "Tvheadend"
+
+msgctxt "#32120"
+msgid "Enable local TVH xmltv.sock"
+msgstr "Aktiviere lokales TVH xmltv.sock"
+
+msgctxt "#32121"
+msgid "Choose xmltv.sock File"
+msgstr "Wähle das xmltv.sock File aus"
 
 ## Provider Settings ## 32130 - 32299
 
@@ -331,6 +347,19 @@ msgctxt "#32376"
 msgid "Initialize manual EPG Grab..."
 msgstr "Initialisiere manuellen EPG Grab...."
 
+msgctxt "#32378"
+msgid "No valid TVH Socked found, check Location"
+msgstr "Kein gültiges TVH Socked gefunden, überprüfe deine Einstellungen"
+
+msgctxt "#32379"
+msgid "Can´t write EPG in TVH Socked"
+msgstr "Kann den EPG nicht in das Socked schreiben"
+
+msgctxt "#32380"
+msgid "Write EPG in TVH Socked..."
+msgstr "Schreibe epg in das TVH Socked..."
+
+
 #####################################
 # Messages 32400 - 32499            #
 #####################################
@@ -366,6 +395,14 @@ msgstr "Wähle Kanäle zum Grabben aus"
 msgctxt "#32407"
 msgid ""
 msgstr ""
+
+msgctxt "#32408"
+msgid "Write guide.xml now in Tvheadend socked ?"
+msgstr "Schreibe guide.xml jetzt in das TVH Socked ?"
+
+msgctxt "#32409"
+msgid "You must first activate the socket in the global settings, make sure that you have created a guide.xml"
+msgstr "Du musst zuerst das Socket in den Globalen Einstellungen aktivieren, stell sicher das du eine guide.xml erstellt hast"
 
 #####################################
 # Progress 32500 -32549             #

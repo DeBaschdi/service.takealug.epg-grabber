@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="0.1.2" provider-name="DeBaschdi">
+<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="0.1.3" provider-name="DeBaschdi">
     <requires>
         <import addon="xbmc.python" version="2.14.0"/>
         <import addon="script.module.requests"/>
@@ -20,7 +20,6 @@
             <screenshot>screenshot1.png</screenshot>
             <screenshot>screenshot2.png</screenshot>
         </assets>
-        <news lang="en">Add New Provider Horizon (DE,AT,CH,NL,PL,IE,SK,CZ,HU,RO)</news>
-        <news lang="de">Neue Provider Horizon (DE,AT,CH,NL,PL,IE,SK,CZ,HU,RO) hinzugefügt</news>
+        <news lang="en">Add an Option to Write the generated guide.xml directly in tvheadend xmltv.sock</news>
     </extension>
 </addon>

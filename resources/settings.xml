@@ -91,19 +91,20 @@
     </category>
 
     <category label="32110"> <!-- Global Settings -->
-        <setting label="32111" type="lsep"/> <!-- Automatic Download -->
         <setting id="auto_download" type="bool" label="32112" default="false" />
         <setting id="timeswitch" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-1,true)" /> <!-- Grab EPG Daily at -->
         <setting id="timeoffset" type="enum" label="32114" default="0" lvalues="32300|32301|32302" enable="eq(-2,true)" />
-        <setting label="32115" type="lsep"/> <!-- Storage Location -->
         <setting id="storage_path" type="folder" label="32116" default="choose" />
-        <setting label="32117" type="lsep" /> <!-- Addon Settings -->
         <setting id="enable_rating_mapper" type="bool" label="32118" default="true" /><!-- Rating Mapper -->
+        <setting label="32119" type="lsep" /> <!-- Tvheadend -->
+        <setting id="use_local_sock" type="bool" label="32120" default="false" /><!-- Tvheadend Sock -->
+        <setting id="tvh_local_sock" type="file" label="32121" default="/storage/.kodi/userdata/addon_data/service.tvheadend42/epggrab/xmltv.sock" visible="eq(-1,true)"/>
     </category>
 
     <category label="32100"> <!-- Misc Settings -->
         <setting label="32101" type="lsep"/> <!-- Manual Download -->
         <setting id="manual_download" type="action" label="32102" action="RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
+        <setting id="write_to_sock" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_sock)" option="close"/>
     </category>
 
 </settings>

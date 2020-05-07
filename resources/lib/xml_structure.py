@@ -23,7 +23,7 @@ datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 
 now = datetime.datetime.now()
-guide_temp = os.path.join(temppath, 'guide.xml')
+guide_temp = os.path.join(datapath, 'guide.xml')
 
 def xml_start():
     copyright = '<?xml version="1.0" encoding="UTF-8" ?>\n<!-- EPG XMLTV FILE CREATED BY Take-a-LUG TEAM- (c) 2020 Bastian Kleinschmidt -->\n<!-- created on {} -->\n<tv>\n'.format(str(now))
