@@ -307,16 +307,11 @@ def check_startup():
         return False
 
     if use_local_sock:
-        if (not os.path.isfile(tvh_local_sock)):
+        socked_string = '.sock'
+        if not re.search(socked_string, tvh_local_sock):
             notify(addon_name, loc(32378), icon=xbmcgui.NOTIFICATION_ERROR)
             log(loc(32378), xbmc.LOGERROR)
             return False
-        else:
-            socked_string = '.sock'
-            if not re.search(socked_string, tvh_local_sock):
-                notify(addon_name, loc(32378), icon=xbmcgui.NOTIFICATION_ERROR)
-                log(loc(32378), xbmc.LOGERROR)
-                return False
 
     ## deal with setting 'last_download/next_download' which not exists at first time
     if (not os.path.isfile(grabber_cron)):

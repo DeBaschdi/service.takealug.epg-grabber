@@ -98,7 +98,7 @@
         <setting id="enable_rating_mapper" type="bool" label="32118" default="true" /><!-- Rating Mapper -->
         <setting label="32119" type="lsep" /> <!-- Tvheadend -->
         <setting id="use_local_sock" type="bool" label="32120" default="false" /><!-- Tvheadend Sock -->
-        <setting id="tvh_local_sock" type="file" label="32121" default="/storage/.kodi/userdata/addon_data/service.tvheadend42/epggrab/xmltv.sock" visible="eq(-1,true)"/>
+        <setting id="tvh_local_sock" type="file" label="32121" default="" visible="eq(-1,true)"/>
     </category>
 
     <category label="32100"> <!-- Misc Settings -->
