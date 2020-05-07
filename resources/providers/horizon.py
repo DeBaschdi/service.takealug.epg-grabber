@@ -222,7 +222,7 @@ def select_channels(grabber):
             log(loc(32403), xbmc.LOGNOTICE)
             yn = OSD.yesno(provider, loc(32403))
             if yn:
-                select_channels()
+                select_channels(grabber)
             else:
                 xbmcvfs.delete(hzn_chlist_selected)
                 exit()
