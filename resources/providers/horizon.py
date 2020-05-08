@@ -381,6 +381,8 @@ def create_xml_broadcast(grabber, enable_rating_mapper):
                                 found = True
                                 break
                         if found: break
+                    item_picture = item_picture.split('?w')
+                    item_picture = item_picture[0]
                 except (KeyError, IndexError):
                     item_picture = 'https://www.staticwhich.co.uk/static/images/products/no-image/no-image-available.png'
                 try:

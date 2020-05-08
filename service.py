@@ -199,7 +199,7 @@ def write_to_sock():
             try:
                 log('{} {}'.format(loc(32380),tvh_local_sock), xbmc.LOGNOTICE)
                 notify(addon_name, loc(32380), icon=xbmcgui.NOTIFICATION_INFO)
-                command = 'curl -d @{} -X POST -m 5 --unix-socket {} localhost'.format(guide_temp, tvh_local_sock)
+                command = 'cat {} | nc -w 5 -U {}'.format(guide_temp, tvh_local_sock)
                 subprocess.Popen(command, shell=True)
             except:
                 notify(addon_name, loc(32379), icon=xbmcgui.NOTIFICATION_ERROR)

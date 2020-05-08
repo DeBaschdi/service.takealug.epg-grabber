@@ -193,4 +193,3 @@ def xml_end():
     end = '\n</tv>\n'
     with open(guide_temp,'a' , encoding='utf-8') as f:
         f.write(end)
-
