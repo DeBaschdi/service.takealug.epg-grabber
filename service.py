@@ -9,6 +9,7 @@ from datetime import timedelta
 import os
 import json
 import re
+import socket
 import subprocess
 from collections import Counter
 from resources.lib import xml_structure
@@ -196,14 +197,20 @@ def run_grabber():
 def write_to_sock():
     if check_startup():
         if (use_local_sock and os.path.isfile(guide_temp)):
+            sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            epg = open(guide_temp, 'rb')
+            epg_data = epg.read()
             try:
-                log('{} {}'.format(loc(32380),tvh_local_sock), xbmc.LOGNOTICE)
+                log('{} {}'.format(loc(32380), tvh_local_sock), xbmc.LOGNOTICE)
                 notify(addon_name, loc(32380), icon=xbmcgui.NOTIFICATION_INFO)
-                command = 'cat {} | nc -w 5 -U {}'.format(guide_temp, tvh_local_sock)
-                subprocess.Popen(command, shell=True)
-            except:
+                sock.connect(tvh_local_sock)
+                sock.send(epg_data)
+                log('{} {}'.format(sock.recv, tvh_local_sock), xbmc.LOGNOTICE)
+            except socket.error as e:
                 notify(addon_name, loc(32379), icon=xbmcgui.NOTIFICATION_ERROR)
-                log(loc(32379), xbmc.LOGERROR)
+                log('{} {}'.format(loc(32379), e), xbmc.LOGERROR)
+            finally:
+                sock.close()
         else:
             ok = dialog.ok(loc(32119), loc(32409))
             if ok:
