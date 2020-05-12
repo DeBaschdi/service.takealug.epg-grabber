@@ -4,6 +4,7 @@ import xbmcaddon
 import os
 import datetime
 import sys
+from resources.lib import mapper
 
 ## Python 3 Compatibility
 if sys.version_info[0] > 2:
@@ -50,14 +51,20 @@ def xml_broadcast_start(provider):
     with open(guide_temp,'a', encoding='utf-8') as f:
         f.write(start)
 
-def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, items_director, items_producer, items_actor, enable_rating_mapper, lang):
+def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, item_starrating, items_director, items_producer, items_actor, enable_rating_mapper, lang):
     guide = []
     guide.append('\n')
     
     ## Programme Condition
     if (not item_starttime == '' and not item_endtime == ''):
         guide.append('<programme start="{} +0000" stop="{} +0000" channel="{}">\n'.format(item_starttime,item_endtime,channel_id))
-    
+
+    ## Map Imdb Stars
+    if not item_starrating == '':
+        stars = mapper.map_stars(item_starrating)
+    else:
+        stars = ''
+
     ## IMAGE Condition
     if not item_picture == '':
         guide.append('  <icon src="{}"/>\n'.format(item_picture))
@@ -78,11 +85,12 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
         ## Rating Mapper
         elif enable_rating_mapper == True:
             country = '' if item_country == '' else '({})'.format(item_country)
-            date = '' if item_date == '' else '{} •'.format(item_date)
-            season = '' if item_season == '' else 'S{}'.format(item_season)
+            date = '' if item_date == '' else '{}'.format(item_date)
+            season = '' if item_season == '' else '• S{}'.format(item_season)
             episode = '' if item_episode == '' else 'E{}'.format(item_episode)
             fsk = '' if item_agerating == '' else '• FSK {}'.format(item_agerating)
-            desc = '<desc lang="{}">{} {} {} {} {}'.format(lang, country, date, season, episode, fsk)
+            imdbstars = '' if stars == '' else '{}'.format(stars)
+            desc = '<desc lang="{}">{} {} {} {} {} {}'.format(lang, country, date, season, episode, fsk, imdbstars)
             guide.append('{}\n{}</desc>\n'.format(' '.join(desc.split()), item_description))
 
     ## GENRE Condition
@@ -126,7 +134,14 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
         guide.append('  <rating>\n')
         guide.append('      <value>{}</value>\n'.format(item_agerating))
         guide.append('  </rating>\n')
-    
+
+    ## STAR-RATING Condition
+    if (not item_starrating == ''):
+        item_starrating = int(item_starrating) / int(10)
+        guide.append('  <star-rating system="IMDb">\n')
+        guide.append('      <value>{}/10</value>\n'.format(item_starrating))
+        guide.append('  </star-rating>\n')
+
     ## CAST Condition
     producerlist = items_producer.split(',')
     directorlist = items_director.split(',')
@@ -191,5 +206,5 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
 
 def xml_end():
     end = '\n</tv>\n'
-    with open(guide_temp,'a' , encoding='utf-8') as f:
+    with open(guide_temp,'a', encoding='utf-8') as f:
         f.write(end)

@@ -431,6 +431,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper):
                     items_actor = ''
 
                 # Transform items to Readable XML Format
+                item_starrating = ''
                 item_country = ''
                 items_producer = ''
                 if item_agerating == '-1':
@@ -453,7 +454,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper):
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, str(item_starttime), str(item_endtime),
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
-                                            item_date, item_season, item_episode, item_agerating, items_director,
+                                            item_date, item_season, item_episode, item_agerating, item_starrating, items_director,
                                             items_producer, items_actor, enable_rating_mapper, lang)
 
         except (KeyError, IndexError):

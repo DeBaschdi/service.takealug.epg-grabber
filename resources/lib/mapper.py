@@ -107,3 +107,19 @@ def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_
         warnings_genres = open(genres_warnings, "r", encoding='utf-8').read()
         log('{} {}'.format(provider, warnings_genres), xbmc.LOGNOTICE)
 
+def map_stars(item_starrating):
+    if int(item_starrating) <= int(9):
+        stars = "• IMDb:☆☆☆☆☆"
+    elif (int(item_starrating) >= int(10) and int(item_starrating)<= int(29)):
+        stars = "• IMDb:★☆☆☆☆"
+    elif (int(item_starrating) >= int(30) and int(item_starrating) <= int(49)):
+        stars = "• IMDb:★★☆☆☆"
+    elif (int(item_starrating) >= int(50) and int(item_starrating) <= int(69)):
+        stars = "• IMDb:★★★☆☆"
+    elif (int(item_starrating) >= int(70) and int(item_starrating) <= int(89)):
+        stars = "• IMDb:★★★★☆"
+    elif (int(item_starrating) >= int(90) and int(item_starrating) <= int(100)):
+        stars = "• IMDb:★★★★★"
+
+    return stars
+

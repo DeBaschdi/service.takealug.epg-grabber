@@ -219,12 +219,20 @@ msgctxt "#32161"
 msgid "Enable Provider Horizon (RO)"
 msgstr ""
 
-msgctxt "#32161"
+msgctxt "#32162"
 msgid "TV Spielfilm (DE)"
 msgstr ""
 
-msgctxt "#32162"
+msgctxt "#32163"
 msgid "Enable Provider TV Spielfilm (DE)"
+msgstr ""
+
+msgctxt "#32164"
+msgid "Swisscom (CH)"
+msgstr ""
+
+msgctxt "#32165"
+msgid "Enable Provider Swisscom (CH)"
 msgstr ""
 
 #####################################

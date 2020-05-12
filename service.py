@@ -14,6 +14,7 @@ from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
 from resources.providers import tvspielfilm_DE
+from resources.providers import swisscom_CH
 from resources.providers import horizon
 import sys
 
@@ -45,6 +46,7 @@ tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
 enable_grabber_tvsDE = True if ADDON.getSetting('enable_grabber_tvsDE').upper() == 'TRUE' else False
+enable_grabber_swcCH = True if ADDON.getSetting('enable_grabber_swcCH').upper() == 'TRUE' else False
 enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
 enable_grabber_hznAT = True if ADDON.getSetting('enable_grabber_hznAT').upper() == 'TRUE' else False
 enable_grabber_hznCH = True if ADDON.getSetting('enable_grabber_hznCH').upper() == 'TRUE' else False
@@ -57,7 +59,7 @@ enable_grabber_hznHU = True if ADDON.getSetting('enable_grabber_hznHU').upper() 
 enable_grabber_hznRO = True if ADDON.getSetting('enable_grabber_hznRO').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO):
+if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -132,6 +134,9 @@ def run_grabber():
     if enable_grabber_tvsDE:
         tvspielfilm_DE.startup()
         tvspielfilm_DE.create_xml_channels()
+    if enable_grabber_swcCH:
+        swisscom_CH.startup()
+        swisscom_CH.create_xml_channels()
     if enable_grabber_hznDE:
         horizon.startup('de')
         horizon.create_xml_channels('de')
@@ -171,6 +176,8 @@ def run_grabber():
         magenta_DE.create_xml_broadcast(enable_rating_mapper)
     if enable_grabber_tvsDE:
         tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper)
+    if enable_grabber_swcCH:
+        swisscom_CH.create_xml_broadcast(enable_rating_mapper)
     if enable_grabber_hznDE:
         horizon.create_xml_broadcast('de', enable_rating_mapper)
     if enable_grabber_hznAT:
