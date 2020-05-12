@@ -1,0 +1,466 @@
+# -*- coding: utf-8 -*-
+import xbmc
+import xbmcaddon
+import xbmcgui
+import xbmcvfs
+import json
+import os
+import sys
+import requests.cookies
+import requests
+import re
+from datetime import datetime
+from datetime import timedelta
+from resources.lib import xml_structure
+from resources.lib import channel_selector
+from resources.lib import mapper
+
+provider = 'TV SPIELFILM (DE)'
+lang = 'de'
+
+ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
+addon_name = ADDON.getAddonInfo('name')
+addon_version = ADDON.getAddonInfo('version')
+loc = ADDON.getLocalizedString
+datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
+temppath = os.path.join(datapath, "temp")
+provider_temppath = os.path.join(temppath, "tvsDE")
+
+## MAPPING Variables Thx @ sunsettrack4
+tvsDE_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/tvs_genres.json'
+tvsDE_genres_json = os.path.join(provider_temppath, 'tvs_genres.json')
+tvsDE_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/tvs_channels.json'
+tvsDE_channels_json = os.path.join(provider_temppath, 'tvs_channels.json')
+
+## Log Files
+tvsDE_genres_warnings_tmp = os.path.join(provider_temppath, 'tvsDE_genres_warnings.txt')
+tvsDE_genres_warnings = os.path.join(temppath, 'tvsDE_genres_warnings.txt')
+tvsDE_channels_warnings_tmp = os.path.join(provider_temppath, 'tvsDE_channels_warnings.txt')
+tvsDE_channels_warnings = os.path.join(temppath, 'tvsDE_channels_warnings.txt')
+
+## Read Magenta DE Settings
+days_to_grab = int(ADDON.getSetting('tvsDE_days_to_grab'))
+episode_format = ADDON.getSetting('tvsDE_episode_format')
+channel_format = ADDON.getSetting('tvsDE_channel_format')
+genre_format = ADDON.getSetting('tvsDE_genre_format')
+
+
+# Make a debug logger
+def log(message, loglevel=xbmc.LOGDEBUG):
+    xbmc.log('[{} {}] {}'.format(addon_name, addon_version, message), loglevel)
+
+
+# Make OSD Notify Messages
+OSD = xbmcgui.Dialog()
+
+
+def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
+    OSD.notification(title, message, icon)
+
+# Calculate Date and Time
+today = datetime.today()
+
+#starttime = starttime_day.strftime("%Y-%m-%d")
+
+## Channel Files
+tvsDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_tvsDE_provider_tmp.json')
+tvsDE_chlist_provider = os.path.join(provider_temppath, 'chlist_tvsDE_provider.json')
+tvsDE_chlist_selected = os.path.join(datapath, 'chlist_tvsDE_selected.json')
+
+
+tvsDE_header = {'Host': 'live.tvspielfilm.de',
+                  'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
+                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                  'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
+                  'Accept-Encoding': 'gzip, deflate, br',
+                  'Connection': 'keep-alive',
+                  'Upgrade-Insecure-Requests': '1'}
+
+def get_channellist():
+    tvsDE_channellist_url = 'https://live.tvspielfilm.de/static/content/channel-list/livetv'
+    tvsDE_chlist_url = requests.get(tvsDE_channellist_url, headers=tvsDE_header)
+    tvsDE_chlist_url.raise_for_status()
+    response = tvsDE_chlist_url.json()
+    with open(tvsDE_chlist_provider_tmp, 'w') as provider_list_tmp:
+        json.dump(response, provider_list_tmp)
+
+    #### Transform tvsDE_chlist_provider_tmp to Standard chlist Format as tvsDE_chlist_provider
+
+    # Load Channellist from Provider
+    with open(tvsDE_chlist_provider_tmp, 'r') as provider_list_tmp:
+        tvsDE_channels = json.load(provider_list_tmp)
+
+    # Create empty new tvsDE_chlist_provider
+    with open(tvsDE_chlist_provider, 'w') as provider_list:
+        provider_list.write(json.dumps({"channellist": []}))
+        provider_list.close()
+
+    ch_title = ''
+
+    # Load New Channellist from Provider
+    with open(tvsDE_chlist_provider) as provider_list:
+        data = json.load(provider_list)
+
+        temp = data['channellist']
+
+        for channels in tvsDE_channels:
+            ch_id = channels['id']
+            ch_title = channels['name']
+            hdimage = channels['image_large']['url']
+            # channel to be appended
+            y = {"contentId": ch_id,
+                 "name": ch_title,
+                 "pictures": [{"href": hdimage}]}
+
+            # appending channels to data['channellist']
+            temp.append(y)
+
+    #Save New Channellist from Provider
+    with open(tvsDE_chlist_provider, 'w') as provider_list:
+        json.dump(data, provider_list, indent=4)
+
+def select_channels():
+    ## Create Provider Temppath if not exist
+    if not os.path.exists(provider_temppath):
+        os.makedirs(provider_temppath)
+
+    ## Create empty (Selected) Channel List if not exist
+    if not os.path.isfile(tvsDE_chlist_selected):
+        with open((tvsDE_chlist_selected), 'w') as selected_list:
+            selected_list.write(json.dumps({"channellist": []}))
+            selected_list.close()
+
+    ## Download chlist_magenta_provider.json
+    get_channellist()
+    dialog = xbmcgui.Dialog()
+
+    with open(tvsDE_chlist_provider, 'r') as o:
+        provider_list = json.load(o)
+
+    with open(tvsDE_chlist_selected, 'r') as s:
+        selected_list = json.load(s)
+
+    ## Start Channel Selector
+    user_select = channel_selector.select_channels(provider, provider_list, selected_list)
+
+    if user_select is not None:
+        with open(tvsDE_chlist_selected, 'w') as f:
+            json.dump(user_select, f, indent=4)
+        if os.path.isfile(tvsDE_chlist_selected):
+            valid = check_selected_list()
+            if valid is True:
+                ok = dialog.ok(provider, loc(32402))
+                if ok:
+                    log(loc(32402), xbmc.LOGNOTICE)
+            elif valid is False:
+                log(loc(32403), xbmc.LOGNOTICE)
+                yn = OSD.yesno(provider, loc(32403))
+                if yn:
+                    select_channels()
+                else:
+                    xbmcvfs.delete(tvsDE_chlist_selected)
+                    exit()
+    else:
+        valid = check_selected_list()
+        if valid is True:
+            ok = dialog.ok(provider, loc(32404))
+            if ok:
+                log(loc(32404), xbmc.LOGNOTICE)
+        elif valid is False:
+            log(loc(32403), xbmc.LOGNOTICE)
+            yn = OSD.yesno(provider, loc(32403))
+            if yn:
+                select_channels()
+            else:
+                xbmcvfs.delete(tvsDE_chlist_selected)
+                exit()
+
+def check_selected_list():
+    check = 'invalid'
+    with open(tvsDE_chlist_selected, 'r') as c:
+        selected_list = json.load(c)
+    for user_list in selected_list['channellist']:
+        if 'contentId' in user_list:
+            check = 'valid'
+    if check == 'valid':
+        return True
+    else:
+        return False
+
+def download_broadcastfiles():
+    with open(tvsDE_chlist_selected, 'r') as s:
+        selected_list = json.load(s)
+
+    items_to_download = str(len(selected_list['channellist']))
+    items = 0
+    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
+    pDialog = xbmcgui.DialogProgressBG()
+    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
+
+    for user_item in selected_list['channellist']:
+        items += 1
+        contentID = user_item['contentId']
+        channel_name = user_item['name']
+        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+        percent_completed = int(100) * int(items) / int(items_to_download)
+        broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
+
+        ## Merge all selected Days in one Json file
+        ## create empty broadcastfile
+        with open(broadcast_files, 'w') as playbill:
+            playbill.write(json.dumps({"broadcasts": []}))
+            playbill.close()
+
+        ## open empty broadcastfile
+        with open(broadcast_files) as playbill:
+            data = json.load(playbill)
+            temp = data['broadcasts']
+
+            day_to_start = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
+
+            for i in range(0, days_to_grab):
+                day_to_grab = day_to_start.strftime("%Y-%m-%d")
+                day_to_start += timedelta(days=1)
+                tvs_data_url = 'https://live.tvspielfilm.de/static/broadcast/list/{}/{}'.format(contentID, day_to_grab)
+                tvs_data = requests.get(tvs_data_url, headers=tvsDE_header)
+                tvs_data.raise_for_status()
+                response = tvs_data.json()
+                temp.append(response)
+
+        with open(broadcast_files, 'w') as playbill:
+            json.dump(data, playbill, indent=4)
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        if str(percent_completed) == str(100):
+            log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+    pDialog.close()
+
+
+def create_xml_channels():
+    log('{} {}'.format(provider,loc(32362)), xbmc.LOGNOTICE)
+    if channel_format == 'rytec':
+        ## Save tvsDE_channels.json to Disk
+        tvsDE_channels_response = requests.get(tvsDE_channels_url).json()
+        with open(tvsDE_channels_json, 'w') as tvsDE_channels:
+            json.dump(tvsDE_channels_response, tvsDE_channels)
+        tvsDE_channels.close()
+
+    with open(tvsDE_chlist_selected, 'r') as c:
+        selected_list = json.load(c)
+
+    items_to_download = str(len(selected_list['channellist']))
+    items = 0
+    pDialog = xbmcgui.DialogProgressBG()
+    pDialog.create('{} {} '.format(loc(32502),provider), '{} {}'.format('100',loc(32501)))
+
+    ## Create XML Channels Provider information
+    xml_structure.xml_channels_start(provider)
+
+    for user_item in selected_list['channellist']:
+        items += 1
+        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+        percent_completed = int(100) * int(items) / int(items_to_download)
+        channel_name = user_item['name']
+        channel_icon = user_item['pictures'][0]['href']
+        channel_id = channel_name
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        if str(percent_completed) == str(100):
+            log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
+
+        ## Map Channels
+        if not channel_id == '':
+            channel_id = mapper.map_channels(channel_id, channel_format, tvsDE_channels_json, tvsDE_channels_warnings_tmp, lang)
+
+        ## Create XML Channel Information with provided Variables
+        xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
+    pDialog.close()
+
+
+def create_xml_broadcast(enable_rating_mapper):
+    download_broadcastfiles()
+    log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
+    if genre_format == 'eit':
+        ## Save tvsDE_genres.json to Disk
+        tvsDE_genres_response = requests.get(tvsDE_genres_url).json()
+        with open(tvsDE_genres_json, 'w') as tvsDE_genres:
+            json.dump(tvsDE_genres_response, tvsDE_genres)
+        tvsDE_genres.close()
+
+    with open(tvsDE_chlist_selected, 'r') as c:
+        selected_list = json.load(c)
+
+    items_to_download = str(len(selected_list['channellist']))
+    items = 0
+    pDialog = xbmcgui.DialogProgressBG()
+    pDialog.create('{} {} '.format(loc(32503),provider), '{} Prozent verbleibend'.format('100'))
+
+    ## Create XML Broadcast Provider information
+    xml_structure.xml_broadcast_start(provider)
+
+    for user_item in selected_list['channellist']:
+        items += 1
+        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+        percent_completed = int(100) * int(items) / int(items_to_download)
+        contentID = user_item['contentId']
+        channel_name = user_item['name']
+        channel_id = channel_name
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        if str(percent_completed) == str(100):
+            log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
+
+        broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
+        with open(broadcast_files, 'r') as b:
+            broadcastfiles = json.load(b)
+
+        ### Map Channels
+        if not channel_id == '':
+            channel_id = mapper.map_channels(channel_id, channel_format, tvsDE_channels_json, tvsDE_channels_warnings_tmp, lang)
+
+        try:
+            for days in broadcastfiles['broadcasts']:
+                for playbilllist in days:
+                    try:
+                        item_title = playbilllist['title']
+                    except (KeyError, IndexError):
+                        item_title = ''
+                    try:
+                        item_starttime = playbilllist['timestart']
+                    except (KeyError, IndexError):
+                        item_starttime = ''
+                    try:
+                        item_endtime = playbilllist['timeend']
+                    except (KeyError, IndexError):
+                        item_endtime = ''
+                    try:
+                        item_description = playbilllist['text']
+                    except (KeyError, IndexError):
+                        item_description = ''
+                    try:
+                        item_country = playbilllist['country']
+                    except (KeyError, IndexError):
+                        item_country = ''
+                    try:
+                        item_picture = playbilllist['images'][0]['size4']
+                    except (KeyError, IndexError):
+                        item_picture = ''
+                    try:
+                        item_subtitle = playbilllist['episodeTitle']
+                    except (KeyError, IndexError):
+                        item_subtitle = ''
+                    try:
+                        items_genre = playbilllist['genre']
+                    except (KeyError, IndexError):
+                        items_genre = ''
+                    try:
+                        item_date = playbilllist['year']
+                    except (KeyError, IndexError):
+                        item_date = ''
+                    try:
+                        item_season = playbilllist['seasonNumber']
+                    except (KeyError, IndexError):
+                        item_season = ''
+                    try:
+                        item_episode = playbilllist['episodeNumber']
+                    except (KeyError, IndexError):
+                        item_episode = ''
+                    try:
+                        item_agerating = playbilllist['fsk']
+                    except (KeyError, IndexError):
+                        item_agerating = ''
+                    try:
+                        items_director = playbilllist['director']
+                    except (KeyError, IndexError):
+                        items_director = ''
+                    try:
+                        actor_list = list()
+                        keys_actor = playbilllist['actors']
+                        for actor in keys_actor:
+                            actor_list.append(list(actor.values())[0])
+                        items_actor = ','.join(actor_list)
+                    except (KeyError, IndexError):
+                        items_actor = ''
+
+                    # Transform items to Readable XML Format
+                    item_starttime = datetime.utcfromtimestamp(item_starttime).strftime('%Y%m%d%H%M%S')
+                    item_endtime = datetime.utcfromtimestamp(item_endtime).strftime('%Y%m%d%H%M%S')
+
+                    item_episode = re.sub(r"\D+", '#', item_episode).split('#')[0]
+                    item_season = re.sub(r"\D+", '#', item_season).split('#')[0]
+
+                    items_producer = ''
+                    if item_description == '':
+                        item_description = 'No Program Information available'
+
+                    # Map Genres
+                    if not items_genre == '':
+                        items_genre = mapper.map_genres(items_genre, genre_format, tvsDE_genres_json, tvsDE_genres_warnings_tmp, lang)
+
+                    ## Create XML Broadcast Information with provided Variables
+                    xml_structure.xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime,
+                                                item_description, item_country, item_picture, item_subtitle,
+                                                items_genre,
+                                                item_date, item_season, item_episode, item_agerating, items_director,
+                                                items_producer, items_actor, enable_rating_mapper, lang)
+
+
+        except (KeyError, IndexError):
+            log('{} {} {} {} {} {}'.format(provider, loc(32367), channel_name, loc(32368), contentID,loc(32369)))
+    pDialog.close()
+
+    ## Create Channel Warnings Textile
+    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/tvs_channels.json\n'
+    mapper.create_channel_warnings(tvsDE_channels_warnings_tmp, tvsDE_channels_warnings, provider, channel_pull)
+
+    ## Create Genre Warnings Textfile
+    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/tvs_genres.json\n'
+    mapper.create_genre_warnings(tvsDE_genres_warnings_tmp, tvsDE_genres_warnings, provider, genre_pull)
+
+    notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
+    log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
+    xbmc.sleep(4000)
+
+    if (os.path.isfile(tvsDE_channels_warnings) or os.path.isfile(tvsDE_genres_warnings)):
+        notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
+        xbmc.sleep(3000)
+
+    ## Delete old Tempfiles, not needed any more
+    for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
+
+
+def check_provider():
+    ## Create Provider Temppath if not exist
+    if not os.path.exists(provider_temppath):
+        os.makedirs(provider_temppath)
+
+    ## Create empty (Selected) Channel List if not exist
+    if not os.path.isfile(tvsDE_chlist_selected):
+        with open((tvsDE_chlist_selected), 'w') as selected_list:
+            selected_list.write(json.dumps({"channellist": []}))
+            selected_list.close()
+        ## If no Channellist exist, ask to create one
+        yn = OSD.yesno(provider, loc(32405))
+        if yn:
+            select_channels()
+        else:
+            xbmcvfs.delete(tvsDE_chlist_selected)
+            exit()
+
+    ## If a Selected list exist, check valid
+    valid = check_selected_list()
+    if valid is False:
+        yn = OSD.yesno(provider, loc(32405))
+        if yn:
+            select_channels()
+        else:
+            xbmcvfs.delete(tvsDE_chlist_selected)
+            exit()
+
+def startup():
+    check_provider()
+    get_channellist()
+
+# Channel Selector
+try:
+    if sys.argv[1] == 'select_channels_tvsDE':
+        select_channels()
+except IndexError:
+    pass

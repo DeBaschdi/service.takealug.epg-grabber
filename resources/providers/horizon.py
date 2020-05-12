@@ -109,10 +109,6 @@ def get_epgLength(days_to_grab):
     return starttime, endtime
 
 
-
-hzn_login_url = 'https://web-api-pepper.horizon.tv'
-
-
 hzn_header = {'Host': 'web-api-pepper.horizon.tv',
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -465,11 +461,11 @@ def create_xml_broadcast(grabber, enable_rating_mapper):
     pDialog.close()
 
     ## Create Channel Warnings Textile
-    channel_pull = '\n' + 'Please Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/hzn_channels.json' + '\n'
+    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/hzn_channels.json\n'
     mapper.create_channel_warnings(hzn_channels_warnings_tmp, hzn_channels_warnings, provider, channel_pull)
 
     ## Create Genre Warnings Textfile
-    genre_pull = '\n' + 'Please Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/hzn_genres.json' + '\n'
+    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/hzn_genres.json\n'
     mapper.create_genre_warnings(hzn_genres_warnings_tmp, hzn_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)

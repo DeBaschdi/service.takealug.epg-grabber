@@ -9,6 +9,14 @@
         <setting id="magentaDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="magentaDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
 
+        <setting label="32161" type="lsep"/> <!-- TV Spielfilm (DE) -->
+        <setting id="enable_grabber_tvsDE" type="bool" label="32162" default="false" /><!-- Enable TV Spielfilm (DE) -->
+        <setting id="select_channels_tvsDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_tvsDE)" option="close" visible="!eq(-1,false)"/>
+        <setting id="tvsDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
+        <setting id="tvsDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
+        <setting id="tvsDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
+        <setting id="tvsDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
+
         <setting label="32142" type="lsep"/> <!-- Horizon (DE) -->
         <setting id="enable_grabber_hznDE" type="bool" label="32143" default="false" /><!-- Enable Horizon (DE) -->
         <setting id="select_channels_hznDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_hznDE)" option="close" visible="!eq(-1,false)"/>

@@ -13,6 +13,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
     -Adjustable days for EPG Grabbing
     -Build in Cron Feature
     -Adjustable save location for the EPG, also over the network
+    -Write Guide directly in Tvheandend's xmltv.sock
     -Feature
         -Rating Mapper
 ```
@@ -26,6 +27,14 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
    -Grab the epg manually (see if everything works)
    -Activate automatic grabbing.
 ```    
+
+## Provider List
+```
+   -Magenta TV (DE)
+   -TV Spielfilm (DE)
+   -Horizon (DE,AT,CH,NL,PL,IE,SK,CZ,HU,RO)
+
+```
 
 <img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot1.png" height="270" width="480">
 <img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot3.png" height="270" width="480">

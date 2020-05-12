@@ -106,3 +106,4 @@ def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_
         ## Print Content of Genres Warnings Textfile in Kodi LOG
         warnings_genres = open(genres_warnings, "r", encoding='utf-8').read()
         log('{} {}'.format(provider, warnings_genres), xbmc.LOGNOTICE)
+

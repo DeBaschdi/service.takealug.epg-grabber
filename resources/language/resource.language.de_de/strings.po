@@ -219,6 +219,14 @@ msgctxt "#32161"
 msgid "Enable Provider Horizon (RO)"
 msgstr "Aktiviere Provider Horizon (RO)"
 
+msgctxt "#32161"
+msgid "TV Spielfilm (DE)"
+msgstr "TV Spielfilm (DE)"
+
+msgctxt "#32162"
+msgid "Enable Provider TV Spielfilm (DE)"
+msgstr "Aktiviere Provider TV Spielfilm (DE)"
+
 ###################################
 # Values 32300 - 32349            #
 ###################################
