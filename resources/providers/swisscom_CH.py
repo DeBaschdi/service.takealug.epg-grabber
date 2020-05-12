@@ -451,7 +451,7 @@ def create_xml_broadcast(enable_rating_mapper):
         xbmc.sleep(3000)
 
     ## Delete old Tempfiles, not needed any more
-    #for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
+    for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
 
 
 def check_provider():
