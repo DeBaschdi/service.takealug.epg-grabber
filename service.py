@@ -53,13 +53,14 @@ enable_grabber_hznCH = True if ADDON.getSetting('enable_grabber_hznCH').upper() 
 enable_grabber_hznNL = True if ADDON.getSetting('enable_grabber_hznNL').upper() == 'TRUE' else False
 enable_grabber_hznPL = True if ADDON.getSetting('enable_grabber_hznPL').upper() == 'TRUE' else False
 enable_grabber_hznIE = True if ADDON.getSetting('enable_grabber_hznIE').upper() == 'TRUE' else False
+enable_grabber_hznGB = True if ADDON.getSetting('enable_grabber_hznGB').upper() == 'TRUE' else False
 enable_grabber_hznSK = True if ADDON.getSetting('enable_grabber_hznSK').upper() == 'TRUE' else False
 enable_grabber_hznCZ = True if ADDON.getSetting('enable_grabber_hznCZ').upper() == 'TRUE' else False
 enable_grabber_hznHU = True if ADDON.getSetting('enable_grabber_hznHU').upper() == 'TRUE' else False
 enable_grabber_hznRO = True if ADDON.getSetting('enable_grabber_hznRO').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO):
+if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznGB or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -155,6 +156,9 @@ def run_grabber():
     if enable_grabber_hznIE:
         horizon.startup('ie')
         horizon.create_xml_channels('ie')
+    if enable_grabber_hznGB:
+        horizon.startup('gb')
+        horizon.create_xml_channels('gb')
     if enable_grabber_hznSK:
         horizon.startup('sk')
         horizon.create_xml_channels('sk')
@@ -190,6 +194,8 @@ def run_grabber():
         horizon.create_xml_broadcast('pl', enable_rating_mapper)
     if enable_grabber_hznIE:
         horizon.create_xml_broadcast('ie', enable_rating_mapper)
+    if enable_grabber_hznGB:
+        horizon.create_xml_broadcast('gb', enable_rating_mapper)
     if enable_grabber_hznSK:
         horizon.create_xml_broadcast('sk', enable_rating_mapper)
     if enable_grabber_hznCZ:

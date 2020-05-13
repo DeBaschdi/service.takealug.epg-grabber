@@ -307,8 +307,7 @@ def create_xml_broadcast(enable_rating_mapper):
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, swcCH_channels_json, swcCH_channels_warnings,
-                                             lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, swcCH_channels_json, swcCH_channels_warnings_tmp, lang)
 
         try:
             for playbilllist in broadcastfiles['Nodes']['Items'][0]['Content']['Nodes']['Items']:

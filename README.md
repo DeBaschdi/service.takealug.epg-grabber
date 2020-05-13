@@ -33,7 +33,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
    -Magenta TV (DE)
    -TV Spielfilm (DE)
    -Swisscom (CH)
-   -Horizon (DE,AT,CH,NL,PL,IE,SK,CZ,HU,RO)
+   -Horizon (DE,AT,CH,NL,PL,IE,GB,SK,CZ,HU,RO)
 
 ```
 

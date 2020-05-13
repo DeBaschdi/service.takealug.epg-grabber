@@ -73,7 +73,7 @@ def map_channels(channel_id, channel_format,channels_json,channels_warnings_tmp,
         channels_mapped = channel_id
         return str(channels_mapped)
 
-def create_channel_warnings(channels_warnings_tmp, channels_warnings, provider,channel_pull):
+def create_channel_warnings(channels_warnings_tmp, channels_warnings, provider, channel_pull):
     ## Create Channel Warnings Textfile
     if os.path.isfile(channels_warnings_tmp):
         lines_seen = set()  # holds lines already seen

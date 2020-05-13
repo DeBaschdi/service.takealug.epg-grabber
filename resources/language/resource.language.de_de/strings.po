@@ -235,6 +235,14 @@ msgctxt "#32165"
 msgid "Enable Provider Swisscom (CH)"
 msgstr "Aktiviere Provider Swisscom (CH)"
 
+msgctxt "#32166"
+msgid "Horizon (GB)"
+msgstr "Horizon (GB)"
+
+msgctxt "#32167"
+msgid "Enable Provider Horizon (GB)"
+msgstr "Aktiviere Provider Horizon (GB)"
+
 ###################################
 # Values 32300 - 32349            #
 ###################################

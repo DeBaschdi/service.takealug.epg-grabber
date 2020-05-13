@@ -18,16 +18,17 @@ from resources.lib import mapper
 
 def get_hzndict(grabber):
     ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url
-    hzndict = dict({'de': ['HORIZON (DE)', 'de', 'horizonDE', 'hznDE_genres_warnings.txt', 'hznDE_channels_warnings.txt', 'hznDE_days_to_grab', 'hznDE_episode_format', 'hznDE_channel_format' ,'hznDE_genre_format', 'chlist_hznDE_provider_tmp.json', 'chlist_hznDE_provider.json', 'chlist_hznDE_selected.json','DE/deu'],
-                    'at': ['HORIZON (AT)', 'at', 'horizonAT', 'hznAT_genres_warnings.txt', 'hznAT_channels_warnings.txt', 'hznAT_days_to_grab', 'hznAT_episode_format', 'hznAT_channel_format' ,'hznAT_genre_format', 'chlist_hznAT_provider_tmp.json', 'chlist_hznAT_provider.json', 'chlist_hznAT_selected.json','AT/deu'],
-                    'ch': ['HORIZON (CH)', 'ch', 'horizonCH', 'hznCH_genres_warnings.txt', 'hznCH_channels_warnings.txt', 'hznCH_days_to_grab', 'hznCH_episode_format', 'hznCH_channel_format' ,'hznCH_genre_format', 'chlist_hznCH_provider_tmp.json', 'chlist_hznCH_provider.json', 'chlist_hznCH_selected.json','CH/deu'],
-                    'nl': ['HORIZON (NL)', 'nl', 'horizonNL', 'hznNL_genres_warnings.txt', 'hznNL_channels_warnings.txt', 'hznNL_days_to_grab', 'hznNL_episode_format', 'hznNL_channel_format' ,'hznNL_genre_format', 'chlist_hznNL_provider_tmp.json', 'chlist_hznNL_provider.json', 'chlist_hznNL_selected.json','NL/nld'],
-                    'pl': ['HORIZON (PL)', 'pl', 'horizonPL', 'hznPL_genres_warnings.txt', 'hznPL_channels_warnings.txt', 'hznPL_days_to_grab', 'hznPL_episode_format', 'hznPL_channel_format' ,'hznPL_genre_format', 'chlist_hznPL_provider_tmp.json', 'chlist_hznPL_provider.json', 'chlist_hznPL_selected.json','PL/pol'],
-                    'ie': ['HORIZON (IE)', 'ie', 'horizonIE', 'hznIE_genres_warnings.txt', 'hznIE_channels_warnings.txt', 'hznIE_days_to_grab', 'hznIE_episode_format', 'hznIE_channel_format' ,'hznIE_genre_format', 'chlist_hznIE_provider_tmp.json', 'chlist_hznIE_provider.json', 'chlist_hznIE_selected.json','IE/eng'],
-                    'sk': ['HORIZON (SK)', 'sk', 'horizonSK', 'hznSK_genres_warnings.txt', 'hznSK_channels_warnings.txt', 'hznSK_days_to_grab', 'hznSK_episode_format', 'hznSK_channel_format' ,'hznSK_genre_format', 'chlist_hznSK_provider_tmp.json', 'chlist_hznSK_provider.json', 'chlist_hznSK_selected.json','SK/slk'],
-                    'cz': ['HORIZON (CZ)', 'cz', 'horizonCZ', 'hznCZ_genres_warnings.txt', 'hznCZ_channels_warnings.txt', 'hznCZ_days_to_grab', 'hznCZ_episode_format', 'hznCZ_channel_format' ,'hznCZ_genre_format', 'chlist_hznCZ_provider_tmp.json', 'chlist_hznCZ_provider.json', 'chlist_hznCZ_selected.json','CZ/ces'],
-                    'hu': ['HORIZON (HU)', 'hu', 'horizonHU', 'hznHU_genres_warnings.txt', 'hznHU_channels_warnings.txt', 'hznHU_days_to_grab', 'hznHU_episode_format', 'hznHU_channel_format' ,'hznHU_genre_format', 'chlist_hznHU_provider_tmp.json', 'chlist_hznHU_provider.json', 'chlist_hznHU_selected.json','HU/hun'],
-                    'ro': ['HORIZON (RO)', 'ro', 'horizonRO', 'hznRO_genres_warnings.txt', 'hznRO_channels_warnings.txt', 'hznRO_days_to_grab', 'hznRO_episode_format', 'hznRO_channel_format' ,'hznRO_genre_format', 'chlist_hznRO_provider_tmp.json', 'chlist_hznRO_provider.json', 'chlist_hznRO_selected.json','RO/ron'],
+    hzndict = dict({'de': ['HORIZON (DE)', 'de', 'horizonDE', 'hznDE_genres_warnings.txt', 'hznDE_channels_warnings.txt', 'hznDE_days_to_grab', 'hznDE_episode_format', 'hznDE_channel_format' ,'hznDE_genre_format', 'chlist_hznDE_provider_tmp.json', 'chlist_hznDE_provider.json', 'chlist_hznDE_selected.json', 'DE/deu'],
+                    'at': ['HORIZON (AT)', 'at', 'horizonAT', 'hznAT_genres_warnings.txt', 'hznAT_channels_warnings.txt', 'hznAT_days_to_grab', 'hznAT_episode_format', 'hznAT_channel_format' ,'hznAT_genre_format', 'chlist_hznAT_provider_tmp.json', 'chlist_hznAT_provider.json', 'chlist_hznAT_selected.json', 'AT/deu'],
+                    'ch': ['HORIZON (CH)', 'ch', 'horizonCH', 'hznCH_genres_warnings.txt', 'hznCH_channels_warnings.txt', 'hznCH_days_to_grab', 'hznCH_episode_format', 'hznCH_channel_format' ,'hznCH_genre_format', 'chlist_hznCH_provider_tmp.json', 'chlist_hznCH_provider.json', 'chlist_hznCH_selected.json', 'CH/deu'],
+                    'nl': ['HORIZON (NL)', 'nl', 'horizonNL', 'hznNL_genres_warnings.txt', 'hznNL_channels_warnings.txt', 'hznNL_days_to_grab', 'hznNL_episode_format', 'hznNL_channel_format' ,'hznNL_genre_format', 'chlist_hznNL_provider_tmp.json', 'chlist_hznNL_provider.json', 'chlist_hznNL_selected.json', 'NL/nld'],
+                    'pl': ['HORIZON (PL)', 'pl', 'horizonPL', 'hznPL_genres_warnings.txt', 'hznPL_channels_warnings.txt', 'hznPL_days_to_grab', 'hznPL_episode_format', 'hznPL_channel_format' ,'hznPL_genre_format', 'chlist_hznPL_provider_tmp.json', 'chlist_hznPL_provider.json', 'chlist_hznPL_selected.json', 'PL/pol'],
+                    'ie': ['HORIZON (IE)', 'ie', 'horizonIE', 'hznIE_genres_warnings.txt', 'hznIE_channels_warnings.txt', 'hznIE_days_to_grab', 'hznIE_episode_format', 'hznIE_channel_format' ,'hznIE_genre_format', 'chlist_hznIE_provider_tmp.json', 'chlist_hznIE_provider.json', 'chlist_hznIE_selected.json', 'IE/eng'],
+                    'gb': ['HORIZON (GB)', 'gb', 'horizonGB', 'hznGB_genres_warnings.txt', 'hznGB_channels_warnings.txt', 'hznGB_days_to_grab', 'hznGB_episode_format', 'hznGB_channel_format', 'hznGB_genre_format', 'chlist_hznGB_provider_tmp.json', 'chlist_hznGB_provider.json', 'chlist_hznGB_selected.json', 'GB/eng'],
+                    'sk': ['HORIZON (SK)', 'sk', 'horizonSK', 'hznSK_genres_warnings.txt', 'hznSK_channels_warnings.txt', 'hznSK_days_to_grab', 'hznSK_episode_format', 'hznSK_channel_format' ,'hznSK_genre_format', 'chlist_hznSK_provider_tmp.json', 'chlist_hznSK_provider.json', 'chlist_hznSK_selected.json', 'SK/slk'],
+                    'cz': ['HORIZON (CZ)', 'cz', 'horizonCZ', 'hznCZ_genres_warnings.txt', 'hznCZ_channels_warnings.txt', 'hznCZ_days_to_grab', 'hznCZ_episode_format', 'hznCZ_channel_format' ,'hznCZ_genre_format', 'chlist_hznCZ_provider_tmp.json', 'chlist_hznCZ_provider.json', 'chlist_hznCZ_selected.json', 'CZ/ces'],
+                    'hu': ['HORIZON (HU)', 'hu', 'horizonHU', 'hznHU_genres_warnings.txt', 'hznHU_channels_warnings.txt', 'hznHU_days_to_grab', 'hznHU_episode_format', 'hznHU_channel_format' ,'hznHU_genre_format', 'chlist_hznHU_provider_tmp.json', 'chlist_hznHU_provider.json', 'chlist_hznHU_selected.json', 'HU/hun'],
+                    'ro': ['HORIZON (RO)', 'ro', 'horizonRO', 'hznRO_genres_warnings.txt', 'hznRO_channels_warnings.txt', 'hznRO_days_to_grab', 'hznRO_episode_format', 'hznRO_channel_format' ,'hznRO_genre_format', 'chlist_hznRO_provider_tmp.json', 'chlist_hznRO_provider.json', 'chlist_hznRO_selected.json', 'RO/ron'],
                   })
     return hzndict
 
@@ -149,9 +150,12 @@ def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
             ch_id = channels['stationSchedules'][0]['station']['id']
             ch_title_dirty = channels['stationSchedules'][0]['station']['title']
             for image in channels['stationSchedules'][0]['station']['images']:
-                if image['assetType'] == 'station-logo-large':
-                    hdimage_url = image['url'].split('?w')
-                    hdimage = hdimage_url[0]
+                try:
+                    if image['assetType'] == 'station-logo-large':
+                        hdimage_url = image['url'].split('?w')
+                        hdimage = hdimage_url[0]
+                except:
+                    hdimage = ''
             ch_title = ch_title_dirty.replace(u'\u0086', '').replace(u'\u0087', '')
             # channel to be appended
             y = {"contentId": ch_id,
@@ -299,7 +303,7 @@ def create_xml_channels(grabber):
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hzn_channels_warnings, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hzn_channels_warnings_tmp, lang)
 
         ## Create XML Channel Information with provided Variables
         xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
@@ -346,7 +350,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper):
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hzn_channels_warnings, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, hzn_channels_json, hzn_channels_warnings_tmp, lang)
 
         try:
             for playbilllist in broadcastfiles['listings']:
@@ -529,6 +533,8 @@ try:
         select_channels('pl')
     if sys.argv[1] == 'select_channels_hznIE':
         select_channels('ie')
+    if sys.argv[1] == 'select_channels_hznGB':
+        select_channels('gb')
     if sys.argv[1] == 'select_channels_hznSK':
         select_channels('sk')
     if sys.argv[1] == 'select_channels_hznCZ':
