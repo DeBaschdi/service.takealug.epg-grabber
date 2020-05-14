@@ -37,8 +37,9 @@ temppath = os.path.join(datapath, "temp")
 ## Read Global Settings
 storage_path = ADDON.getSetting('storage_path')
 auto_download = True if ADDON.getSetting('auto_download').lower() == 'true' else False
-timeswitch = int(ADDON.getSetting('timeswitch'))
-timeoffset = (int(ADDON.getSetting('timeoffset')) * 12 + 24) * 3600
+timeswitch_1 = int(ADDON.getSetting('timeswitch_1'))
+timeswitch_2 = int(ADDON.getSetting('timeswitch_2'))
+timeswitch_3 = int(ADDON.getSetting('timeswitch_3'))
 enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() == 'TRUE' else False
 use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' else False
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
@@ -236,87 +237,73 @@ def write_to_sock():
                 log(loc(32409), xbmc.LOGERROR)
 
 def worker():
-    dl_attempts = 0
-    while not Monitor.waitForAbort(60):
-        with open(grabber_cron, 'r') as j:
-            cron = json.load(j)
-            next_download = int(cron['next_download'])
-        j.close()
-        initiate_download = False
+    initiate_download = False
 
-        # check if property 'last_download' in settings already exists and check timestamp of this file.
-        # if timestamp is not older than 24 hours, there's nothing to do, otherwise grab EPG.
+    ## Read Settings for last / next_download
+    with open(grabber_cron, 'r') as j:
+        cron = json.load(j)
+        next_download = int(cron['next_download'])
+        last_download = int(cron['last_download'])
+    j.close()
 
-        try:
-            with open(grabber_cron, 'r') as j:
-                cron = json.load(j)
-                last_timestamp = int(cron['last_download'])
-            j.close()
-        except ValueError:
-            last_timestamp = 0
+    log('{} {}'.format(loc(32352), datetime.fromtimestamp(last_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
 
-        if last_timestamp > 0:
-            log('{} {}'.format(loc(32352),datetime.fromtimestamp(last_timestamp).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
-            if (int(time.time()) - timeoffset) < last_timestamp < int(time.time()):
-                log('{} {}'.format(loc(32353),datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
-            else:
-                log('{} {} {}'.format(loc(32354),(timeoffset / 86400),loc(32355)), xbmc.LOGNOTICE)
-                initiate_download = True
+    if (int(next_download) > int(last_download)):
+        log('{} {}'.format(loc(32353), datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
 
-            if next_download < int(time.time()):
-                # suggested download time has passed (e.g. system was offline) or time is now, download epg
-                # and set a new timestamp for the next download
-                log(loc(32356), xbmc.LOGNOTICE)
-                initiate_download = True
-        else:
-            initiate_download = True
+    if next_download < int(time.time()):
+        # suggested download time has passed (e.g. system was offline) or time is now, download epg
+        # and set a new timestamp for the next download
+        log('{} {}'.format(loc(32352), datetime.fromtimestamp(last_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+        log('{} {}'.format(loc(32353), datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+        log('{}'.format(loc(32356)), xbmc.LOGNOTICE)
+        initiate_download = True
 
-        if initiate_download:
-            if dl_attempts < 3:
-                notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
-                if run_grabber():
-                    dl_attempts = 0
-                else:
-                    dl_attempts += 1
-            else:
-                # has tried 3x to download files in a row, giving up
-                ## Write new setting last_download
-                with open(grabber_cron, 'r') as f:
-                    data = json.load(f)
-                    data['last_download'] = str(int(time.time()))
+    ## If next_download < last_download, initiate an Autodownload
+    if initiate_download:
+        notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
+        run_grabber()
 
-                with open(grabber_cron_tmp, 'w') as f:
-                    json.dump(data, f, indent=4)
-                ## rename temporary file replacing old file
-                xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
-                xbmcvfs.delete(grabber_cron_tmp)
-                f.close()
-                log(loc(32358), xbmc.LOGERROR)
+    ## Calculate the next_download Setting
 
-        # Calculate Next_Download Setting
-        calc_next_download = datetime.today()
-        calc_next_download = datetime(calc_next_download.year, calc_next_download.month, day=calc_next_download.day,hour=timeswitch, minute=0, second=0, microsecond=0)
-        calc_next_download += timedelta(days=1)
+    # get Settings for daily_1, daily_2, daily_3
+    today = datetime.today()
+    now = int(time.time())
+    calc_daily_1 = datetime(today.year, today.month, day=today.day, hour=timeswitch_1, minute=0, second=0)
+    calc_daily_2 = datetime(today.year, today.month, day=today.day, hour=timeswitch_2, minute=0, second=0)
+    calc_daily_3 = datetime(today.year, today.month, day=today.day, hour=timeswitch_3, minute=0, second=0)
 
-        # Deal with a windows strftime bug (Win don't know '%s' formatting)
-        try:
-            next_download = int(calc_next_download.strftime("%s"))
-        except ValueError:
-            next_download = int(time.mktime(calc_next_download.timetuple()))
+    try:
+        daily_1 = int(calc_daily_1.strftime("%s"))
+        daily_2 = int(calc_daily_2.strftime("%s"))
+        daily_3 = int(calc_daily_3.strftime("%s"))
+    except ValueError:
+        daily_1 = int(time.mktime(calc_daily_1.timetuple()))
+        daily_2 = int(time.mktime(calc_daily_2.timetuple()))
+        daily_3 = int(time.mktime(calc_daily_3.timetuple()))
 
-        ## Write new setting next_download
-        with open(grabber_cron, 'r') as f:
-            data = json.load(f)
-            data['next_download'] = str(next_download)
-            tempfile = os.path.join(temppath, 'filename')
+    ## If sheduleplan for daily 1,2,3 is in the past, plan it for next day
+    if daily_1 <= now:
+        daily_1 += int(86400)
+    if daily_2 <= now:
+        daily_2 += int(86400)
+    if daily_3 <= now:
+        daily_3 += int(86400)
 
-        with open(tempfile, 'w') as f:
-            json.dump(data, f, indent=4)
-        ## rename temporary file replacing old file
-        xbmcvfs.copy(tempfile, grabber_cron)
-        xbmcvfs.delete(tempfile)
-        f.close()
+    ## Find the lowest Integer for next download
+    next_download = min([int(daily_1), int(daily_2), int(daily_3)])
 
+    ## Write new setting next_download
+    with open(grabber_cron, 'r') as f:
+        data = json.load(f)
+        data['next_download'] = str(int(next_download))
+
+    with open(grabber_cron_tmp, 'w') as f:
+        json.dump(data, f, indent=4)
+    ## rename temporary file replacing old file
+    xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
+    xbmcvfs.delete(grabber_cron_tmp)
+    f.close()
 
 def check_startup():
     #Create Tempfolder if not exist
@@ -339,44 +326,32 @@ def check_startup():
             log(loc(32378), xbmc.LOGERROR)
             return False
 
-    ## deal with setting 'last_download/next_download' which not exists at first time
+    ## create Crontab File which not exists at first time
     if (not os.path.isfile(grabber_cron)):
         with open(grabber_cron, 'w') as downloads:
             downloads.write(json.dumps({}))
             downloads.close()
 
-    # Calculate Next_Download Setting
-    calc_next_download = datetime.today()
-    calc_next_download = datetime(calc_next_download.year, calc_next_download.month, day=calc_next_download.day , hour=timeswitch, minute=0, second=0, microsecond=0)
-    calc_next_download += timedelta(days=1)
+        # Write Setting last_download and next_download which not exist first Time
+        with open(grabber_cron, 'r') as f:
+            data = json.load(f)
+            if 'last_download' not in data:
+                data['last_download'] = str(int(time.time()))
+            ## Push next_download to tomorrow (prevent instant grabbing if auto_download = true)
+            if 'next_download' not in data:
+                data['next_download'] = str(int(time.time() + int(86400)))
 
-    # Deal with a windows strftime bug (Win don't know '%s' formatting)
-    try:
-        next_download = int(calc_next_download.strftime("%s"))
-    except ValueError:
-        next_download = int(time.mktime(calc_next_download.timetuple()))
-
-    with open(grabber_cron, 'r') as f:
-        data = json.load(f)
-        if 'last_download' not in data:
-            data['last_download'] = str(int(time.time()))
-            log('creating setting last_download')
-        if 'next_download' not in data:
-            data['next_download'] = next_download
-        tempfile = os.path.join(temppath, 'filename')
-        with open(tempfile, 'w') as f:
-            json.dump(data, f, indent=4)
-        ## rename temporary file replacing old file
-        xbmcvfs.copy(tempfile, grabber_cron)
-        xbmcvfs.delete(tempfile)
-        f.close()
+            with open(grabber_cron_tmp, 'w') as f:
+                json.dump(data, f, indent=4)
+            ## rename temporary file replacing old file
+            xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
+            xbmcvfs.delete(grabber_cron_tmp)
+            f.close()
 
     ## Clean Tempfiles
-    for file in os.listdir(temppath): xbmcvfs.delete(os.path.join(temppath, file))
+    for file in os.listdir(temppath):
+        xbmcvfs.delete(os.path.join(temppath, file))
     return True
-
-
-# Addon starts at this point
 
 if check_startup():
     try:
@@ -391,7 +366,9 @@ if check_startup():
             ret = dialog.yesno(loc(32119), loc(32408))
             if ret:
                 write_to_sock()
-
     except IndexError:
+        pass
+
+    while not Monitor.waitForAbort(60):
         if auto_download:
             worker()

@@ -247,18 +247,6 @@ msgstr "Aktiviere Provider Horizon (GB)"
 # Values 32300 - 32349            #
 ###################################
 
-msgctxt "#32300"
-msgid "24 Hours"
-msgstr "24 Stunden"
-
-msgctxt "#32301"
-msgid "36 Hours"
-msgstr "36 Stunden"
-
-msgctxt "#32302"
-msgid "48 Hours"
-msgstr "48 Stunden"
-
 #####################################
 # Notifications / LOG 32350 - 32399 #
 #####################################

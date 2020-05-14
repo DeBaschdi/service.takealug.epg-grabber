@@ -247,18 +247,6 @@ msgstr ""
 # Values 32300 - 32349              #
 #####################################
 
-msgctxt "#32300"
-msgid "24 Hours"
-msgstr ""
-
-msgctxt "#32301"
-msgid "36 Hours"
-msgstr ""
-
-msgctxt "#32302"
-msgid "48 Hours"
-msgstr ""
-
 #####################################
 # Notifications / LOG 32350 - 32399 #
 #####################################
