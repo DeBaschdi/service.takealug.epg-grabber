@@ -101,6 +101,10 @@ msgctxt "#32122"
 msgid "Number of concurrent downloads (threads)"
 msgstr ""
 
+msgctxt "#32123"
+msgid "Enable Multithreading (No Adnroid)"
+msgstr ""
+
 ## Provider Settings ## 32130 - 32299
 
 # Basics 32130 -32139

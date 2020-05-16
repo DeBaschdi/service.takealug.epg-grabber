@@ -9,7 +9,6 @@ import sys
 import requests.cookies
 import requests
 import requests.adapters
-from multiprocessing import Process
 import time
 from datetime import timedelta
 from datetime import datetime
@@ -71,6 +70,11 @@ addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
+
+## Enable Multithread
+enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
+if enable_multithread:
+    from multiprocessing import Process
 
 ## MAPPING Variables Thx @ sunsettrack4
 hzn_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/hzn_genres.json'
@@ -249,7 +253,7 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
     with open(hzn_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
-    if filesplit.split_chlist_selected(thread_temppath, hzn_chlist_selected, splitname, download_threads):
+    if filesplit.split_chlist_selected(thread_temppath, hzn_chlist_selected, splitname, download_threads, enable_multithread):
         multi = True
         needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
         items_to_download = str(len(selected_list['channellist']))

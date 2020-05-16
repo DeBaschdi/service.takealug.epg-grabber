@@ -4,8 +4,7 @@ import xbmcaddon
 import xbmcvfs
 import xbmcgui
 import time
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime#
 import os
 import json
 import re
@@ -45,6 +44,7 @@ enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() 
 use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' else False
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 download_threads = int(ADDON.getSetting('download_threads'))
+enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
 
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False

@@ -4,12 +4,16 @@ import json
 from copy import deepcopy
 import xbmcvfs
 
-def split_chlist_selected(thread_temppath, chlist_selected, splitname, download_threads):
+
+def split_chlist_selected(thread_temppath, chlist_selected, splitname, download_threads, enable_multithread):
     #Create Tempfolder if not exist
     if not os.path.exists(thread_temppath):
         os.makedirs(thread_temppath)
 
     if download_threads == 1:
+        return False
+
+    if not enable_multithread:
         return False
 
     try:

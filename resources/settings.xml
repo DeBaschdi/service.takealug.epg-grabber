@@ -122,7 +122,9 @@
         <setting id="timeswitch_3" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-3,true)" /> <!-- Grab EPG Daily at 3-->
         <setting id="storage_path" type="folder" label="32116" default="choose" />
         <setting id="enable_rating_mapper" type="bool" label="32118" default="true" /><!-- Rating Mapper -->
-        <setting id="download_threads" type="select" label="32122" default="2" values="1|2|4|6|8|10|12|14|16" /> <!-- Number of concurrent downloads (threads) -->
+        <setting label="Multithread" type="lsep" /> <!-- Tvheadend -->
+        <setting id="enable_multithread" type="bool" label="32123" default="false" /><!-- Enable Multithread -->
+        <setting id="download_threads" type="select" label="32122" default="2" values="1|2|4|6|8|10|12|14|16" enable="eq(-1,true)" /> <!-- Number of concurrent downloads (threads) -->
         <setting label="32119" type="lsep" /> <!-- Tvheadend -->
         <setting id="use_local_sock" type="bool" label="32120" default="false" /><!-- Tvheadend Sock -->
         <setting id="tvh_local_sock" type="file" label="32121" default="" visible="eq(-1,true)"/>

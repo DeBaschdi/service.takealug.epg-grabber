@@ -10,7 +10,6 @@ import requests.adapters
 import requests.cookies
 import requests
 import re
-from multiprocessing import Process
 from datetime import datetime
 from datetime import timedelta
 from resources.lib import xml_structure
@@ -29,6 +28,11 @@ loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 provider_temppath = os.path.join(temppath, "swcCH")
+
+## Enable Multithread
+enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
+if enable_multithread:
+    from multiprocessing import Process
 
 ## MAPPING Variables Thx @ sunsettrack4
 swcCH_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/swc_genres.json'
@@ -208,7 +212,7 @@ def download_multithread(thread_temppath, download_threads):
     with open(swcCH_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
-    if filesplit.split_chlist_selected(thread_temppath, swcCH_chlist_selected, splitname, download_threads):
+    if filesplit.split_chlist_selected(thread_temppath, swcCH_chlist_selected, splitname, download_threads, enable_multithread):
         multi = True
         needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
         items_to_download = str(len(selected_list['channellist']))
