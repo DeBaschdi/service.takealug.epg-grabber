@@ -7,13 +7,16 @@ import json
 import os
 import sys
 import requests.cookies
+import requests.adapters
 import requests
 import re
+from multiprocessing import Process
 from datetime import datetime
 from datetime import timedelta
 from resources.lib import xml_structure
 from resources.lib import channel_selector
 from resources.lib import mapper
+from resources.lib import filesplit
 
 provider = 'TV SPIELFILM (DE)'
 lang = 'de'
@@ -187,22 +190,71 @@ def check_selected_list():
     else:
         return False
 
-def download_broadcastfiles():
+def download_multithread(thread_temppath, download_threads):
+    list = os.path.join(provider_temppath, 'list.txt')
+    splitname = os.path.join(thread_temppath, 'chlist_tvsDE_selected')
+
     with open(tvsDE_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
-    items_to_download = str(len(selected_list['channellist']))
-    items = 0
-    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
-    pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
+    if filesplit.split_chlist_selected(thread_temppath, tvsDE_chlist_selected, splitname, download_threads):
+        multi = True
+        needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        log('{} Multithread({}) Mode'.format(provider, needed_threads), xbmc.LOGNOTICE)
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
+
+        jobs = []
+        for thread in range(0, int(needed_threads)):
+            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, ))
+            jobs.append(p)
+            p.start()
+        for j in jobs:
+            while j.is_alive():
+                xbmc.sleep(500)
+                try:
+                    last_line = ''
+                    with open(list, 'r') as f:
+                        last_line = f.readlines()[-1]
+                    f.close()
+                except:
+                    pass
+                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+                percent_completed = int(100) * int(items) / int(items_to_download)
+                pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            j.join()
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
+        for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
+
+    else:
+        multi = False
+        log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
+        download_thread(tvsDE_chlist_selected, multi, list)
+
+def download_thread(tvsDE_chlist_selected, multi, list):
+    requests.adapters.DEFAULT_RETRIES = 5
+
+    with open(tvsDE_chlist_selected, 'r') as s:
+        selected_list = json.load(s)
+
+    if not multi:
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
 
     for user_item in selected_list['channellist']:
-        items += 1
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-        percent_completed = int(100) * int(items) / int(items_to_download)
+        if not multi:
+            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
 
         ## Merge all selected Days in one Json file
@@ -210,6 +262,12 @@ def download_broadcastfiles():
         with open(broadcast_files, 'w') as playbill:
             playbill.write(json.dumps({"broadcasts": []}))
             playbill.close()
+
+        ## Create a List with downloaded channels
+        last_channel_name = '{}\n'.format(channel_name)
+        with open(list, 'a') as f:
+            f.write(last_channel_name)
+        f.close()
 
         ## open empty broadcastfile
         with open(broadcast_files) as playbill:
@@ -222,17 +280,17 @@ def download_broadcastfiles():
                 day_to_grab = day_to_start.strftime("%Y-%m-%d")
                 day_to_start += timedelta(days=1)
                 tvs_data_url = 'https://live.tvspielfilm.de/static/broadcast/list/{}/{}'.format(contentID, day_to_grab)
-                tvs_data = requests.get(tvs_data_url, headers=tvsDE_header)
-                tvs_data.raise_for_status()
-                response = tvs_data.json()
-                temp.append(response)
+                response = requests.get(tvs_data_url, headers=tvsDE_header)
+                response.raise_for_status()
+                tvs_data = response.json()
+                temp.append(tvs_data)
 
         with open(broadcast_files, 'w') as playbill:
             json.dump(data, playbill, indent=4)
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
-        if str(percent_completed) == str(100):
-            log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-    pDialog.close()
+
+    if not multi:
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
 
 
 def create_xml_channels():
@@ -275,9 +333,11 @@ def create_xml_channels():
     pDialog.close()
 
 
-def create_xml_broadcast(enable_rating_mapper):
-    download_broadcastfiles()
+def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads):
+
+    download_multithread(thread_temppath, download_threads)
     log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
+
     if genre_format == 'eit':
         ## Save tvsDE_genres.json to Disk
         tvsDE_genres_response = requests.get(tvsDE_genres_url).json()
@@ -419,11 +479,9 @@ def create_xml_broadcast(enable_rating_mapper):
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
     log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
-    xbmc.sleep(4000)
 
     if (os.path.isfile(tvsDE_channels_warnings) or os.path.isfile(tvsDE_genres_warnings)):
         notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
-        xbmc.sleep(3000)
 
     ## Delete old Tempfiles, not needed any more
     for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))

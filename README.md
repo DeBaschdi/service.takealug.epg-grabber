@@ -5,7 +5,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
 
 ## Features
 ```
-    -High Speed Download + XML Creation
+    -High Speed Download + XML Creation (Multithreading Support)
     -Channel Selector
     -Enable / Disable EIT Genre Format
     -Enable / Disable Rytec Channel Format

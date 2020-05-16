@@ -7,12 +7,15 @@ import json
 import os
 import sys
 import requests.cookies
+import requests.adapters
 import requests
+from multiprocessing import Process
 from datetime import datetime
 from datetime import timedelta
 from resources.lib import xml_structure
 from resources.lib import channel_selector
 from resources.lib import mapper
+from resources.lib import filesplit
 
 provider = 'MAGENTA TV (DE)'
 lang = 'de'
@@ -221,9 +224,56 @@ def check_selected_list():
     else:
         return False
 
-def download_broadcastfiles():
+def download_multithread(thread_temppath, download_threads):
+    list = os.path.join(provider_temppath, 'list.txt')
+    splitname = os.path.join(thread_temppath, 'chlist_magentaDE_selected')
+
+    with open(magentaDE_chlist_selected, 'r') as s:
+        selected_list = json.load(s)
+
+    if filesplit.split_chlist_selected(thread_temppath, magentaDE_chlist_selected, splitname, download_threads):
+        multi = True
+        needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        log('{} Multithread({}) Mode'.format(provider, needed_threads), xbmc.LOGNOTICE)
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
+
+        jobs = []
+        for thread in range(0, int(needed_threads)):
+            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, ))
+            jobs.append(p)
+            p.start()
+        for j in jobs:
+            while j.is_alive():
+                xbmc.sleep(500)
+                try:
+                    last_line = ''
+                    with open(list, 'r') as f:
+                        last_line = f.readlines()[-1]
+                    f.close()
+                except:
+                    pass
+                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+                percent_completed = int(100) * int(items) / int(items_to_download)
+                pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            j.join()
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
+        for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
+
+    else:
+        multi = False
+        log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
+        download_thread(magentaDE_chlist_selected, multi, list)
+
+def download_thread(chlist_selected, multi, list):
+    requests.adapters.DEFAULT_RETRIES = 5
     magentaDE_session()
     session = requests.Session()
+
     ## Load Cookies from Disk
     with open(magentaDE_session_cookie, 'r') as f:
         session.cookies = requests.utils.cookiejar_from_dict(json.load(f))
@@ -233,29 +283,35 @@ def download_broadcastfiles():
     with open(magentaDE_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
-    items_to_download = str(len(selected_list['channellist']))
-    items = 0
-    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
-    pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
+    if not multi:
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
 
     for user_item in selected_list['channellist']:
-        items += 1
         contentID = user_item['contentId']
         channel_name = user_item['name']
         magentaDE_data = {'channelid': contentID, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime, 'begintime': starttime}
-        magenta_playbil_url = session.post(magentaDE_data_url, data=json.dumps(magentaDE_data), headers=magentaDE_header)
-        magenta_playbil_url.raise_for_status()
-        response = magenta_playbil_url.json()
-        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-        percent_completed = int(100) * int(items) / int(items_to_download)
+        response = session.post(magentaDE_data_url, data=json.dumps(magentaDE_data), headers=magentaDE_header)
+        response.raise_for_status()
+        tkm_data = response.json()
+        if not multi:
+            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
-            json.dump(response, playbill)
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
-        if str(percent_completed) == str(100):
-            log('{} {}'.format(provider,loc(32363)), xbmc.LOGNOTICE)
-    pDialog.close()
+            json.dump(tkm_data, playbill)
+        ## Create a List with downloaded channels
+        last_channel_name = '{}\n'.format(channel_name)
+        with open(list, 'a') as f:
+            f.write(last_channel_name)
+        f.close()
+    if not multi:
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
 
 
 def create_xml_channels():
@@ -298,9 +354,11 @@ def create_xml_channels():
     pDialog.close()
 
 
-def create_xml_broadcast(enable_rating_mapper):
-    download_broadcastfiles()
-    log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
+def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads):
+
+    download_multithread(thread_temppath, download_threads)
+    log('{} {}'.format(provider, loc(32365)), xbmc.LOGNOTICE)
+
     if genre_format == 'eit':
         ## Save tkm_genres.json to Disk
         tkm_genres_response = requests.get(tkm_genres_url).json()
@@ -314,7 +372,7 @@ def create_xml_broadcast(enable_rating_mapper):
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32503),provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32503), provider), '{} Prozent verbleibend'.format('100'))
 
     ## Create XML Broadcast Provider information
     xml_structure.xml_broadcast_start(provider)
@@ -326,9 +384,9 @@ def create_xml_broadcast(enable_rating_mapper):
         contentID = user_item['contentId']
         channel_name = user_item['name']
         channel_id = channel_name
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32503), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         if str(percent_completed) == str(100):
-            log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32366)), xbmc.LOGNOTICE)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'r') as b:

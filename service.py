@@ -33,6 +33,7 @@ addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
+thread_temppath = os.path.join(temppath, "multithread")
 
 ## Read Global Settings
 storage_path = ADDON.getSetting('storage_path')
@@ -43,6 +44,7 @@ timeswitch_3 = int(ADDON.getSetting('timeswitch_3'))
 enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() == 'TRUE' else False
 use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' else False
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
+download_threads = int(ADDON.getSetting('download_threads'))
 
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
@@ -86,11 +88,7 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 
 def copy_guide_to_destination():
     done = xbmcvfs.copy(guide_temp, guide_dest)
-    if done :
-        xbmc.sleep(3000)
-        notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
-        log(loc(32350), xbmc.LOGNOTICE)
-
+    if done:
         ## Write new setting last_download
         with open(grabber_cron, 'r') as f:
             data = json.load(f)
@@ -102,6 +100,9 @@ def copy_guide_to_destination():
         xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
         xbmcvfs.delete(grabber_cron_tmp)
         f.close()
+        xbmc.sleep(3000)
+        notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
+        log(loc(32350), xbmc.LOGNOTICE)
 
     else:
         notify(addon_name, loc(32351), icon=xbmcgui.NOTIFICATION_ERROR)
@@ -178,33 +179,33 @@ def run_grabber():
 
     ## Create XML Broadcast
     if enable_grabber_magentaDE:
-        magenta_DE.create_xml_broadcast(enable_rating_mapper)
+        magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_tvsDE:
-        tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper)
+        tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_swcCH:
-        swisscom_CH.create_xml_broadcast(enable_rating_mapper)
+        swisscom_CH.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznDE:
-        horizon.create_xml_broadcast('de', enable_rating_mapper)
+        horizon.create_xml_broadcast('de', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznAT:
-        horizon.create_xml_broadcast('at', enable_rating_mapper)
+        horizon.create_xml_broadcast('at', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznCH:
-        horizon.create_xml_broadcast('ch', enable_rating_mapper)
+        horizon.create_xml_broadcast('ch', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznNL:
-        horizon.create_xml_broadcast('nl', enable_rating_mapper)
+        horizon.create_xml_broadcast('nl', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznPL:
-        horizon.create_xml_broadcast('pl', enable_rating_mapper)
+        horizon.create_xml_broadcast('pl', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznIE:
-        horizon.create_xml_broadcast('ie', enable_rating_mapper)
+        horizon.create_xml_broadcast('ie', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznGB:
-        horizon.create_xml_broadcast('gb', enable_rating_mapper)
+        horizon.create_xml_broadcast('gb', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznSK:
-        horizon.create_xml_broadcast('sk', enable_rating_mapper)
+        horizon.create_xml_broadcast('sk', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznCZ:
-        horizon.create_xml_broadcast('cz', enable_rating_mapper)
+        horizon.create_xml_broadcast('cz', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznHU:
-        horizon.create_xml_broadcast('hu', enable_rating_mapper)
+        horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznRO:
-        horizon.create_xml_broadcast('ro', enable_rating_mapper)
+        horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
 
     ## Finish XML
     xml_structure.xml_end()
@@ -309,6 +310,9 @@ def check_startup():
     #Create Tempfolder if not exist
     if not os.path.exists(temppath):
         os.makedirs(temppath)
+    if not os.path.exists(thread_temppath):
+        os.makedirs(thread_temppath)
+
     if storage_path == 'choose':
         notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
         log(loc(32359), xbmc.LOGERROR)

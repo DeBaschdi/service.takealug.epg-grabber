@@ -97,6 +97,10 @@ msgctxt "#32121"
 msgid "Choose xmltv.sock File"
 msgstr "Wähle das xmltv.sock File aus"
 
+msgctxt "#32122"
+msgid "Number of concurrent downloads (threads)"
+msgstr "Anzahl der gleichzeitigen Downloads (Threads)"
+
 ## Provider Settings ## 32130 - 32299
 
 # Basics 32130 -32139

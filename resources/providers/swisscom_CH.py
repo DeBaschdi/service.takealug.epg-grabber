@@ -6,17 +6,21 @@ import xbmcvfs
 import json
 import os
 import sys
+import requests.adapters
 import requests.cookies
 import requests
 import re
+from multiprocessing import Process
 from datetime import datetime
 from datetime import timedelta
 from resources.lib import xml_structure
 from resources.lib import channel_selector
 from resources.lib import mapper
+from resources.lib import filesplit
 
 provider = 'SWISSCOM (CH)'
 lang = 'ch'
+
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -38,7 +42,7 @@ swcCH_genres_warnings = os.path.join(temppath, 'swcCH_genres_warnings.txt')
 swcCH_channels_warnings_tmp = os.path.join(provider_temppath, 'swcCH_channels_warnings.txt')
 swcCH_channels_warnings = os.path.join(temppath, 'swcCH_channels_warnings.txt')
 
-## Read Magenta DE Settings
+## Read Swisscom (CH) Settings
 days_to_grab = int(ADDON.getSetting('swcCH_days_to_grab'))
 episode_format = ADDON.getSetting('swcCH_episode_format')
 channel_format = ADDON.getSetting('swcCH_channel_format')
@@ -77,7 +81,6 @@ def get_epgLength():
 swcCH_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_swcCH_provider_tmp.json')
 swcCH_chlist_provider = os.path.join(provider_temppath, 'chlist_swcCH_provider.json')
 swcCH_chlist_selected = os.path.join(datapath, 'chlist_swcCH_selected.json')
-
 
 swcCH_header = {'Host': 'services.sg1.etvp01.sctv.ch',
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
@@ -198,36 +201,87 @@ def check_selected_list():
     else:
         return False
 
-def download_broadcastfiles():
-    starttime, endtime = get_epgLength()
+def download_multithread(thread_temppath, download_threads):
+    list = os.path.join(provider_temppath, 'list.txt')
+    splitname = os.path.join(thread_temppath, 'chlist_swcCH_selected')
 
     with open(swcCH_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
-    items_to_download = str(len(selected_list['channellist']))
-    items = 0
-    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
-    pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
+    if filesplit.split_chlist_selected(thread_temppath, swcCH_chlist_selected, splitname, download_threads):
+        multi = True
+        needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        log('{} Multithread({}) Mode'.format(provider, needed_threads), xbmc.LOGNOTICE)
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
+
+        jobs = []
+        for thread in range(0, int(needed_threads)):
+            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, ))
+            jobs.append(p)
+            p.start()
+        for j in jobs:
+            while j.is_alive():
+                xbmc.sleep(500)
+                try:
+                    last_line = ''
+                    with open(list, 'r') as f:
+                        last_line = f.readlines()[-1]
+                    f.close()
+                except:
+                    pass
+                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+                percent_completed = int(100) * int(items) / int(items_to_download)
+                pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            j.join()
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
+        for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
+
+    else:
+        multi = False
+        log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
+        download_thread(swcCH_chlist_selected, multi, list)
+
+def download_thread(chlist_selected, multi, list):
+    requests.adapters.DEFAULT_RETRIES = 5
+    starttime, endtime = get_epgLength()
+
+    with open(chlist_selected, 'r') as s:
+        selected_list = json.load(s)
+
+    if not multi:
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
 
     for user_item in selected_list['channellist']:
-        items += 1
-        contentID = user_item['contentId']
         channel_name = user_item['name']
-        hzn_data_url = 'https://services.sg1.etvp01.sctv.ch/catalog/tv/channels/list/end={};ids={};level=normal;start={}'.format(endtime, contentID, starttime)
-        hzn_data = requests.get(hzn_data_url, headers=swcCH_header)
-        hzn_data.raise_for_status()
-        response = hzn_data.json()
-        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-        percent_completed = int(100) * int(items) / int(items_to_download)
+        if not multi:
+            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+        contentID = user_item['contentId']
+        swc_data_url = 'https://services.sg1.etvp01.sctv.ch/catalog/tv/channels/list/end={};ids={};level=normal;start={}'.format(endtime, contentID, starttime)
+        response = requests.get(swc_data_url, headers=swcCH_header)
+        response.raise_for_status()
+        swc_data = response.json()
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
-            json.dump(response, playbill)
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
-        if str(percent_completed) == str(100):
-            log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-    pDialog.close()
-
+            json.dump(swc_data, playbill)
+        ## Create a List with downloaded channels
+        last_channel_name = '{}\n'.format(channel_name)
+        with open(list, 'a') as f:
+            f.write(last_channel_name)
+        f.close()
+    if not multi:
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
 
 def create_xml_channels():
     log('{} {}'.format(provider,loc(32362)), xbmc.LOGNOTICE)
@@ -244,7 +298,7 @@ def create_xml_channels():
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32502),provider), '{} {}'.format('100',loc(32501)))
+    pDialog.create('{} {} '.format(loc(32502), provider), '{} {}'.format('100', loc(32501)))
 
     ## Create XML Channels Provider information
     xml_structure.xml_channels_start(provider)
@@ -256,7 +310,7 @@ def create_xml_channels():
         channel_name = user_item['name']
         channel_icon = user_item['pictures'][0]['href']
         channel_id = channel_name
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32502), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         if str(percent_completed) == str(100):
             log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
 
@@ -268,9 +322,11 @@ def create_xml_channels():
         xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
-def create_xml_broadcast(enable_rating_mapper):
-    download_broadcastfiles()
+def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads):
+
+    download_multithread(thread_temppath, download_threads)
     log('{} {}'.format(provider, loc(32365)), xbmc.LOGNOTICE)
+
     if genre_format == 'eit':
         ## Save hzn_genres.json to Disk
         genres_file = requests.get(swcCH_genres_url).json()
@@ -443,11 +499,9 @@ def create_xml_broadcast(enable_rating_mapper):
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
     log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
-    xbmc.sleep(4000)
 
     if (os.path.isfile(swcCH_channels_warnings) or os.path.isfile(swcCH_genres_warnings)):
         notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
-        xbmc.sleep(3000)
 
     ## Delete old Tempfiles, not needed any more
     for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))

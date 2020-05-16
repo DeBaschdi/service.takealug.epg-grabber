@@ -8,12 +8,15 @@ import os
 import sys
 import requests.cookies
 import requests
+import requests.adapters
+from multiprocessing import Process
 import time
 from datetime import timedelta
 from datetime import datetime
 from resources.lib import xml_structure
 from resources.lib import channel_selector
 from resources.lib import mapper
+from resources.lib import filesplit
 
 
 def get_hzndict(grabber):
@@ -239,35 +242,86 @@ def check_selected_list(hzn_chlist_selected):
     else:
         return False
 
-def download_broadcastfiles(grabber,hzn_chlist_selected,provider,provider_temppath,hzndict,days_to_grab):
-    starttime, endtime = get_epgLength(days_to_grab)
+def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_selected, provider, provider_temppath, hzndict, days_to_grab):
+    list = os.path.join(provider_temppath, 'list.txt')
+    splitname = os.path.join(thread_temppath, 'chlist_hznXX_selected')
 
     with open(hzn_chlist_selected, 'r') as s:
         selected_list = json.load(s)
 
-    items_to_download = str(len(selected_list['channellist']))
-    items = 0
-    log('{} {} {} '.format(provider,items_to_download,loc(32361)), xbmc.LOGNOTICE)
-    pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32500),provider), '{} {}'.format('100',loc(32501)))
+    if filesplit.split_chlist_selected(thread_temppath, hzn_chlist_selected, splitname, download_threads):
+        multi = True
+        needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        log('{} Multithread({}) Mode'.format(provider, needed_threads), xbmc.LOGNOTICE)
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
+
+        jobs = []
+        for thread in range(0, int(needed_threads)):
+            p = Process(target=download_thread, args=(grabber, '{}_{}.json'.format(splitname, int(thread)), multi, list, provider, provider_temppath, hzndict, days_to_grab, ))
+            jobs.append(p)
+            p.start()
+        for j in jobs:
+            while j.is_alive():
+                xbmc.sleep(500)
+                try:
+                    last_line = ''
+                    with open(list, 'r') as f:
+                        last_line = f.readlines()[-1]
+                    f.close()
+                except:
+                    pass
+                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+                percent_completed = int(100) * int(items) / int(items_to_download)
+                pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            j.join()
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
+        for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
+    else:
+        multi = False
+        log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
+        download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab)
+
+def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab):
+    starttime, endtime = get_epgLength(days_to_grab)
+    requests.adapters.DEFAULT_RETRIES = 5
+
+    with open(hzn_chlist_selected, 'r') as s:
+        selected_list = json.load(s)
+
+    if not multi:
+        items_to_download = str(len(selected_list['channellist']))
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        pDialog = xbmcgui.DialogProgressBG()
+        pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
 
     for user_item in selected_list['channellist']:
-        items += 1
         contentID = user_item['contentId']
         channel_name = user_item['name']
         hzn_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][12],contentID,starttime,endtime)
-        hzn_data = requests.get(hzn_data_url, headers=hzn_header)
-        hzn_data.raise_for_status()
-        response = hzn_data.json()
-        percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-        percent_completed = int(100) * int(items) / int(items_to_download)
+        response = requests.get(hzn_data_url, headers=hzn_header)
+        response.raise_for_status()
+        hzn_data = response.json()
+        if not multi:
+            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
-            json.dump(response, playbill)
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32500),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
-        if str(percent_completed) == str(100):
-            log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-    pDialog.close()
+            json.dump(hzn_data, playbill)
+        ## Create a List with downloaded channels
+        last_channel_name = '{}\n'.format(channel_name)
+        with open(list, 'a') as f:
+            f.write(last_channel_name)
+        f.close()
+    if not multi:
+        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+        pDialog.close()
 
 def create_xml_channels(grabber):
     provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
@@ -310,11 +364,13 @@ def create_xml_channels(grabber):
     pDialog.close()
 
 
-def create_xml_broadcast(grabber, enable_rating_mapper):
+def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, download_threads):
     provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
     hzndict = get_hzndict(grabber)
-    download_broadcastfiles(grabber, hzn_chlist_selected, provider, provider_temppath, hzndict, days_to_grab)
+
+    download_multithread(thread_temppath, download_threads,grabber, hzn_chlist_selected, provider, provider_temppath, hzndict, days_to_grab)
     log('{} {}'.format(provider,loc(32365)), xbmc.LOGNOTICE)
+
     if genre_format == 'eit':
         ## Save hzn_genres.json to Disk
         genres_file = requests.get(hzn_genres_url).json()
@@ -475,11 +531,9 @@ def create_xml_broadcast(grabber, enable_rating_mapper):
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
     log('{} {} {}'.format(loc(32370),provider,loc(32371), xbmc.LOGNOTICE))
-    xbmc.sleep(4000)
 
     if (os.path.isfile(hzn_channels_warnings) or os.path.isfile(hzn_genres_warnings)):
         notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)
-        xbmc.sleep(3000)
 
     ## Delete old Tempfiles, not needed any more
     for file in os.listdir(provider_temppath): xbmcvfs.delete(os.path.join(provider_temppath, file))
