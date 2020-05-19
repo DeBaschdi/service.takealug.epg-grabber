@@ -226,7 +226,7 @@ def download_multithread(thread_temppath, download_threads):
                     f.close()
                 except:
                     pass
-                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
                 percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
                 percent_completed = int(100) * int(items) / int(items_to_download)
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
@@ -255,11 +255,6 @@ def download_thread(tvsDE_chlist_selected, multi, list):
     for user_item in selected_list['channellist']:
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        if not multi:
-            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
-            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-            percent_completed = int(100) * int(items) / int(items_to_download)
-            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
 
         ## Merge all selected Days in one Json file
@@ -293,9 +288,14 @@ def download_thread(tvsDE_chlist_selected, multi, list):
         with open(broadcast_files, 'w') as playbill:
             json.dump(data, playbill, indent=4)
 
-    if not multi:
-        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-        pDialog.close()
+        if not multi:
+            items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            if int(items) == int(items_to_download):
+                log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+    pDialog.close()
 
 
 def create_xml_channels():

@@ -208,6 +208,7 @@ def check_selected_list():
 def download_multithread(thread_temppath, download_threads):
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_swcCH_selected')
+    starttime, endtime = get_epgLength()
 
     with open(swcCH_chlist_selected, 'r') as s:
         selected_list = json.load(s)
@@ -223,7 +224,7 @@ def download_multithread(thread_temppath, download_threads):
 
         jobs = []
         for thread in range(0, int(needed_threads)):
-            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, ))
+            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, starttime, endtime, ))
             jobs.append(p)
             p.start()
         for j in jobs:
@@ -236,7 +237,7 @@ def download_multithread(thread_temppath, download_threads):
                     f.close()
                 except:
                     pass
-                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
                 percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
                 percent_completed = int(100) * int(items) / int(items_to_download)
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
@@ -248,11 +249,10 @@ def download_multithread(thread_temppath, download_threads):
     else:
         multi = False
         log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
-        download_thread(swcCH_chlist_selected, multi, list)
+        download_thread(swcCH_chlist_selected, multi, list, starttime, endtime)
 
-def download_thread(chlist_selected, multi, list):
+def download_thread(chlist_selected, multi, list, starttime, endtime):
     requests.adapters.DEFAULT_RETRIES = 5
-    starttime, endtime = get_epgLength()
 
     with open(chlist_selected, 'r') as s:
         selected_list = json.load(s)
@@ -265,11 +265,6 @@ def download_thread(chlist_selected, multi, list):
 
     for user_item in selected_list['channellist']:
         channel_name = user_item['name']
-        if not multi:
-            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
-            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-            percent_completed = int(100) * int(items) / int(items_to_download)
-            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         contentID = user_item['contentId']
         swc_data_url = 'https://services.sg1.etvp01.sctv.ch/catalog/tv/channels/list/end={};ids={};level=normal;start={}'.format(endtime, contentID, starttime)
         response = requests.get(swc_data_url, headers=swcCH_header)
@@ -278,14 +273,21 @@ def download_thread(chlist_selected, multi, list):
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
             json.dump(swc_data, playbill)
+
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a') as f:
             f.write(last_channel_name)
         f.close()
-    if not multi:
-        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-        pDialog.close()
+
+        if not multi:
+            items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            if int(items) == int(items_to_download):
+                log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+    pDialog.close()
 
 def create_xml_channels():
     log('{} {}'.format(provider,loc(32362)), xbmc.LOGNOTICE)

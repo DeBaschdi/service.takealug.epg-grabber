@@ -102,8 +102,8 @@ msgid "Number of concurrent downloads (threads)"
 msgstr "Anzahl der gleichzeitigen Downloads (Threads)"
 
 msgctxt "#32123"
-msgid "Enable Multithreading (No Adnroid)"
-msgstr "Aktiviere Multithreading (Kein Android)"
+msgid "Enable Multithreading (Linux Only)"
+msgstr "Aktiviere Multithreading (Nur für Linux)"
 
 
 ## Provider Settings ## 32130 - 32299
@@ -380,6 +380,9 @@ msgctxt "#32380"
 msgid "Write EPG in TVH Socked..."
 msgstr "Schreibe epg in das TVH Socked..."
 
+msgctxt "#32381"
+msgid "Multithreading only works on Linux, please disable it."
+msgstr "Multithreading funktioniert nur unter Linux, bitte deaktiviere es."
 
 #####################################
 # Messages 32400 - 32499            #

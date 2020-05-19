@@ -249,6 +249,7 @@ def check_selected_list(hzn_chlist_selected):
 def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_selected, provider, provider_temppath, hzndict, days_to_grab):
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_hznXX_selected')
+    starttime, endtime = get_epgLength(days_to_grab)
 
     with open(hzn_chlist_selected, 'r') as s:
         selected_list = json.load(s)
@@ -264,7 +265,7 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
 
         jobs = []
         for thread in range(0, int(needed_threads)):
-            p = Process(target=download_thread, args=(grabber, '{}_{}.json'.format(splitname, int(thread)), multi, list, provider, provider_temppath, hzndict, days_to_grab, ))
+            p = Process(target=download_thread, args=(grabber, '{}_{}.json'.format(splitname, int(thread)), multi, list, provider, provider_temppath, hzndict, days_to_grab, starttime, endtime, ))
             jobs.append(p)
             p.start()
         for j in jobs:
@@ -277,21 +278,20 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
                     f.close()
                 except:
                     pass
-                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
                 percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
                 percent_completed = int(100) * int(items) / int(items_to_download)
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+                if int(items) == int(items_to_download):
+                    log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
             j.join()
-        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-        pDialog.close()
+            pDialog.close()
         for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
     else:
         multi = False
-        log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
-        download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab)
+        download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab, starttime, endtime)
 
-def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab):
-    starttime, endtime = get_epgLength(days_to_grab)
+def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab, starttime, endtime):
     requests.adapters.DEFAULT_RETRIES = 5
 
     with open(hzn_chlist_selected, 'r') as s:
@@ -306,26 +306,28 @@ def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provide
     for user_item in selected_list['channellist']:
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        hzn_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][12],contentID,starttime,endtime)
+        hzn_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][12], contentID, starttime, endtime)
         response = requests.get(hzn_data_url, headers=hzn_header)
         response.raise_for_status()
         hzn_data = response.json()
-        if not multi:
-            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
-            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-            percent_completed = int(100) * int(items) / int(items_to_download)
-            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
             json.dump(hzn_data, playbill)
+
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a') as f:
             f.write(last_channel_name)
         f.close()
-    if not multi:
-        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-        pDialog.close()
+
+        if not multi:
+            items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            if int(items) == int(items_to_download):
+                log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+    pDialog.close()
 
 def create_xml_channels(grabber):
     provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)

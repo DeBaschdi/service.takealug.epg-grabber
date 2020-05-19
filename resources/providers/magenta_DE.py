@@ -229,12 +229,12 @@ def check_selected_list():
         return False
 
 def download_multithread(thread_temppath, download_threads):
+    magentaDE_session()
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_magentaDE_selected')
 
     with open(magentaDE_chlist_selected, 'r') as s:
         selected_list = json.load(s)
-
     if filesplit.split_chlist_selected(thread_temppath, magentaDE_chlist_selected, splitname, download_threads, enable_multithread):
         multi = True
         needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
@@ -246,12 +246,12 @@ def download_multithread(thread_temppath, download_threads):
 
         jobs = []
         for thread in range(0, int(needed_threads)):
-            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, ))
+            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list,))
             jobs.append(p)
             p.start()
         for j in jobs:
             while j.is_alive():
-                xbmc.sleep(500)
+                xbmc.sleep(100)
                 try:
                     last_line = ''
                     with open(list, 'r') as f:
@@ -259,7 +259,7 @@ def download_multithread(thread_temppath, download_threads):
                     f.close()
                 except:
                     pass
-                items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
+                items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
                 percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
                 percent_completed = int(100) * int(items) / int(items_to_download)
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
@@ -273,9 +273,8 @@ def download_multithread(thread_temppath, download_threads):
         log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
         download_thread(magentaDE_chlist_selected, multi, list)
 
-def download_thread(chlist_selected, multi, list):
+def download_thread(magentaDE_chlist_selected, multi, list):
     requests.adapters.DEFAULT_RETRIES = 5
-    magentaDE_session()
     session = requests.Session()
 
     ## Load Cookies from Disk
@@ -300,22 +299,24 @@ def download_thread(chlist_selected, multi, list):
         response = session.post(magentaDE_data_url, data=json.dumps(magentaDE_data), headers=magentaDE_header)
         response.raise_for_status()
         tkm_data = response.json()
-        if not multi:
-            items = sum([len(files) for r, d, files in os.walk(provider_temppath)])
-            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
-            percent_completed = int(100) * int(items) / int(items_to_download)
-            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w') as playbill:
             json.dump(tkm_data, playbill)
+
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a') as f:
             f.write(last_channel_name)
         f.close()
-    if not multi:
-        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-        pDialog.close()
+
+        if not multi:
+            items = sum([len(filter(lambda x: x.endswith('_broadcast.json'), os.listdir(provider_temppath)))])
+            percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
+            percent_completed = int(100) * int(items) / int(items_to_download)
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            if int(items) == int(items_to_download):
+                log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+    pDialog.close()
 
 
 def create_xml_channels():

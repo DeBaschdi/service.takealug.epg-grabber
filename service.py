@@ -16,6 +16,7 @@ from resources.providers import tvspielfilm_DE
 from resources.providers import swisscom_CH
 from resources.providers import horizon
 import sys
+import platform
 
 ## Python 3 Compatibility
 if sys.version_info[0] > 2:
@@ -33,6 +34,7 @@ loc = ADDON.getLocalizedString
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 thread_temppath = os.path.join(temppath, "multithread")
+machine = platform.machine()
 
 ## Read Global Settings
 storage_path = ADDON.getSetting('storage_path')
@@ -45,6 +47,7 @@ use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' el
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 download_threads = int(ADDON.getSetting('download_threads'))
 enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
+
 
 ## Get Enabled Grabbers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
@@ -330,6 +333,14 @@ def check_startup():
             log(loc(32378), xbmc.LOGERROR)
             return False
 
+    if enable_multithread:
+        if (machine == 'x86_64' or machine == 'armv7l' or machine == 'armv8l'):
+            return True
+        else:
+            notify(addon_name, loc(32381), icon=xbmcgui.NOTIFICATION_ERROR)
+            log(loc(32381), xbmc.LOGERROR)
+            return False
+
     ## create Crontab File which not exists at first time
     if (not os.path.isfile(grabber_cron)):
         with open(grabber_cron, 'w') as downloads:
@@ -357,22 +368,23 @@ def check_startup():
         xbmcvfs.delete(os.path.join(temppath, file))
     return True
 
-if check_startup():
-    try:
-        dialog = xbmcgui.Dialog()
-        if sys.argv[1] == 'manual_download':
-            ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
-            if ret:
-                manual = True
-                notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
-                run_grabber()
-        if sys.argv[1] == 'write_to_sock':
-            ret = dialog.yesno(loc(32119), loc(32408))
-            if ret:
-                write_to_sock()
-    except IndexError:
-        pass
+if __name__ == '__main__':
+    if check_startup():
+        try:
+            dialog = xbmcgui.Dialog()
+            if sys.argv[1] == 'manual_download':
+                ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
+                if ret:
+                    manual = True
+                    notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
+                    run_grabber()
+            if sys.argv[1] == 'write_to_sock':
+                ret = dialog.yesno(loc(32119), loc(32408))
+                if ret:
+                    write_to_sock()
+        except IndexError:
+            pass
 
-    while not Monitor.waitForAbort(60):
-        if auto_download:
-            worker()
+        while not Monitor.waitForAbort(60):
+            if auto_download:
+                worker()

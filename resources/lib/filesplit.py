@@ -27,7 +27,7 @@ def split_chlist_selected(thread_temppath, chlist_selected, splitname, download_
         default['channellist'] = []
 
         items = len(data['channellist'])
-        files = int(items) / int(download_threads)
+        files = (int(items) + int(download_threads)) / int(download_threads)
         ran = range(items)
         steps = ran[int(files)::int(files)]
 
