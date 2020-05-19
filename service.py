@@ -334,11 +334,7 @@ def check_startup():
             return False
 
     if enable_multithread:
-        if (machine == 'x86_64' or machine == 'armv7l' or machine == 'armv8l'):
-            return True
-        else:
-            notify(addon_name, loc(32381), icon=xbmcgui.NOTIFICATION_ERROR)
-            log(loc(32381), xbmc.LOGERROR)
+        if not (machine == 'x86_64' or not machine == 'armv7l' or not machine == 'armv8l'):
             return False
 
     ## create Crontab File which not exists at first time
