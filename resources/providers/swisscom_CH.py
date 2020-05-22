@@ -241,8 +241,10 @@ def download_multithread(thread_temppath, download_threads):
                 percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
                 percent_completed = int(100) * int(items) / int(items_to_download)
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+                if int(items) == int(items_to_download):
+                    log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+                    break
             j.join()
-        log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
         pDialog.close()
         for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
 
@@ -287,7 +289,9 @@ def download_thread(chlist_selected, multi, list, starttime, endtime):
             pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
             if int(items) == int(items_to_download):
                 log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-    pDialog.close()
+                break
+    if not multi:
+        pDialog.close()
 
 def create_xml_channels():
     log('{} {}'.format(provider,loc(32362)), xbmc.LOGNOTICE)

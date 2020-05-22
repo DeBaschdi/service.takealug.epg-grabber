@@ -284,8 +284,9 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
                 if int(items) == int(items_to_download):
                     log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+                    break
             j.join()
-            pDialog.close()
+        pDialog.close()
         for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
     else:
         multi = False
@@ -327,7 +328,9 @@ def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provide
             pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
             if int(items) == int(items_to_download):
                 log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
-    pDialog.close()
+                break
+    if not multi:
+        pDialog.close()
 
 def create_xml_channels(grabber):
     provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
