@@ -34,6 +34,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
    -TV Spielfilm (DE)
    -Swisscom (CH)
    -Horizon (DE,AT,CH,NL,PL,IE,GB,SK,CZ,HU,RO)
+   -Zattoo + Reseller
 
 ```
 
