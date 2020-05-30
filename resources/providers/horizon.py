@@ -247,6 +247,11 @@ def check_selected_list(hzn_chlist_selected):
         return False
 
 def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_selected, provider, provider_temppath, hzndict, days_to_grab):
+    # delete old broadcast files if exist
+    for f in os.listdir(provider_temppath):
+        if f.endswith('_broadcast.json'):
+            xbmcvfs.delete(os.path.join(provider_temppath, f))
+
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_hznXX_selected')
     starttime, endtime = get_epgLength(days_to_grab)
@@ -371,7 +376,6 @@ def create_xml_channels(grabber):
         ## Create XML Channel Information with provided Variables
         xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
-
 
 def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, download_threads):
     provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
@@ -571,7 +575,7 @@ def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
     if valid is False:
         yn = OSD.yesno(provider, loc(32405))
         if yn:
-            select_channels()
+            select_channels(grabber)
         else:
             xbmcvfs.delete(hzn_chlist_selected)
             exit()

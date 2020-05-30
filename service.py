@@ -15,6 +15,7 @@ from resources.providers import magenta_DE
 from resources.providers import tvspielfilm_DE
 from resources.providers import swisscom_CH
 from resources.providers import horizon
+from resources.providers import zattoo
 import sys
 import platform
 
@@ -50,9 +51,11 @@ enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == '
 
 
 ## Get Enabled Grabbers
+# Divers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
 enable_grabber_tvsDE = True if ADDON.getSetting('enable_grabber_tvsDE').upper() == 'TRUE' else False
 enable_grabber_swcCH = True if ADDON.getSetting('enable_grabber_swcCH').upper() == 'TRUE' else False
+# Horizon
 enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
 enable_grabber_hznAT = True if ADDON.getSetting('enable_grabber_hznAT').upper() == 'TRUE' else False
 enable_grabber_hznCH = True if ADDON.getSetting('enable_grabber_hznCH').upper() == 'TRUE' else False
@@ -64,9 +67,28 @@ enable_grabber_hznSK = True if ADDON.getSetting('enable_grabber_hznSK').upper() 
 enable_grabber_hznCZ = True if ADDON.getSetting('enable_grabber_hznCZ').upper() == 'TRUE' else False
 enable_grabber_hznHU = True if ADDON.getSetting('enable_grabber_hznHU').upper() == 'TRUE' else False
 enable_grabber_hznRO = True if ADDON.getSetting('enable_grabber_hznRO').upper() == 'TRUE' else False
+# Zattoo
+enable_grabber_zttDE = True if ADDON.getSetting('enable_grabber_zttDE').upper() == 'TRUE' else False
+enable_grabber_zttCH = True if ADDON.getSetting('enable_grabber_zttCH').upper() == 'TRUE' else False
+enable_grabber_1und1DE = True if ADDON.getSetting('enable_grabber_1und1DE').upper() == 'TRUE' else False
+enable_grabber_qlCH = True if ADDON.getSetting('enable_grabber_qlCH').upper() == 'TRUE' else False
+enable_grabber_mnetDE = True if ADDON.getSetting('enable_grabber_mnetDE').upper() == 'TRUE' else False
+enable_grabber_walyCH = True if ADDON.getSetting('enable_grabber_walyCH').upper() == 'TRUE' else False
+enable_grabber_mweltAT = True if ADDON.getSetting('enable_grabber_mweltAT').upper() == 'TRUE' else False
+enable_grabber_bbvDE = True if ADDON.getSetting('enable_grabber_bbvDE').upper() == 'TRUE' else False
+enable_grabber_vtxCH = True if ADDON.getSetting('enable_grabber_vtxCH').upper() == 'TRUE' else False
+enable_grabber_myvisCH = True if ADDON.getSetting('enable_grabber_myvisCH').upper() == 'TRUE' else False
+enable_grabber_gvisCH = True if ADDON.getSetting('enable_grabber_gvisCH').upper() == 'TRUE' else False
+enable_grabber_sakCH = True if ADDON.getSetting('enable_grabber_sakCH').upper() == 'TRUE' else False
+enable_grabber_nettvDE = True if ADDON.getSetting('enable_grabber_nettvDE').upper() == 'TRUE' else False
+enable_grabber_eweDE = True if ADDON.getSetting('enable_grabber_eweDE').upper() == 'TRUE' else False
+enable_grabber_qttvCH = True if ADDON.getSetting('enable_grabber_qttvDE').upper() == 'TRUE' else False
+enable_grabber_saltCH = True if ADDON.getSetting('enable_grabber_saltCH').upper() == 'TRUE' else False
+enable_grabber_swbDE = True if ADDON.getSetting('enable_grabber_swbDE').upper() == 'TRUE' else False
+enable_grabber_eirIE = True if ADDON.getSetting('enable_grabber_eirIE').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznGB or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO):
+if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznGB or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -176,6 +198,60 @@ def run_grabber():
     if enable_grabber_hznRO:
         horizon.startup('ro')
         horizon.create_xml_channels('ro')
+    if enable_grabber_zttDE:
+        if zattoo.startup('ztt_de'):
+            zattoo.create_xml_channels('ztt_de')
+    if enable_grabber_zttCH:
+        if zattoo.startup('ztt_ch'):
+            zattoo.create_xml_channels('ztt_ch')
+    if enable_grabber_1und1DE:
+        if zattoo.startup('1und1_de'):
+            zattoo.create_xml_channels('1und1_de')
+    if enable_grabber_qlCH:
+        if zattoo.startup('ql_ch'):
+            zattoo.create_xml_channels('ql_ch')
+    if enable_grabber_mnetDE:
+        if zattoo.startup('mnet_de'):
+            zattoo.create_xml_channels('mnet_de')
+    if enable_grabber_walyCH:
+        if zattoo.startup('walytv_ch'):
+            zattoo.create_xml_channels('walytv_ch')
+    if enable_grabber_mweltAT:
+        if zattoo.startup('meinewelt_at'):
+            zattoo.create_xml_channels('meinewelt_at')
+    if enable_grabber_bbvDE:
+        if zattoo.startup('bbtv_de'):
+            zattoo.create_xml_channels('bbtv_de')
+    if enable_grabber_vtxCH:
+        if zattoo.startup('vtxtv_ch'):
+            zattoo.create_xml_channels('vtxtv_ch')
+    if enable_grabber_myvisCH:
+        if zattoo.startup('myvision_ch'):
+            zattoo.create_xml_channels('myvision_ch')
+    if enable_grabber_gvisCH:
+        if zattoo.startup('glattvision_ch'):
+            zattoo.create_xml_channels('glattvision_ch')
+    if enable_grabber_sakCH:
+        if zattoo.startup('sak_ch'):
+            zattoo.create_xml_channels('sak_ch')
+    if enable_grabber_nettvDE:
+        if zattoo.startup('nettv_de'):
+            zattoo.create_xml_channels('nettv_de')
+    if enable_grabber_eweDE:
+        if zattoo.startup('tvoewe_de'):
+            zattoo.create_xml_channels('tvoewe_de')
+    if enable_grabber_qttvCH:
+        if zattoo.startup('quantum_ch'):
+            zattoo.create_xml_channels('quantum_ch')
+    if enable_grabber_saltCH:
+        if zattoo.startup('salt_ch'):
+            zattoo.create_xml_channels('salt_ch')
+    if enable_grabber_swbDE:
+        if zattoo.startup('tvoswe_de'):
+            zattoo.create_xml_channels('tvoswe_de')
+    if enable_grabber_eirIE:
+        if zattoo.startup('eir_ie'):
+            zattoo.create_xml_channels('eir_ie')
 
     # Check for Channel Dupes
     check_channel_dupes()
@@ -209,6 +285,60 @@ def run_grabber():
         horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
     if enable_grabber_hznRO:
         horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_zttDE:
+        if zattoo.startup('ztt_de'):
+            zattoo.create_xml_broadcast('ztt_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_zttCH:
+        if zattoo.startup('ztt_ch'):
+            zattoo.create_xml_broadcast('ztt_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_1und1DE:
+        if zattoo.startup('1und1_de'):
+            zattoo.create_xml_broadcast('1und1_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_qlCH:
+        if zattoo.startup('ql_ch'):
+            zattoo.create_xml_broadcast('ql_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_mnetDE:
+        if zattoo.startup('mnet_de'):
+            zattoo.create_xml_broadcast('mnet_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_walyCH:
+        if zattoo.startup('walytv_ch'):
+            zattoo.create_xml_broadcast('walytv_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_mweltAT:
+        if zattoo.startup('meinewelt_at'):
+            zattoo.create_xml_broadcast('meinewelt_at', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_bbvDE:
+        if zattoo.startup('bbtv_de'):
+            zattoo.create_xml_broadcast('bbtv_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_vtxCH:
+        if zattoo.startup('vtxtv_ch'):
+            zattoo.create_xml_broadcast('vtxtv_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_myvisCH:
+        if zattoo.startup('myvision_ch'):
+            zattoo.create_xml_broadcast('myvision_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_gvisCH:
+        if zattoo.startup('glattvision_ch'):
+            zattoo.create_xml_broadcast('glattvision_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_sakCH:
+        if zattoo.startup('sak_ch'):
+            zattoo.create_xml_broadcast('sak_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_nettvDE:
+        if zattoo.startup('nettv_de'):
+            zattoo.create_xml_broadcast('nettv_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_eweDE:
+        if zattoo.startup('tvoewe_de'):
+            zattoo.create_xml_broadcast('tvoewe_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_qttvCH:
+        if zattoo.startup('quantum_ch'):
+            zattoo.create_xml_broadcast('quantum_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_saltCH:
+        if zattoo.startup('salt_ch'):
+            zattoo.create_xml_broadcast('salt_ch', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_swbDE:
+        if zattoo.startup('tvoswe_de'):
+            zattoo.create_xml_broadcast('tvoswe_de', enable_rating_mapper, thread_temppath, download_threads)
+    if enable_grabber_eirIE:
+        if zattoo.startup('eir_ie'):
+            zattoo.create_xml_broadcast('eir_ie', enable_rating_mapper, thread_temppath, download_threads)
 
     ## Finish XML
     xml_structure.xml_end()
@@ -228,13 +358,14 @@ def write_to_sock():
                 log('{} {}'.format(loc(32380), tvh_local_sock), xbmc.LOGNOTICE)
                 notify(addon_name, loc(32380), icon=xbmcgui.NOTIFICATION_INFO)
                 sock.connect(tvh_local_sock)
-                sock.send(epg_data)
+                sock.sendall(epg_data)
                 log('{} {}'.format(sock.recv, tvh_local_sock), xbmc.LOGNOTICE)
             except socket.error as e:
                 notify(addon_name, loc(32379), icon=xbmcgui.NOTIFICATION_ERROR)
                 log('{} {}'.format(loc(32379), e), xbmc.LOGERROR)
             finally:
                 sock.close()
+                epg.close()
         else:
             ok = dialog.ok(loc(32119), loc(32409))
             if ok:
@@ -338,7 +469,7 @@ def check_startup():
             return False
 
     ## create Crontab File which not exists at first time
-    if (not os.path.isfile(grabber_cron)):
+    if (not os.path.isfile(grabber_cron) or os.stat(grabber_cron).st_size <= 1):
         with open(grabber_cron, 'w') as downloads:
             downloads.write(json.dumps({}))
             downloads.close()

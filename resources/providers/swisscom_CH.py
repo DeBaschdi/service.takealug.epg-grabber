@@ -206,6 +206,11 @@ def check_selected_list():
         return False
 
 def download_multithread(thread_temppath, download_threads):
+    # delete old broadcast files if exist
+    for f in os.listdir(provider_temppath):
+        if f.endswith('_broadcast.json'):
+            xbmcvfs.delete(os.path.join(provider_temppath, f))
+
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_swcCH_selected')
     starttime, endtime = get_epgLength()

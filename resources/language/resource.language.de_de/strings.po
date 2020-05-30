@@ -111,8 +111,8 @@ msgstr "Aktiviere Multithreading (Nur für Linux)"
 # Basics 32130 -32139
 
 msgctxt "#32130"
-msgid "Provider Settings"
-msgstr "Provider Einstellungen"
+msgid "Provider Divers"
+msgstr "Provider Divers"
 
 msgctxt "#32131"
 msgid "Provider Selection"
@@ -137,6 +137,14 @@ msgstr "Tage die gegrabbt werden sollen"
 msgctxt "#32136"
 msgid "Select Channels to Grab"
 msgstr "Wähle Kanäle zum grabben aus"
+
+msgctxt "#32137"
+msgid "Provider Horizon"
+msgstr "Provider Horizon"
+
+msgctxt "#32138"
+msgid "Provider Zattoo"
+msgstr "Provider Zattoo"
 
 # Provider Specific 32140 -32299
 
@@ -251,6 +259,158 @@ msgstr "Horizon (GB)"
 msgctxt "#32167"
 msgid "Enable Provider Horizon (GB)"
 msgstr "Aktiviere Provider Horizon (GB)"
+
+msgctxt "#32168"
+msgid "Zattoo (DE)"
+msgstr "Zattoo (DE)"
+
+msgctxt "#32169"
+msgid "Enable Provider Zattoo (DE)"
+msgstr "Aktiviere Provider Zattoo (DE)"
+
+msgctxt "#32170"
+msgid "Zattoo (CH)"
+msgstr "Zattoo (CH)"
+
+msgctxt "#32171"
+msgid "Enable Provider Zattoo (CH)"
+msgstr "Aktiviere Provider Zattoo (CH)"
+
+msgctxt "#32172"
+msgid "1und1 (DE)"
+msgstr "1und1 (DE)"
+
+msgctxt "#32173"
+msgid "Enable Provider 1und1 (DE)"
+msgstr "Aktiviere Provider 1und1 (DE)"
+
+msgctxt "#32174"
+msgid "Quickline Mobil-TV (CH)"
+msgstr "Quickline Mobil-TV (CH)"
+
+msgctxt "#32175"
+msgid "Enable Provider Quickline Mobil-TV (CH)"
+msgstr "Aktiviere Provider Quickline Mobil-TV (CH)"
+
+msgctxt "#32176"
+msgid "M-net TVplus (DE)"
+msgstr "M-net TVplus (DE)"
+
+msgctxt "#32177"
+msgid "Enable Provider M-net TVplus (DE)"
+msgstr "Aktiviere Provider M-net TVplus (DE)"
+
+msgctxt "#32178"
+msgid "WALY.TV (CH)"
+msgstr "WALY.TV (CH)"
+
+msgctxt "#32179"
+msgid "Enable Provider WALY.TV (CH)"
+msgstr "Aktiviere Provider WALY.TV (CH)"
+
+msgctxt "#32180"
+msgid "Meine Welt unterwegs (AT)"
+msgstr "Meine Welt unterwegs (AT)"
+
+msgctxt "#32181"
+msgid "Enable Provider Meine Welt unterwegs (AT)"
+msgstr "Aktiviere Provider Meine Welt unterwegs (AT)"
+
+msgctxt "#32182"
+msgid "BBV TV (DE)"
+msgstr "BBV TV (DE)"
+
+msgctxt "#32183"
+msgid "Enable Provider BBV TV (DE)"
+msgstr "Aktiviere Provider BBV TV (DE)"
+
+msgctxt "#32184"
+msgid "VTX TV (CH)"
+msgstr "VTX TV (CH)"
+
+msgctxt "#32185"
+msgid "Enable Provider VTX TV (CH)"
+msgstr "Aktiviere Provider VTX TV (CH)"
+
+msgctxt "#32186"
+msgid "myVision mobile TV (CH)"
+msgstr "myVision mobile TV (CH)"
+
+msgctxt "#32187"
+msgid "Enable Provider myVision mobile TV (CH)"
+msgstr "Aktiviere Provider myVision mobile TV (CH)"
+
+msgctxt "#32188"
+msgid "Glattvision+ (CH)"
+msgstr "Glattvision+ (CH)"
+
+msgctxt "#32189"
+msgid "Enable Provider Glattvision+ (CH)"
+msgstr "Aktiviere Provider Glattvision+ (CH)"
+
+msgctxt "#32190"
+msgid "SAK TV (CH)"
+msgstr "SAK TV (CH)"
+
+msgctxt "#32191"
+msgid "Enable Provider SAK TV (CH)"
+msgstr "Aktiviere Provider SAK TV (CH)"
+
+msgctxt "#32192"
+msgid "NetTV (CH)"
+msgstr "NetTV (CH)"
+
+msgctxt "#32193"
+msgid "Enable Provider Net TV (CH)"
+msgstr "Aktiviere Provider Net TV (CH)"
+
+msgctxt "#32194"
+msgid "EWE TV App (DE)"
+msgstr "EWE TV App (DE)"
+
+msgctxt "#32195"
+msgid "Enable Provider EWE TV App (DE)"
+msgstr "Aktiviere Provider EWE TV App (DE)"
+
+msgctxt "#32196"
+msgid "Quantum TV (CH)"
+msgstr "Quantum TV (CH)"
+
+msgctxt "#32197"
+msgid "Enable Provider Quantum TV (CH)"
+msgstr "Aktiviere Provider Quantum TV (CH)"
+
+msgctxt "#32198"
+msgid "Salt TV (CH)"
+msgstr "Salt TV (CH)"
+
+msgctxt "#32199"
+msgid "Enable Provider Salt TV (CH)"
+msgstr "Aktiviere Provider Salt TV (CH)"
+
+msgctxt "#32200"
+msgid "SWB TV App (DE)"
+msgstr "SWB TV App (DE)"
+
+msgctxt "#32201"
+msgid "Enable Provider SWB TV App (DE)"
+msgstr "Aktiviere Provider SWB TV App (DE)"
+
+msgctxt "#32202"
+msgid "eir TV (CH)"
+msgstr "eir TV (CH)"
+
+msgctxt "#32203"
+msgid "Enable Provider eir TV (IE)"
+msgstr "Aktiviere Provider eir TV (IE)"
+
+msgctxt "#32204"
+msgid "Username"
+msgstr "Benutzername"
+
+msgctxt "#32205"
+msgid "Password"
+msgstr "Passwort"
 
 ###################################
 # Values 32300 - 32349            #
@@ -384,6 +544,22 @@ msgctxt "#32381"
 msgid "Multithreading only works on Linux, please disable it."
 msgstr "Multithreading funktioniert nur unter Linux, bitte deaktiviere es."
 
+msgctxt "#32382"
+msgid "Manifest Data to be downloaded... "
+msgstr "Manifest Daten die heruntergeladen werden müssen..."
+
+msgctxt "#32383"
+msgid "Manifest Files downloaded!"
+msgstr "Manifest Daten heruntergeladen!"
+
+msgctxt "#32383"
+msgid "Manifest Files downloaded!"
+msgstr "Manifest Daten heruntergeladen!"
+
+msgctxt "#32384"
+msgid "Login success !"
+msgstr "Login erfolgreich!"
+
 #####################################
 # Messages 32400 - 32499            #
 #####################################
@@ -428,6 +604,22 @@ msgctxt "#32409"
 msgid "You must first activate the socket in the global settings, make sure that you have created a guide.xml"
 msgstr "Du musst zuerst das Socket in den Globalen Einstellungen aktivieren, stell sicher das du eine guide.xml erstellt hast"
 
+msgctxt "#32410"
+msgid "Wrong Username or Password"
+msgstr "Falscher Benutzername oder Passwort"
+
+msgctxt "#32411"
+msgid "Error while searching Token"
+msgstr "Kein Token auffindbar"
+
+msgctxt "#32412"
+msgid "Token is invalid"
+msgstr "Token ist ungültig"
+
+msgctxt "#32413"
+msgid "Error while Login"
+msgstr "Fehler während des Logins"
+
 #####################################
 # Progress 32500 -32549             #
 #####################################
@@ -447,6 +639,10 @@ msgstr "Erstelle XML Kanäle für"
 msgctxt "#32503"
 msgid "Create XML Broadcast for"
 msgstr "Erstelle XML Senderdaten für"
+
+msgctxt "#32504"
+msgid "Downloading Manifest Data for Day"
+msgstr "Lade Manifest Daten für Tag"
 
 #####################################
 # List Items, Labels 32550 -32599   #

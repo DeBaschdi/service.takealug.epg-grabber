@@ -24,7 +24,9 @@
         <setting id="swcCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="swcCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="swcCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
+    </category>
 
+    <category label="32137"> <!-- Provider Horizon Settings -->
         <setting label="32142" type="lsep"/> <!-- Horizon (DE) -->
         <setting id="enable_grabber_hznDE" type="bool" label="32143" default="false" /><!-- Enable Horizon (DE) -->
         <setting id="select_channels_hznDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_hznDE)" option="close" visible="!eq(-1,false)"/>
@@ -113,6 +115,188 @@
         <setting id="hznRO_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="hznRO_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="hznRO_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7" visible="!eq(-5,false)" /> <!-- Days to Grab -->
+    </category>
+
+    <category label="32138"> <!-- Provider Zattoo Settings -->
+        <setting label="32168" type="lsep"/> <!-- Zattoo (DE) -->
+        <setting id="enable_grabber_zttDE" type="bool" label="32169" default="false" /><!-- Enable Zattoo (DE) -->
+        <setting id="zttDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="zttDE_password" label="32205" type="text" option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_zttDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_zttDE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="zttDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="zttDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="zttDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="zttDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32170" type="lsep"/> <!-- Zattoo (CH) -->
+        <setting id="enable_grabber_zttCH" type="bool" label="32171" default="false" /><!-- Enable Zattoo (CH) -->
+        <setting id="zttCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="zttCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_zttCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_zttCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="zttCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="zttCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="zttCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="zttCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32172" type="lsep"/> <!-- 1und1 (DE) -->
+        <setting id="enable_grabber_1und1DE" type="bool" label="32173" default="false" /><!-- Enable 1und1 (DE) -->
+        <setting id="1und1DE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="1und1DE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_1und1DE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_1und1DE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="1und1DE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="1und1DE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="1und1DE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="1und1DE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32174" type="lsep"/> <!-- Quickline Mobil-TV (CH) -->
+        <setting id="enable_grabber_qlCH" type="bool" label="32175" default="false" /><!-- Enable Quickline Mobil-TV (CH) -->
+        <setting id="qlCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="qlCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_qlCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_qlCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="qlCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="qlCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="qlCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="qlCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32176" type="lsep"/> <!-- 'M-net TVplus (DE)) -->
+        <setting id="enable_grabber_mnetDE" type="bool" label="32177" default="false" /><!-- Enable M-net TVplus (DE) -->
+        <setting id="mnetDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="mnetDE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_mnetDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_mnetDE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="mnetDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="mnetDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="mnetDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="mnetDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32178" type="lsep"/> <!-- 'WALY.TV (CH) -->
+        <setting id="enable_grabber_walyCH" type="bool" label="32179" default="false" /><!-- Enable WALY.TV (CH) -->
+        <setting id="walyCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="walyCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_walyCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_walyCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="walyCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="walyCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="walyCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="walyCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32180" type="lsep"/> <!-- Meine Welt unterwegs (AT) -->
+        <setting id="enable_grabber_mweltAT" type="bool" label="32181" default="false" /><!-- Enable Meine Welt unterwegs (AT) -->
+        <setting id="mweltAT_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="mweltAT_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_mweltAT" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_mweltAT)" option="close" visible="!eq(-3,false)"/>
+        <setting id="mweltAT_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="mweltAT_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="mweltAT_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="mweltAT_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32182" type="lsep"/> <!-- BBV TV (DE) -->
+        <setting id="enable_grabber_bbvDE" type="bool" label="32183" default="false" /><!-- Enable BBV TV (DE) -->
+        <setting id="bbvDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="bbvDE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_bbvDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_bbvDE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="bbvDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="bbvDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="bbvDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="bbvDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32184" type="lsep"/> <!-- VTX TV (CH) -->
+        <setting id="enable_grabber_vtxCH" type="bool" label="32185" default="false" /><!-- Enable VTX TV (CH) -->
+        <setting id="vtxCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="vtxCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_vtxCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_vtxCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="vtxCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="vtxCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="vtxCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="vtxCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32186" type="lsep"/> <!-- myVision mobile TV (CH) -->
+        <setting id="enable_grabber_myvisCH" type="bool" label="32187" default="false" /><!-- Enable myVision mobile TV (CH) -->
+        <setting id="myvisCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="myvisCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_myvisCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_myvisCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="myvisCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="myvisCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="myvisCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="myvisCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32188" type="lsep"/> <!-- Glattvision+ (CH) -->
+        <setting id="enable_grabber_gvisCH" type="bool" label="32189" default="false" /><!-- Enable Glattvision+ (CH) -->
+        <setting id="gvisCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="gvisCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_gvisCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_gvisCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="gvisCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="gvisCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="gvisCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="gvisCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32190" type="lsep"/> <!-- SAK TV (CH) -->
+        <setting id="enable_grabber_sakCH" type="bool" label="32191" default="false" /><!-- Enable SAK TV (CH) -->
+        <setting id="sakCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="sakCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_sakCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_sakCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="sakCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="sakCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="sakCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="sakCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32192" type="lsep"/> <!-- Net TV (DE) -->
+        <setting id="enable_grabber_nettvDE" type="bool" label="32193" default="false" /><!-- Enable Net TV (DE) -->
+        <setting id="nettvDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="nettvDE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_nettvDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_nettvDE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="nettvDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="nettvDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="nettvDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="nettvDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32194" type="lsep"/> <!-- EWE TV App (DE) -->
+        <setting id="enable_grabber_eweDE" type="bool" label="32195" default="false" /><!-- Enable EWE TV App (DE) -->
+        <setting id="eweDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="eweDE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_eweDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_eweDE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="eweDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="eweDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="eweDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="eweDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32196" type="lsep"/> <!-- Quantum TV (CH) -->
+        <setting id="enable_grabber_qttvCH" type="bool" label="32197" default="false" /><!-- Enable Quantum TV (CH) -->
+        <setting id="qttvCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="qttvCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_qttvCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_qttvCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="qttvCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="qttvCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="qttvCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="qttvCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32198" type="lsep"/> <!-- Salt TV (CH) -->
+        <setting id="enable_grabber_saltCH" type="bool" label="32199" default="false" /><!-- Enable Salt TV (CH) -->
+        <setting id="saltCH_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="saltCH_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_saltCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_saltCH)" option="close" visible="!eq(-3,false)"/>
+        <setting id="saltCH_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="saltCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="saltCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="saltCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32200" type="lsep"/> <!-- SWB TV App (DE) -->
+        <setting id="enable_grabber_swbDE" type="bool" label="32201" default="false" /><!-- Enable SWB TV App (DE) -->
+        <setting id="swbDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="swbDE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_swbDE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_swbDE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="swbDE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="swbDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="swbDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="swbDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
+        <setting label="32202" type="lsep"/> <!-- eir TV (IE) -->
+        <setting id="enable_grabber_eirIE" type="bool" label="32203" default="false" /><!-- Enable eir TV (IE) -->
+        <setting id="eirIE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="eirIE_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_eirIE" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_eirIE)" option="close" visible="!eq(-3,false)"/>
+        <setting id="eirIE_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="eirIE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="eirIE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="eirIE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
     </category>
 
     <category label="32110"> <!-- Global Settings -->
