@@ -687,7 +687,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
             channel_id = mapper.map_channels(channel_id, channel_format, ztt_channels_json, ztt_channels_warnings_tmp, lang)
 
         try:
-            for playbilllist in broadcastfiles['programs']:
+            for playbilllist in sorted(broadcastfiles['programs'], key=lambda k: k['s'], reverse=False):
                 try:
                     item_title = playbilllist['t']
                 except (KeyError, IndexError):
