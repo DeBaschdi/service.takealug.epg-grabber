@@ -247,6 +247,10 @@ def download_multithread(thread_temppath, download_threads):
         log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
         download_thread(tvsDE_chlist_selected, multi, list)
 
+def channel_hack(contentID):
+    contentID = contentID.replace('MDR-ST','MDR').replace('MDR-SN','MDR').replace('MDR-TH','MDR').replace('BR-N','BR').replace('BR-S','BR').replace('NDR-NI','N3').replace('NDR-HH','N3').replace('NDR-MV','N3').replace('NDR-SH','N3').replace('RB-TV','N3').replace('RBB-BB','RBB').replace('RBB-B','RBB').replace('SWRBW','SWR').replace('SR','SWR').replace('SWRRP','SWR').replace('WDR-AC','WDR').replace('WDR-BI','WDR').replace('WDR-BN','WDR').replace('WDR-DO','WDR').replace('WDR-DU','WDR').replace('WDR-D','WDR').replace('WDR-E','WDR').replace('WDR-K','WDR').replace('WDR-MS','WDR').replace('WDR-SI','WDR').replace('WDR-W','WDR')
+    return contentID
+
 def download_thread(tvsDE_chlist_selected, multi, list):
     requests.adapters.DEFAULT_RETRIES = 5
 
@@ -261,6 +265,7 @@ def download_thread(tvsDE_chlist_selected, multi, list):
 
     for user_item in selected_list['channellist']:
         contentID = user_item['contentId']
+        contentID = channel_hack(contentID)
         channel_name = user_item['name']
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
 
@@ -375,6 +380,7 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
         contentID = user_item['contentId']
+        contentID = channel_hack(contentID)
         channel_name = user_item['name']
         channel_id = channel_name
         pDialog.update(int(percent_completed), '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))

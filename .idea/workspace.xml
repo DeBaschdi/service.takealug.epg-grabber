@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -307,11 +308,17 @@
       <option name="project" value="LOCAL" />
       <updated>1590839159464</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Update Addon to 0.2.6&#10;- Sort Zattoo Broadcast Data data by start time">
+      <created>1590897784419</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1590897784419</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.0.6&#10;-Fix Dupe Detection" />
     <MESSAGE value="Update Addon to 0.0.7&#10;-Start adding Translations" />
     <MESSAGE value="Update Addon to 0.0.7&#10;-Start adding Translations&#10;-Fix UTF8 Problems (general)&#10;-Horizon : Remove useless Series +Episode Strings" />
     <MESSAGE value="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations" />
@@ -336,7 +343,8 @@
     <MESSAGE value="Update Addon to 0.2.4&#10;- Try to Fix Threading on ARM Machines" />
     <MESSAGE value="Update Addon to 0.2.5&#10;- Add New Provider Zattoo + Reseller&#10;- Fix Socket handling&#10;- Fix Tempfile Issue&#10;- Fix Cron File" />
     <MESSAGE value="Update Addon to 0.2.5(2)&#10;- Add New Provider Zattoo + Reseller&#10;- Fix Socket handling&#10;- Fix Tempfile Issue&#10;- Fix Cron File" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.2.5(2)&#10;- Add New Provider Zattoo + Reseller&#10;- Fix Socket handling&#10;- Fix Tempfile Issue&#10;- Fix Cron File" />
+    <MESSAGE value="Update Addon to 0.2.6&#10;- Sort Zattoo Broadcast Data data by start time" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.2.6&#10;- Sort Zattoo Broadcast Data data by start time" />
   </component>
   <component name="WindowStateProjectService">
     <state x="694" y="317" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590547734350">
@@ -344,11 +352,11 @@
     </state>
     <state x="555" y="254" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1589258741354" />
     <state x="694" y="317" width="552" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1590547734350" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2" timestamp="1590839159416">
+    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2" timestamp="1590897784327">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589272620142" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1590839159416" />
+    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1590897784327" />
     <state x="188" y="86" key="MergeDialog" timestamp="1589422504047">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
@@ -358,11 +366,11 @@
     </state>
     <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1589258365241" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1590839160844">
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1590897786413">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1589272622468" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1590839160844" />
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1590897786413" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1590652195512">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
