@@ -263,7 +263,7 @@ def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provid
             ch_id = channels['cid']
             try:
                 found = False
-                levels = ['sd', 'hd']
+                levels = ['hd', 'sd']
                 for level in levels:
                     for i in range(0, len(channels['qualities'])):
                         if channels['qualities'][i]['level'] == level:
