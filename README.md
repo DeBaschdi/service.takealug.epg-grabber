@@ -48,5 +48,8 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
 ### Download
 My Repository can be found here [![Takealug Addon Repository ](https://raw.githubusercontent.com/DeBaschdi/repo/master/icon_34.png)](https://github.com/DeBaschdi/repo/blob/master/repository.takealug-1.0.1.zip?raw=true)
 
+### Support Thread
+[Kodinerds.net](https://www.kodinerds.net/index.php/Thread/64901-RELEASE-Takealug-EPG-Grabber/?pageNo=1)
+
 ### Support my work
 If you like my Work, please [![Paypal Donation Page](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/DeBaschdi) - thank you! :-)
