@@ -30,7 +30,10 @@ provider_temppath = os.path.join(temppath, "magentaDE")
 ## Enable Multithread
 enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
 if enable_multithread:
-    from multiprocessing import Process
+    try:
+        from multiprocessing import Process
+    except:
+        pass
 
 ## MAPPING Variables Thx @ sunsettrack4
 tkm_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/tkm_genres.json'

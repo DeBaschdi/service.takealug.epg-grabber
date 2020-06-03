@@ -146,207 +146,210 @@ def check_channel_dupes():
         dupes = ''.join(dupe)
 
         if (not dupes == ''):
-            log('{} {}'.format(loc(32400),dupes), xbmc.LOGERROR)
+            log('{} {}'.format(loc(32400), dupes), xbmc.LOGERROR)
             dialog = xbmcgui.Dialog()
             ok = dialog.ok('-]ERROR[- {}'.format(loc(32400)), dupes)
             if ok:
-                exit()
+                return False
+            return False
+        else:
+            return True
 
 def run_grabber():
-    check_startup()
-    xml_structure.xml_start()
-    ## Check Provider , Create XML Channels
-    if enable_grabber_magentaDE:
-        magenta_DE.startup()
-        magenta_DE.create_xml_channels()
-    if enable_grabber_tvsDE:
-        tvspielfilm_DE.startup()
-        tvspielfilm_DE.create_xml_channels()
-    if enable_grabber_swcCH:
-        swisscom_CH.startup()
-        swisscom_CH.create_xml_channels()
-    if enable_grabber_hznDE:
-        horizon.startup('de')
-        horizon.create_xml_channels('de')
-    if enable_grabber_hznAT:
-        horizon.startup('at')
-        horizon.create_xml_channels('at')
-    if enable_grabber_hznCH:
-        horizon.startup('ch')
-        horizon.create_xml_channels('ch')
-    if enable_grabber_hznNL:
-        horizon.startup('nl')
-        horizon.create_xml_channels('nl')
-    if enable_grabber_hznPL:
-        horizon.startup('pl')
-        horizon.create_xml_channels('pl')
-    if enable_grabber_hznIE:
-        horizon.startup('ie')
-        horizon.create_xml_channels('ie')
-    if enable_grabber_hznGB:
-        horizon.startup('gb')
-        horizon.create_xml_channels('gb')
-    if enable_grabber_hznSK:
-        horizon.startup('sk')
-        horizon.create_xml_channels('sk')
-    if enable_grabber_hznCZ:
-        horizon.startup('cz')
-        horizon.create_xml_channels('cz')
-    if enable_grabber_hznHU:
-        horizon.startup('hu')
-        horizon.create_xml_channels('hu')
-    if enable_grabber_hznRO:
-        horizon.startup('ro')
-        horizon.create_xml_channels('ro')
-    if enable_grabber_zttDE:
-        if zattoo.startup('ztt_de'):
-            zattoo.create_xml_channels('ztt_de')
-    if enable_grabber_zttCH:
-        if zattoo.startup('ztt_ch'):
-            zattoo.create_xml_channels('ztt_ch')
-    if enable_grabber_1und1DE:
-        if zattoo.startup('1und1_de'):
-            zattoo.create_xml_channels('1und1_de')
-    if enable_grabber_qlCH:
-        if zattoo.startup('ql_ch'):
-            zattoo.create_xml_channels('ql_ch')
-    if enable_grabber_mnetDE:
-        if zattoo.startup('mnet_de'):
-            zattoo.create_xml_channels('mnet_de')
-    if enable_grabber_walyCH:
-        if zattoo.startup('walytv_ch'):
-            zattoo.create_xml_channels('walytv_ch')
-    if enable_grabber_mweltAT:
-        if zattoo.startup('meinewelt_at'):
-            zattoo.create_xml_channels('meinewelt_at')
-    if enable_grabber_bbvDE:
-        if zattoo.startup('bbtv_de'):
-            zattoo.create_xml_channels('bbtv_de')
-    if enable_grabber_vtxCH:
-        if zattoo.startup('vtxtv_ch'):
-            zattoo.create_xml_channels('vtxtv_ch')
-    if enable_grabber_myvisCH:
-        if zattoo.startup('myvision_ch'):
-            zattoo.create_xml_channels('myvision_ch')
-    if enable_grabber_gvisCH:
-        if zattoo.startup('glattvision_ch'):
-            zattoo.create_xml_channels('glattvision_ch')
-    if enable_grabber_sakCH:
-        if zattoo.startup('sak_ch'):
-            zattoo.create_xml_channels('sak_ch')
-    if enable_grabber_nettvDE:
-        if zattoo.startup('nettv_de'):
-            zattoo.create_xml_channels('nettv_de')
-    if enable_grabber_eweDE:
-        if zattoo.startup('tvoewe_de'):
-            zattoo.create_xml_channels('tvoewe_de')
-    if enable_grabber_qttvCH:
-        if zattoo.startup('quantum_ch'):
-            zattoo.create_xml_channels('quantum_ch')
-    if enable_grabber_saltCH:
-        if zattoo.startup('salt_ch'):
-            zattoo.create_xml_channels('salt_ch')
-    if enable_grabber_swbDE:
-        if zattoo.startup('tvoswe_de'):
-            zattoo.create_xml_channels('tvoswe_de')
-    if enable_grabber_eirIE:
-        if zattoo.startup('eir_ie'):
-            zattoo.create_xml_channels('eir_ie')
+    if check_startup():
+        xml_structure.xml_start()
+        ## Check Provider , Create XML Channels
+        if enable_grabber_magentaDE:
+            magenta_DE.startup()
+            magenta_DE.create_xml_channels()
+        if enable_grabber_tvsDE:
+            tvspielfilm_DE.startup()
+            tvspielfilm_DE.create_xml_channels()
+        if enable_grabber_swcCH:
+            swisscom_CH.startup()
+            swisscom_CH.create_xml_channels()
+        if enable_grabber_hznDE:
+            horizon.startup('de')
+            horizon.create_xml_channels('de')
+        if enable_grabber_hznAT:
+            horizon.startup('at')
+            horizon.create_xml_channels('at')
+        if enable_grabber_hznCH:
+            horizon.startup('ch')
+            horizon.create_xml_channels('ch')
+        if enable_grabber_hznNL:
+            horizon.startup('nl')
+            horizon.create_xml_channels('nl')
+        if enable_grabber_hznPL:
+            horizon.startup('pl')
+            horizon.create_xml_channels('pl')
+        if enable_grabber_hznIE:
+            horizon.startup('ie')
+            horizon.create_xml_channels('ie')
+        if enable_grabber_hznGB:
+            horizon.startup('gb')
+            horizon.create_xml_channels('gb')
+        if enable_grabber_hznSK:
+            horizon.startup('sk')
+            horizon.create_xml_channels('sk')
+        if enable_grabber_hznCZ:
+            horizon.startup('cz')
+            horizon.create_xml_channels('cz')
+        if enable_grabber_hznHU:
+            horizon.startup('hu')
+            horizon.create_xml_channels('hu')
+        if enable_grabber_hznRO:
+            horizon.startup('ro')
+            horizon.create_xml_channels('ro')
+        if enable_grabber_zttDE:
+            if zattoo.startup('ztt_de'):
+                zattoo.create_xml_channels('ztt_de')
+        if enable_grabber_zttCH:
+            if zattoo.startup('ztt_ch'):
+                zattoo.create_xml_channels('ztt_ch')
+        if enable_grabber_1und1DE:
+            if zattoo.startup('1und1_de'):
+                zattoo.create_xml_channels('1und1_de')
+        if enable_grabber_qlCH:
+            if zattoo.startup('ql_ch'):
+                zattoo.create_xml_channels('ql_ch')
+        if enable_grabber_mnetDE:
+            if zattoo.startup('mnet_de'):
+                zattoo.create_xml_channels('mnet_de')
+        if enable_grabber_walyCH:
+            if zattoo.startup('walytv_ch'):
+                zattoo.create_xml_channels('walytv_ch')
+        if enable_grabber_mweltAT:
+            if zattoo.startup('meinewelt_at'):
+                zattoo.create_xml_channels('meinewelt_at')
+        if enable_grabber_bbvDE:
+            if zattoo.startup('bbtv_de'):
+                zattoo.create_xml_channels('bbtv_de')
+        if enable_grabber_vtxCH:
+            if zattoo.startup('vtxtv_ch'):
+                zattoo.create_xml_channels('vtxtv_ch')
+        if enable_grabber_myvisCH:
+            if zattoo.startup('myvision_ch'):
+                zattoo.create_xml_channels('myvision_ch')
+        if enable_grabber_gvisCH:
+            if zattoo.startup('glattvision_ch'):
+                zattoo.create_xml_channels('glattvision_ch')
+        if enable_grabber_sakCH:
+            if zattoo.startup('sak_ch'):
+                zattoo.create_xml_channels('sak_ch')
+        if enable_grabber_nettvDE:
+            if zattoo.startup('nettv_de'):
+                zattoo.create_xml_channels('nettv_de')
+        if enable_grabber_eweDE:
+            if zattoo.startup('tvoewe_de'):
+                zattoo.create_xml_channels('tvoewe_de')
+        if enable_grabber_qttvCH:
+            if zattoo.startup('quantum_ch'):
+                zattoo.create_xml_channels('quantum_ch')
+        if enable_grabber_saltCH:
+            if zattoo.startup('salt_ch'):
+                zattoo.create_xml_channels('salt_ch')
+        if enable_grabber_swbDE:
+            if zattoo.startup('tvoswe_de'):
+                zattoo.create_xml_channels('tvoswe_de')
+        if enable_grabber_eirIE:
+            if zattoo.startup('eir_ie'):
+                zattoo.create_xml_channels('eir_ie')
 
-    # Check for Channel Dupes
-    check_channel_dupes()
+        # Check for Channel Dupes
+        if check_channel_dupes():
 
-    ## Create XML Broadcast
-    if enable_grabber_magentaDE:
-        magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_tvsDE:
-        tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_swcCH:
-        swisscom_CH.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznDE:
-        horizon.create_xml_broadcast('de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznAT:
-        horizon.create_xml_broadcast('at', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznCH:
-        horizon.create_xml_broadcast('ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznNL:
-        horizon.create_xml_broadcast('nl', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznPL:
-        horizon.create_xml_broadcast('pl', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznIE:
-        horizon.create_xml_broadcast('ie', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznGB:
-        horizon.create_xml_broadcast('gb', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznSK:
-        horizon.create_xml_broadcast('sk', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznCZ:
-        horizon.create_xml_broadcast('cz', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznHU:
-        horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_hznRO:
-        horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_zttDE:
-        if zattoo.startup('ztt_de'):
-            zattoo.create_xml_broadcast('ztt_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_zttCH:
-        if zattoo.startup('ztt_ch'):
-            zattoo.create_xml_broadcast('ztt_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_1und1DE:
-        if zattoo.startup('1und1_de'):
-            zattoo.create_xml_broadcast('1und1_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_qlCH:
-        if zattoo.startup('ql_ch'):
-            zattoo.create_xml_broadcast('ql_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_mnetDE:
-        if zattoo.startup('mnet_de'):
-            zattoo.create_xml_broadcast('mnet_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_walyCH:
-        if zattoo.startup('walytv_ch'):
-            zattoo.create_xml_broadcast('walytv_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_mweltAT:
-        if zattoo.startup('meinewelt_at'):
-            zattoo.create_xml_broadcast('meinewelt_at', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_bbvDE:
-        if zattoo.startup('bbtv_de'):
-            zattoo.create_xml_broadcast('bbtv_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_vtxCH:
-        if zattoo.startup('vtxtv_ch'):
-            zattoo.create_xml_broadcast('vtxtv_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_myvisCH:
-        if zattoo.startup('myvision_ch'):
-            zattoo.create_xml_broadcast('myvision_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_gvisCH:
-        if zattoo.startup('glattvision_ch'):
-            zattoo.create_xml_broadcast('glattvision_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_sakCH:
-        if zattoo.startup('sak_ch'):
-            zattoo.create_xml_broadcast('sak_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_nettvDE:
-        if zattoo.startup('nettv_de'):
-            zattoo.create_xml_broadcast('nettv_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_eweDE:
-        if zattoo.startup('tvoewe_de'):
-            zattoo.create_xml_broadcast('tvoewe_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_qttvCH:
-        if zattoo.startup('quantum_ch'):
-            zattoo.create_xml_broadcast('quantum_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_saltCH:
-        if zattoo.startup('salt_ch'):
-            zattoo.create_xml_broadcast('salt_ch', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_swbDE:
-        if zattoo.startup('tvoswe_de'):
-            zattoo.create_xml_broadcast('tvoswe_de', enable_rating_mapper, thread_temppath, download_threads)
-    if enable_grabber_eirIE:
-        if zattoo.startup('eir_ie'):
-            zattoo.create_xml_broadcast('eir_ie', enable_rating_mapper, thread_temppath, download_threads)
+            ## Create XML Broadcast
+            if enable_grabber_magentaDE:
+                magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_tvsDE:
+                tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_swcCH:
+                swisscom_CH.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznDE:
+                horizon.create_xml_broadcast('de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznAT:
+                horizon.create_xml_broadcast('at', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznCH:
+                horizon.create_xml_broadcast('ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznNL:
+                horizon.create_xml_broadcast('nl', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznPL:
+                horizon.create_xml_broadcast('pl', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznIE:
+                horizon.create_xml_broadcast('ie', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznGB:
+                horizon.create_xml_broadcast('gb', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznSK:
+                horizon.create_xml_broadcast('sk', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznCZ:
+                horizon.create_xml_broadcast('cz', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznHU:
+                horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_hznRO:
+                horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_zttDE:
+                if zattoo.startup('ztt_de'):
+                    zattoo.create_xml_broadcast('ztt_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_zttCH:
+                if zattoo.startup('ztt_ch'):
+                    zattoo.create_xml_broadcast('ztt_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_1und1DE:
+                if zattoo.startup('1und1_de'):
+                    zattoo.create_xml_broadcast('1und1_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_qlCH:
+                if zattoo.startup('ql_ch'):
+                    zattoo.create_xml_broadcast('ql_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_mnetDE:
+                if zattoo.startup('mnet_de'):
+                    zattoo.create_xml_broadcast('mnet_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_walyCH:
+                if zattoo.startup('walytv_ch'):
+                    zattoo.create_xml_broadcast('walytv_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_mweltAT:
+                if zattoo.startup('meinewelt_at'):
+                    zattoo.create_xml_broadcast('meinewelt_at', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_bbvDE:
+                if zattoo.startup('bbtv_de'):
+                    zattoo.create_xml_broadcast('bbtv_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_vtxCH:
+                if zattoo.startup('vtxtv_ch'):
+                    zattoo.create_xml_broadcast('vtxtv_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_myvisCH:
+                if zattoo.startup('myvision_ch'):
+                    zattoo.create_xml_broadcast('myvision_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_gvisCH:
+                if zattoo.startup('glattvision_ch'):
+                    zattoo.create_xml_broadcast('glattvision_ch', enable_rating_mapper, thread_temppath,download_threads)
+            if enable_grabber_sakCH:
+                if zattoo.startup('sak_ch'):
+                    zattoo.create_xml_broadcast('sak_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_nettvDE:
+                if zattoo.startup('nettv_de'):
+                    zattoo.create_xml_broadcast('nettv_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_eweDE:
+                if zattoo.startup('tvoewe_de'):
+                    zattoo.create_xml_broadcast('tvoewe_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_qttvCH:
+                if zattoo.startup('quantum_ch'):
+                    zattoo.create_xml_broadcast('quantum_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_saltCH:
+                if zattoo.startup('salt_ch'):
+                    zattoo.create_xml_broadcast('salt_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_swbDE:
+                if zattoo.startup('tvoswe_de'):
+                    zattoo.create_xml_broadcast('tvoswe_de', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_eirIE:
+                if zattoo.startup('eir_ie'):
+                    zattoo.create_xml_broadcast('eir_ie', enable_rating_mapper, thread_temppath, download_threads)
 
-    ## Finish XML
-    xml_structure.xml_end()
-    copy_guide_to_destination()
+            ## Finish XML
+            xml_structure.xml_end()
+            copy_guide_to_destination()
 
-    ## Write Guide in TVH Socked
-    if use_local_sock:
-        write_to_sock()
+            ## Write Guide in TVH Socked
+            if use_local_sock:
+                write_to_sock()
 
 def write_to_sock():
     if check_startup():
@@ -465,7 +468,12 @@ def check_startup():
             return False
 
     if enable_multithread:
-        if not (machine == 'x86_64' or not machine == 'armv7l' or not machine == 'armv8l'):
+        if (not machine == 'x86_64' or not machine == 'armv7l' or not machine == 'armv8l'):
+            dialog = xbmcgui.Dialog()
+            log(loc(32381), xbmc.LOGERROR)
+            ok = dialog.ok(addon_name, loc(32381))
+            if ok:
+                return False
             return False
 
     ## create Crontab File which not exists at first time
@@ -502,7 +510,6 @@ if __name__ == '__main__':
             if sys.argv[1] == 'manual_download':
                 ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
                 if ret:
-                    manual = True
                     notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
                     run_grabber()
             if sys.argv[1] == 'write_to_sock':
