@@ -20,6 +20,8 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
 
 ## Quick start Guide
 ```
+   -Windows Only : Windows Defender add exclusion for realtimescan *.xml, *.json *.txt
+   -Kodi --> Settings(Expertview) -->Media -->General "Allow file renaming and deletion"
    -Install addon.
    -Select storage path for the guide.xml
    -Activate provider.
@@ -34,7 +36,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
    -TV Spielfilm (DE)
    -Swisscom (CH)
    -Horizon (DE,AT,CH,NL,PL,IE,GB,SK,CZ,HU,RO)
-   -Zattoo + Reseller
+   -Zattoo (DE,CH,1und1TV,Quickline Mobil-TV,M-net TVplus,WALY.TV,Meine Welt unterwegs,BBV TV,VTX TV,myVision mobile TV,Glattvision+,SAK TV,Net TV,EWE TV App,Quantum TV,Salt TV,SWB TV App,eir TV) 
 
 ```
 
