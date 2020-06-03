@@ -2,7 +2,7 @@
 
 # service.takealug.epg-grabber
 This is an easy-to-use kodi addon which grabs epg data from various providers and creates a guide.xml from it
-
+My Repository can be found here [![Takealug Addon Repository ](https://raw.githubusercontent.com/DeBaschdi/repo/master/icon_34.png)](https://github.com/DeBaschdi/repo/blob/master/repository.takealug-1.0.1.zip)
 ## Features
 ```
     -High Speed Download + XML Creation (Multithreading Support)
