@@ -468,7 +468,8 @@ def check_startup():
             return False
 
     if enable_multithread:
-        if (not machine == 'x86_64' or not machine == 'armv7l' or not machine == 'armv8l'):
+        if (not machine == 'x86_64' and not machine == 'armv7l' and not machine == 'armv8l'):
+            log(machine, xbmc.LOGERROR)
             dialog = xbmcgui.Dialog()
             log(loc(32381), xbmc.LOGERROR)
             ok = dialog.ok(addon_name, loc(32381))
