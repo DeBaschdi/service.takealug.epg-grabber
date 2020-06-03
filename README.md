@@ -46,7 +46,7 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
 <img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/fanart.jpg" height="270" width="480">
 
 ### Download
-My Repository can be found here [![Takealug Addon Repository ](https://raw.githubusercontent.com/DeBaschdi/repo/master/icon_34.png)](https://github.com/DeBaschdi/repo/blob/master/repository.takealug-1.0.1.zip)
+My Repository can be found here [![Takealug Addon Repository ](https://raw.githubusercontent.com/DeBaschdi/repo/master/icon_34.png)](https://github.com/DeBaschdi/repo/blob/master/repository.takealug-1.0.1.zip?raw=true)
 
 ### Support my work
 If you like my Work, please [![Paypal Donation Page](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/DeBaschdi) - thank you! :-)
