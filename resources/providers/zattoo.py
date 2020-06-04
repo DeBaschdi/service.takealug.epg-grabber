@@ -546,10 +546,11 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 dummy.close()
 
         elif len(broadcast_list) >= 620:
-            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 3 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
-            broadcast_ids_0 = ','.join(broadcast_list[:len(broadcast_list) // 3])
-            broadcast_ids_1 = ','.join(broadcast_list[len(broadcast_list) // 3:2 * len(broadcast_list) // 3])
-            broadcast_ids_2 = ','.join(broadcast_list[2 * len(broadcast_list) // 3:])
+            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 4 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
+            broadcast_ids_0 = ','.join(broadcast_list[:len(broadcast_list) / 4])
+            broadcast_ids_1 = ','.join(broadcast_list[len(broadcast_list) / 4:2 * len(broadcast_list) / 4])
+            broadcast_ids_2 = ','.join(broadcast_list[len(broadcast_list) / 2:3 * len(broadcast_list) / 4])
+            broadcast_ids_3 = ','.join(broadcast_list[3 * len(broadcast_list) / 4:])
 
             with open(broadcast_files, 'w') as empty_list:
                 empty_list.write(json.dumps({"programs": []}))
@@ -559,13 +560,15 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 data = json.load(playbill)
                 temp = data['programs']
 
-            for i in range(0, 3):
+            for i in range(0, 4):
                 if i == 0:
                     broadcast_ids = broadcast_ids_0
                 elif i == 1:
                     broadcast_ids = broadcast_ids_1
                 elif i == 2:
                     broadcast_ids = broadcast_ids_2
+                elif i == 3:
+                    broadcast_ids = broadcast_ids_3
                 broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
                 ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
                 response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
