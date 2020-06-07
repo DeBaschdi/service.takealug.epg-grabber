@@ -108,14 +108,14 @@ def get_epgLength(days_to_grab):
         starttime = '{}000'.format(int(today))
     except ValueError:
         today = time.mktime(calc_today.timetuple())
-        starttime = '{}000'.format(int(today)).replace('.', '')
+        starttime = '{}000'.format(int(today))
 
     try:
         then = calc_then.strftime("%s")
         endtime = '{}000'.format(int(then))
     except ValueError:
         then = time.mktime(calc_then.timetuple())
-        endtime = '{}000'.format(int(then)).replace('.', '')
+        endtime = '{}000'.format(int(then))
 
     return starttime, endtime
 
@@ -146,7 +146,6 @@ def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
     # Create empty new hzn_chlist_provider
     with open(hzn_chlist_provider, 'w') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
-        provider_list.close()
 
     ch_title = ''
 
@@ -190,7 +189,6 @@ def select_channels(grabber):
     if not os.path.isfile(hzn_chlist_selected):
         with open(hzn_chlist_selected, 'w') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
-            selected_list.close()
 
     ## Download chlist_provider.json
     get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
@@ -283,7 +281,6 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
                     last_line = ''
                     with open(list, 'r') as f:
                         last_line = f.readlines()[-1]
-                    f.close()
                 except:
                     pass
                 items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
@@ -327,7 +324,6 @@ def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provide
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a') as f:
             f.write(last_channel_name)
-        f.close()
 
         if not multi:
             items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
@@ -348,7 +344,6 @@ def create_xml_channels(grabber):
         rytec_file = requests.get(hzn_channels_url).json()
         with open(hzn_channels_json, 'w') as rytec_list:
             json.dump(rytec_file, rytec_list)
-        rytec_list.close()
 
     with open(hzn_chlist_selected, 'r') as c:
         selected_list = json.load(c)
@@ -392,7 +387,6 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
         genres_file = requests.get(hzn_genres_url).json()
         with open(hzn_genres_json, 'w') as genres_list:
             json.dump(genres_file, genres_list)
-        genres_list.close()
 
     with open(hzn_chlist_selected, 'r') as c:
         selected_list = json.load(c)
@@ -564,7 +558,7 @@ def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
     if not os.path.isfile(hzn_chlist_selected):
         with open((hzn_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
-            selected_list.close()
+
         ## If no Channellist exist, ask to create one
         yn = OSD.yesno(provider, loc(32405))
         if yn:

@@ -28,12 +28,12 @@ guide_temp = os.path.join(datapath, 'guide.xml')
 
 def xml_start():
     copyright = '<?xml version="1.0" encoding="UTF-8" ?>\n<!-- EPG XMLTV FILE CREATED BY Take-a-LUG TEAM- (c) 2020 Bastian Kleinschmidt -->\n<!-- created on {} -->\n<tv>\n'.format(str(now))
-    with open(guide_temp,'w', encoding='utf-8') as f:
+    with open(guide_temp, 'w', encoding='utf-8') as f:
         f.write(copyright)
 
 def xml_channels_start(provider):
     start = '\n<!--  {}  CHANNEL LIST -->\n'.format(provider)
-    with open(guide_temp,'a', encoding='utf-8') as f:
+    with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(start)
 
 def xml_channels(channel_name, channel_id, channel_icon, lang):
@@ -43,12 +43,12 @@ def xml_channels(channel_name, channel_id, channel_icon, lang):
     channels.append('  <icon src="{}" />\n'.format(channel_icon))
     channels.append('</channel>\n')
     s = ''.join(channels).replace('&','&amp;')
-    with open(guide_temp,'a', encoding='utf-8') as f:
+    with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(s)
 
 def xml_broadcast_start(provider):
     start = '\n<!--  {}  PROGRAMME LIST -->'.format(provider)
-    with open(guide_temp,'a', encoding='utf-8') as f:
+    with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(start)
 
 def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, item_starrating, items_director, items_producer, items_actor, enable_rating_mapper, lang):
@@ -201,10 +201,10 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
     
     guide.append('</programme>\n')
     s = ''.join(guide).replace('&','&amp;')
-    with open(guide_temp,'a', encoding='utf-8') as f:
+    with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(s)
 
 def xml_end():
     end = '\n</tv>\n'
-    with open(guide_temp,'a', encoding='utf-8') as f:
+    with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(end)

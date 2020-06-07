@@ -4,7 +4,7 @@ import xbmcaddon
 import xbmcvfs
 import xbmcgui
 import time
-from datetime import datetime#
+from datetime import datetime
 import os
 import json
 import re
@@ -82,7 +82,7 @@ enable_grabber_gvisCH = True if ADDON.getSetting('enable_grabber_gvisCH').upper(
 enable_grabber_sakCH = True if ADDON.getSetting('enable_grabber_sakCH').upper() == 'TRUE' else False
 enable_grabber_nettvDE = True if ADDON.getSetting('enable_grabber_nettvDE').upper() == 'TRUE' else False
 enable_grabber_eweDE = True if ADDON.getSetting('enable_grabber_eweDE').upper() == 'TRUE' else False
-enable_grabber_qttvCH = True if ADDON.getSetting('enable_grabber_qttvDE').upper() == 'TRUE' else False
+enable_grabber_qttvCH = True if ADDON.getSetting('enable_grabber_qttvCH').upper() == 'TRUE' else False
 enable_grabber_saltCH = True if ADDON.getSetting('enable_grabber_saltCH').upper() == 'TRUE' else False
 enable_grabber_swbDE = True if ADDON.getSetting('enable_grabber_swbDE').upper() == 'TRUE' else False
 enable_grabber_eirIE = True if ADDON.getSetting('enable_grabber_eirIE').upper() == 'TRUE' else False
@@ -114,21 +114,27 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 def copy_guide_to_destination():
     done = xbmcvfs.copy(guide_temp, guide_dest)
     if done:
-        ## Write new setting last_download
-        with open(grabber_cron, 'r') as f:
-            data = json.load(f)
-            data['last_download'] = str(int(time.time()))
+        try:
+            ## Write new setting last_download
+            with open(grabber_cron, 'r') as f:
+                data = json.load(f)
+                data['last_download'] = str(int(time.time()))
 
-        with open(grabber_cron_tmp, 'w') as f:
-            json.dump(data, f, indent=4)
-        ## rename temporary file replacing old file
-        xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
-        xbmcvfs.delete(grabber_cron_tmp)
-        f.close()
-        xbmc.sleep(3000)
-        notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
-        log(loc(32350), xbmc.LOGNOTICE)
+            with open(grabber_cron_tmp, 'w') as f:
+                json.dump(data, f, indent=4)
 
+            ## rename temporary file replacing old file
+            xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
+            xbmc.sleep(3000)
+            xbmcvfs.delete(grabber_cron_tmp)
+            notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
+            log(loc(32350), xbmc.LOGNOTICE)
+        except:
+            log('Worker can´t read cron File, creating new File...'.format(loc(32356)), xbmc.LOGERROR)
+            with open(grabber_cron, 'w') as f:
+                f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
+            notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
+            log(loc(32350), xbmc.LOGNOTICE)
     else:
         notify(addon_name, loc(32351), icon=xbmcgui.NOTIFICATION_ERROR)
         log(loc(32351), xbmc.LOGERROR)
@@ -378,22 +384,30 @@ def worker():
     initiate_download = False
 
     ## Read Settings for last / next_download
-    with open(grabber_cron, 'r') as j:
-        cron = json.load(j)
-        next_download = int(cron['next_download'])
-        last_download = int(cron['last_download'])
-    j.close()
+    try:
+        with open(grabber_cron, 'r') as f:
+            cron = json.load(f)
+            next_download = cron['next_download']
+            last_download = cron['last_download']
+    except:
+        log('Worker can´t read cron File, creating new File...'.format(loc(32356)), xbmc.LOGERROR)
+        with open(grabber_cron, 'w') as f:
+            f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
+        with open(grabber_cron, 'r') as f:
+            cron = json.load(f)
+            next_download = cron['next_download']
+            last_download = cron['last_download']
 
-    log('{} {}'.format(loc(32352), datetime.fromtimestamp(last_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
+    log('{} {}'.format(loc(32352), datetime.fromtimestamp(int(last_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
 
     if (int(next_download) > int(last_download)):
-        log('{} {}'.format(loc(32353), datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
+        log('{} {}'.format(loc(32353), datetime.fromtimestamp(int(next_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
 
     if next_download < int(time.time()):
         # suggested download time has passed (e.g. system was offline) or time is now, download epg
         # and set a new timestamp for the next download
-        log('{} {}'.format(loc(32352), datetime.fromtimestamp(last_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
-        log('{} {}'.format(loc(32353), datetime.fromtimestamp(next_download).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+        log('{} {}'.format(loc(32352), datetime.fromtimestamp(int(last_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
+        log('{} {}'.format(loc(32353), datetime.fromtimestamp(int(next_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
         log('{}'.format(loc(32356)), xbmc.LOGNOTICE)
         initiate_download = True
 
@@ -422,26 +436,18 @@ def worker():
 
     ## If sheduleplan for daily 1,2,3 is in the past, plan it for next day
     if daily_1 <= now:
-        daily_1 += int(86400)
+        daily_1 += 86400
     if daily_2 <= now:
-        daily_2 += int(86400)
+        daily_2 += 86400
     if daily_3 <= now:
-        daily_3 += int(86400)
+        daily_3 += 86400
 
     ## Find the lowest Integer for next download
     next_download = min([int(daily_1), int(daily_2), int(daily_3)])
 
     ## Write new setting next_download
-    with open(grabber_cron, 'r') as f:
-        data = json.load(f)
-        data['next_download'] = str(int(next_download))
-
-    with open(grabber_cron_tmp, 'w') as f:
-        json.dump(data, f, indent=4)
-    ## rename temporary file replacing old file
-    xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
-    xbmcvfs.delete(grabber_cron_tmp)
-    f.close()
+    with open(grabber_cron, 'w') as f:
+        f.write(json.dumps({'last_download': str(int(last_download)), 'next_download': str(int(next_download))}))
 
 def check_startup():
     #Create Tempfolder if not exist
@@ -479,25 +485,8 @@ def check_startup():
 
     ## create Crontab File which not exists at first time
     if (not os.path.isfile(grabber_cron) or os.stat(grabber_cron).st_size <= 1):
-        with open(grabber_cron, 'w') as downloads:
-            downloads.write(json.dumps({}))
-            downloads.close()
-
-        # Write Setting last_download and next_download which not exist first Time
-        with open(grabber_cron, 'r') as f:
-            data = json.load(f)
-            if 'last_download' not in data:
-                data['last_download'] = str(int(time.time()))
-            ## Push next_download to tomorrow (prevent instant grabbing if auto_download = true)
-            if 'next_download' not in data:
-                data['next_download'] = str(int(time.time() + int(86400)))
-
-            with open(grabber_cron_tmp, 'w') as f:
-                json.dump(data, f, indent=4)
-            ## rename temporary file replacing old file
-            xbmcvfs.copy(grabber_cron_tmp, grabber_cron)
-            xbmcvfs.delete(grabber_cron_tmp)
-            f.close()
+        with open(grabber_cron, 'w') as f:
+            f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
 
     ## Clean Tempfiles
     for file in os.listdir(temppath):

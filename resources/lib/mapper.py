@@ -66,7 +66,6 @@ def map_channels(channel_id, channel_format,channels_json,channels_warnings_tmp,
             channel_mapped = rytec_id['channels'][lang.upper()][channel_id]
             channels_mapped = channel_id.replace(channel_id, channel_mapped)
 
-        c.close()
         return str(channels_mapped)
 
     elif channel_format == 'provider':

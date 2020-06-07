@@ -135,7 +135,6 @@ def get_channellist():
     # Create empty new hznDE_chlist_provider
     with open(magentaDE_chlist_provider, 'w') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
-        provider_list.close()
 
     ch_title = ''
 
@@ -172,7 +171,6 @@ def select_channels():
     if not os.path.isfile(magentaDE_chlist_selected):
         with open((magentaDE_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
-            selected_list.close()
 
     ## Download chlist_magenta_provider.json
     get_channellist()
@@ -264,7 +262,6 @@ def download_multithread(thread_temppath, download_threads):
                     last_line = ''
                     with open(list, 'r') as f:
                         last_line = f.readlines()[-1]
-                    f.close()
                 except:
                     pass
                 items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
@@ -317,7 +314,6 @@ def download_thread(magentaDE_chlist_selected, multi, list):
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a') as f:
             f.write(last_channel_name)
-        f.close()
 
         if not multi:
             items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
@@ -338,7 +334,6 @@ def create_xml_channels():
         tkm_channels_response = requests.get(tkm_channels_url).json()
         with open(tkm_channels_json, 'w') as tkm_channels:
             json.dump(tkm_channels_response, tkm_channels)
-        tkm_channels.close()
 
     with open(magentaDE_chlist_selected, 'r') as c:
         selected_list = json.load(c)
@@ -381,7 +376,6 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
         tkm_genres_response = requests.get(tkm_genres_url).json()
         with open(tkm_genres_json, 'w') as tkm_genres:
             json.dump(tkm_genres_response, tkm_genres)
-        tkm_genres.close()
 
     with open(magentaDE_chlist_selected, 'r') as c:
         selected_list = json.load(c)
@@ -534,7 +528,7 @@ def check_provider():
     if not os.path.isfile(magentaDE_chlist_selected):
         with open((magentaDE_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
-            selected_list.close()
+
         ## If no Channellist exist, ask to create one
         yn = OSD.yesno(provider, loc(32405))
         if yn:

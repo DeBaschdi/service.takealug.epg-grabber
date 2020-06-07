@@ -114,7 +114,6 @@ def get_channellist():
     # Create empty new swcCH_chlist_provider
     with open(swcCH_chlist_provider, 'w') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
-        provider_list.close()
 
     ch_title = ''
 
@@ -149,7 +148,6 @@ def select_channels():
     if not os.path.isfile(swcCH_chlist_selected):
         with open((swcCH_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
-            selected_list.close()
 
     ## Download chlist_magenta_provider.json
     get_channellist()
@@ -242,7 +240,6 @@ def download_multithread(thread_temppath, download_threads):
                     last_line = ''
                     with open(list, 'r') as f:
                         last_line = f.readlines()[-1]
-                    f.close()
                 except:
                     pass
                 items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
@@ -288,7 +285,6 @@ def download_thread(chlist_selected, multi, list, starttime, endtime):
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a') as f:
             f.write(last_channel_name)
-        f.close()
 
         if not multi:
             items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
@@ -308,7 +304,6 @@ def create_xml_channels():
         swcCH_channels_response = requests.get(swcCH_channels_url).json()
         with open(swcCH_channels_json, 'w') as swcCH_channels:
             json.dump(swcCH_channels_response, swcCH_channels)
-        swcCH_channels.close()
 
     with open(swcCH_chlist_selected, 'r') as c:
         selected_list = json.load(c)
@@ -350,7 +345,6 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
         genres_file = requests.get(swcCH_genres_url).json()
         with open(swcCH_genres_json, 'w') as genres_list:
             json.dump(genres_file, genres_list)
-        genres_list.close()
 
     with open(swcCH_chlist_selected, 'r') as c:
         selected_list = json.load(c)
@@ -534,7 +528,7 @@ def check_provider():
     if not os.path.isfile(swcCH_chlist_selected):
         with open((swcCH_chlist_selected), 'w') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
-            selected_list.close()
+
         ## If no Channellist exist, ask to create one
         yn = OSD.yesno(provider, loc(32405))
         if yn:
