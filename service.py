@@ -415,6 +415,11 @@ def worker():
     if initiate_download:
         notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
         run_grabber()
+        ## Update Cron Settings
+        with open(grabber_cron, 'r') as f:
+            cron = json.load(f)
+            next_download = cron['next_download']
+            last_download = cron['last_download']
 
     ## Calculate the next_download Setting
 
