@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" afterDir="false" />
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="Update Addon to 0.3.1&#10;- Some enhancements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/mapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/mapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/horizon.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/swisscom_CH.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/swisscom_CH.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -373,11 +364,17 @@
       <option name="project" value="LOCAL" />
       <updated>1591176483527</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Update Addon to 0.3.1&#10;- Some enhancements">
+      <created>1591509874093</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1591509874093</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations" />
     <MESSAGE value="Update Addon to 0.0.8&#10;-Add more Translations(2)" />
     <MESSAGE value="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications" />
     <MESSAGE value="Update Addon to 0.0.9&#10;-Some Code Cleanup" />
@@ -402,7 +399,8 @@
     <MESSAGE value="Update Addon to 0.2.6&#10;- Sort Zattoo Broadcast Data data by start time" />
     <MESSAGE value="Update Addon to 0.2.8&#10;- Zattoo proirize HD ChannelNames" />
     <MESSAGE value="Update Readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Readme" />
+    <MESSAGE value="Update Addon to 0.3.1&#10;- Some enhancements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.3.1&#10;- Some enhancements" />
   </component>
   <component name="WindowStateProjectService">
     <state x="694" y="317" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590547734350">
@@ -410,11 +408,11 @@
     </state>
     <state x="555" y="254" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1589258741354" />
     <state x="694" y="317" width="552" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1590547734350" />
-    <state x="444" y="0" width="809" height="948" key="CommitChangelistDialog2" timestamp="1591176482975">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2" timestamp="1591600058166">
+      <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591176482975" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1590897784327" />
+    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1591600058166" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1591069918048">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -428,11 +426,11 @@
     </state>
     <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1589258365241" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="445" y="199" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1591176485290">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1591509876186">
+      <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1591176485290" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1590897786413" />
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1591509876186" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1590652195512">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
@@ -455,9 +453,9 @@
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="607" y="302" key="git4idea.merge.GitPullDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1589856558620" />
-    <state x="268" y="350" width="672" height="678" key="search.everywhere.popup" timestamp="1590558661928">
+    <state x="268" y="350" width="672" height="678" key="search.everywhere.popup" timestamp="1591599752457">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="268" y="350" width="672" height="678" key="search.everywhere.popup/0.0.1920.1030@0.0.1920.1030" timestamp="1590558661928" />
+    <state x="268" y="350" width="672" height="678" key="search.everywhere.popup/0.0.1920.1030@0.0.1920.1030" timestamp="1591599752457" />
   </component>
 </project>

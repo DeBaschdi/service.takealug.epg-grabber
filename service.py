@@ -403,7 +403,7 @@ def worker():
     if (int(next_download) > int(last_download)):
         log('{} {}'.format(loc(32353), datetime.fromtimestamp(int(next_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGDEBUG)
 
-    if next_download < int(time.time()):
+    if int(next_download) < int(time.time()):
         # suggested download time has passed (e.g. system was offline) or time is now, download epg
         # and set a new timestamp for the next download
         log('{} {}'.format(loc(32352), datetime.fromtimestamp(int(last_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
