@@ -71,16 +71,19 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
     
     ## TITLE Condition
     if not item_title == '':
+        item_title = item_title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         guide.append('  <title lang="{}">{}</title>\n'.format(lang,item_title))
     
     ## SUBTITLE Condition
     if not item_subtitle == '':
+        item_subtitle = item_subtitle.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         guide.append('  <sub-title lang="{}">{}</sub-title>\n'.format(lang,item_subtitle))
     
     ## DESCRIPTION Condition
     if not item_description == '':
+        item_description = item_description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         if enable_rating_mapper == False:
-            guide.append('  <desc lang="{}">{}</desc>\n'.format(lang,item_description))
+            guide.append('  <desc lang="{}">{}</desc>\n'.format(lang, item_description))
 
         ## Rating Mapper
         elif enable_rating_mapper == True:
@@ -97,7 +100,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
     if not items_genre == '':
         genrelist = items_genre.split(',')
         for genre in genrelist:
-            guide.append('  <category lang="{}">{}</category>\n'.format(lang,genre))
+            guide.append('  <category lang="{}">{}</category>\n'.format(lang, genre))
     
     ## DATE Condition
     if not item_date == '':
@@ -200,7 +203,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
         guide.append('  </credits>\n')
     
     guide.append('</programme>\n')
-    s = ''.join(guide).replace('&','&amp;')
+    s = ''.join(guide)
     with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(s)
 
