@@ -18,8 +18,6 @@ from resources.providers import horizon
 from resources.providers import zattoo
 import sys
 import platform
-import requests
-from lxml import etree
 
 ## Python 3 Compatibility
 if sys.version_info[0] > 2:

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
-    </list>
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,13 +45,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588048479091</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Update Addon to 0.0.3&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)">
-      <created>1588240671080</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1588240671080</updated>
     </task>
     <task id="LOCAL-00003" summary="Update Addon to 0.0.3(2)&#10;-Fix Timedelta Bug in Magenta (DE)&#10;-Add new Provider Horizon (DE)">
       <created>1588240753027</created>
@@ -392,11 +382,17 @@
       <option name="project" value="LOCAL" />
       <updated>1592296348993</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Update Addon to 0.3.5&#10;- Remove xmltv validation by lxml due to kodi incompatibility">
+      <created>1592298854433</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1592298854434</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.0.9&#10;-Add Python 3 Compatibility(2) (for Matrix)" />
     <MESSAGE value="Update Addon to 0.0.9&#10;-Add Readme" />
     <MESSAGE value="Update Addon to 0.1.1&#10;-Add Horizon (CH,NL,PL,IE,SK,CZ,HU,RO)" />
     <MESSAGE value="Update Addon to 0.1.2&#10;-Fix Channel Selection (general)&#10;-Add Translations for Addon Summary" />
@@ -421,7 +417,8 @@
     <MESSAGE value="Update Addon to 0.3.2&#10;- Hotfix for Sheduler(2)" />
     <MESSAGE value="Update Addon to 0.3.3&#10;- Remove html Strings within the description" />
     <MESSAGE value="Update Addon to 0.3.4&#10;- Validate generated XMLTV File" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.3.4&#10;- Validate generated XMLTV File" />
+    <MESSAGE value="Update Addon to 0.3.5&#10;- Remove xmltv validation by lxml due to kodi incompatibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.3.5&#10;- Remove xmltv validation by lxml due to kodi incompatibility" />
   </component>
   <component name="WindowStateProjectService">
     <state x="694" y="317" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590547734350">
@@ -429,11 +426,11 @@
     </state>
     <state x="555" y="254" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1589258741354" />
     <state x="694" y="317" width="552" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1590547734350" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2" timestamp="1592296348894">
+    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2" timestamp="1592298854353">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591176482975" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1592296348894" />
+    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1592298854353" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1591069918048">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -447,11 +444,11 @@
     </state>
     <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1589258365241" />
     <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1588062667563" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1592296350860">
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1592298856799">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1591176485290" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1592296350860" />
+    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1592298856799" />
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1590652195512">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
