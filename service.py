@@ -18,6 +18,8 @@ from resources.providers import horizon
 from resources.providers import zattoo
 import sys
 import platform
+import requests
+from lxml import etree
 
 ## Python 3 Compatibility
 if sys.version_info[0] > 2:
@@ -97,6 +99,7 @@ guide_temp = os.path.join(datapath, 'guide.xml')
 guide_dest = os.path.join(storage_path, 'guide.xml')
 grabber_cron = os.path.join(datapath, 'grabber_cron.json')
 grabber_cron_tmp = os.path.join(temppath, 'grabber_cron.json')
+xmltv_dtd = os.path.join(datapath, 'xmltv.dtd')
 
 ## Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
@@ -351,11 +354,36 @@ def run_grabber():
 
             ## Finish XML
             xml_structure.xml_end()
-            copy_guide_to_destination()
 
-            ## Write Guide in TVH Socked
-            if use_local_sock:
-                write_to_sock()
+            ## Validate XMLTV File
+            if validate_xml():
+                copy_guide_to_destination()
+
+                ## Write Guide in TVH Socked
+                if use_local_sock:
+                    write_to_sock()
+
+def validate_xml():
+    log('Validating XMLTV File...', xbmc.LOGNOTICE)
+    try:
+        dtd = etree.DTD(open(xmltv_dtd))
+        tree = etree.parse(guide_temp)
+        valid = dtd.validate(tree)
+        if (valid):
+            log('XML was valid', xbmc.LOGNOTICE)
+            return True
+
+        else:
+            log('XML was not valid', xbmc.LOGERROR)
+            log(str(dtd.error_log.filter_from_errors()), xbmc.LOGERROR)
+            notify(addon_name, 'XML was not valid', icon=xbmcgui.NOTIFICATION_ERROR)
+            return False
+
+    except Exception as e:
+        log('XML ERROR', xbmc.LOGERROR)
+        log(str(e), xbmc.LOGERROR)
+        notify(addon_name, 'XML ERROR', icon=xbmcgui.NOTIFICATION_ERROR)
+        return False
 
 def write_to_sock():
     if check_startup():
@@ -460,6 +488,12 @@ def check_startup():
         os.makedirs(temppath)
     if not os.path.exists(thread_temppath):
         os.makedirs(thread_temppath)
+
+    ## Download xmltv Validation Schema if not exist
+    if not os.path.isfile(xmltv_dtd):
+        response = requests.get('https://raw.githubusercontent.com/XMLTV/xmltv/master/xmltv.dtd')
+        with open(xmltv_dtd, 'w') as f:
+            f.write(response.text)
 
     if storage_path == 'choose':
         notify(addon_name, loc(32359), icon=xbmcgui.NOTIFICATION_ERROR)
