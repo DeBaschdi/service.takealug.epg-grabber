@@ -94,8 +94,14 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
                 guide.append('        {}\n        {}</desc>\n'.format(' '.join(desc.split()), item_description))
 
         ## CAST Condition
+        if not items_producer == '':
+            items_producer = items_producer.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         producerlist = items_producer.split(',')
+        if not items_director == '':
+            items_director = items_director.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         directorlist = items_director.split(',')
+        if not items_actor == '':
+            items_actor = items_actor.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         actorlist = items_actor.split(',')
         # Complete
         if (not items_director == '' and not items_producer == '' and not items_actor == ''):
@@ -156,6 +162,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
 
         ## GENRE Condition
         if not items_genre == '':
+            items_genre = items_genre.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             genrelist = items_genre.split(',')
             for genre in genrelist:
                 guide.append('        <category lang="{}">{}</category>\n'.format(lang, genre))
@@ -167,6 +174,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
 
         ## COUNTRY Condition
         if not item_country == '':
+            item_country = item_country.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             guide.append('        <country>{}</country>\n'.format(item_country))
 
         ## EPISODE Condition

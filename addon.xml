@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="0.3.6" provider-name="DeBaschdi">
+<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="0.3.7" provider-name="DeBaschdi">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
         <import addon="script.module.requests"/>
@@ -20,6 +20,6 @@
             <screenshot>screenshot1.png</screenshot>
             <screenshot>screenshot2.png</screenshot>
         </assets>
-        <news lang="en">Add New Provider(s) Zattoo + Reseller</news>
+        <news lang="en">Bugfixes</news>
     </extension>
 </addon>

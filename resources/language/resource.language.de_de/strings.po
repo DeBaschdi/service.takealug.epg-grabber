@@ -620,6 +620,10 @@ msgctxt "#32413"
 msgid "Error while Login"
 msgstr "Fehler während des Logins"
 
+msgctxt "#32414"
+msgid "To start the manual download, the automatic download must be disabled"
+msgstr "Um den manuellen Download zu starten muss der Automatische Download deaktiviert sein"
+
 #####################################
 # Progress 32500 -32549             #
 #####################################
