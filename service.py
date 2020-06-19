@@ -37,9 +37,17 @@ temppath = os.path.join(datapath, "temp")
 thread_temppath = os.path.join(temppath, "multithread")
 machine = platform.machine()
 
+def getAddonSetting(setting):
+    value = True if xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting(setting).upper() == 'TRUE' else False
+    return value
+
+def getAddonCronSetting(setting):
+    value = xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting(setting)
+    return value
+
 ## Read Global Settings
 storage_path = ADDON.getSetting('storage_path')
-auto_download = True if ADDON.getSetting('auto_download').lower() == 'true' else False
+auto_download = getAddonSetting('auto_download')
 timeswitch_1 = int(ADDON.getSetting('timeswitch_1'))
 timeswitch_2 = int(ADDON.getSetting('timeswitch_2'))
 timeswitch_3 = int(ADDON.getSetting('timeswitch_3'))
@@ -48,7 +56,6 @@ use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' el
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 download_threads = int(ADDON.getSetting('download_threads'))
 enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
-
 
 ## Get Enabled Grabbers
 # Divers
@@ -107,7 +114,14 @@ def log(message, loglevel=xbmc.LOGDEBUG):
 OSD = xbmcgui.Dialog()
 
 ## MAKE an Monitor
-Monitor = xbmc.Monitor()
+class Monitor(xbmc.Monitor):
+    def __init__(self):
+        xbmc.Monitor.__init__(self)
+        self.settingsChanged = False
+
+    def onSettingsChanged(self):
+        self.settingsChanged = True
+monitor = Monitor()
 
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
@@ -381,7 +395,7 @@ def write_to_sock():
             if ok:
                 log(loc(32409), xbmc.LOGERROR)
 
-def worker():
+def worker(timeswitch_1, timeswitch_2, timeswitch_3):
     initiate_download = False
 
     ## Read Settings for last / next_download
@@ -504,17 +518,30 @@ if __name__ == '__main__':
         try:
             dialog = xbmcgui.Dialog()
             if sys.argv[1] == 'manual_download':
-                ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
-                if ret:
-                    notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
-                    run_grabber()
+                if not auto_download:
+                    ret = dialog.yesno('Takealug EPG Grabber', loc(32401))
+                    if ret:
+                        notify(addon_name, loc(32376), icon=xbmcgui.NOTIFICATION_INFO)
+                        run_grabber()
+                elif auto_download:
+                    ok = dialog.ok(addon_name, loc(32414))
+                    if ok:
+                        pass
+                    pass
             if sys.argv[1] == 'write_to_sock':
                 ret = dialog.yesno(loc(32119), loc(32408))
                 if ret:
                     write_to_sock()
-        except IndexError:
-            pass
 
-        while not Monitor.waitForAbort(60):
-            if auto_download:
-                worker()
+        except IndexError:
+            while not monitor.waitForAbort(30):
+                if monitor.settingsChanged:
+                    log('Settings changed Reloading', xbmc.LOGNOTICE)
+                    auto_download = getAddonSetting('auto_download')
+                    if auto_download:
+                        timeswitch_1 = int(getAddonCronSetting('timeswitch_1'))
+                        timeswitch_2 = int(getAddonCronSetting('timeswitch_2'))
+                        timeswitch_3 = int(getAddonCronSetting('timeswitch_3'))
+                    monitor.settingsChanged = False
+                if auto_download:
+                    worker(timeswitch_1, timeswitch_2, timeswitch_3)
