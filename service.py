@@ -469,6 +469,14 @@ def worker(timeswitch_1, timeswitch_2, timeswitch_3):
     with open(grabber_cron, 'w') as f:
         f.write(json.dumps({'last_download': str(int(last_download)), 'next_download': str(int(next_download))}))
 
+def check_internet(host="8.8.8.8", port=53, timeout=3):
+  try:
+    socket.setdefaulttimeout(timeout)
+    socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+    return True
+  except socket.error as ex:
+    return False
+
 def check_startup():
     #Create Tempfolder if not exist
     if not os.path.exists(temppath):
@@ -511,7 +519,26 @@ def check_startup():
     ## Clean Tempfiles
     for file in os.listdir(temppath):
         xbmcvfs.delete(os.path.join(temppath, file))
-    return True
+
+    ## Check internet Connection
+    if not check_internet():
+        retries = 12
+        while retries > 0:
+            log(loc(32385), xbmc.LOGINFO)
+            notify(addon_name, loc(32385), icon=xbmcgui.NOTIFICATION_INFO)
+            xbmc.sleep(5000)
+            if check_internet():
+                log(loc(32386), xbmc.LOGINFO)
+                notify(addon_name, loc(32386), icon=xbmcgui.NOTIFICATION_INFO)
+                return True
+            else:
+                retries -= 1
+        if retries == 0:
+            log(loc(32387), xbmc.LOGERROR)
+            notify(addon_name, loc(32387), icon=xbmcgui.NOTIFICATION_ERROR)
+            return False
+    else:
+        return True
 
 if __name__ == '__main__':
     if check_startup():

@@ -555,6 +555,18 @@ msgctxt "#32384"
 msgid "Login success"
 msgstr ""
 
+msgctxt "#32385"
+msgid "Waiting for Network Connection..."
+msgstr ""
+
+msgctxt "#32386"
+msgid "Network connection established"
+msgstr ""
+
+msgctxt "#32387"
+msgid "Please Check your internet Connection"
+msgstr ""
+
 #####################################
 # Messages 32400 - 32499            #
 #####################################
