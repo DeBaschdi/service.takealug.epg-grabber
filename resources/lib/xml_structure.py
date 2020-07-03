@@ -3,18 +3,11 @@ import xbmc
 import xbmcaddon
 import os
 import datetime
-import sys
 from resources.lib import mapper
 
-## Python 3 Compatibility
-if sys.version_info[0] > 2:
-    # python 3
-    pass
-else:
-    # python 2
-    import codecs
-    def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
-        return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
+import codecs
+def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
+    return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -39,7 +32,7 @@ def xml_channels_start(provider):
 def xml_channels(channel_name, channel_id, channel_icon, lang):
     channels = []
     channels.append('    <channel id="{}">\n'.format(channel_id))
-    channels.append('        <display-name lang="{}">{}</display-name>\n'.format(lang,channel_name))
+    channels.append('        <display-name lang="{}">{}</display-name>\n'.format(lang, channel_name))
     channels.append('        <icon src="{}" />\n'.format(channel_icon))
     channels.append('    </channel>\n')
     s = ''.join(channels).replace('&', '&amp;')
@@ -58,6 +51,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
     if (not item_starttime == '' and not item_endtime == '' and not item_title == ''):
         ## Programme Condition
         if (not item_starttime == '' and not item_endtime == ''):
+            channel_id = channel_id.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             guide.append('    <programme start="{} +0000" stop="{} +0000" channel="{}">\n'.format(item_starttime, item_endtime, channel_id))
 
         ## Map Imdb Stars

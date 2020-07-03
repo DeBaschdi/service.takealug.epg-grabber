@@ -2,7 +2,6 @@
 import xbmc
 import xbmcaddon
 import xbmcgui
-import xbmcvfs
 import json
 import os
 

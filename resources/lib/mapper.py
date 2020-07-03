@@ -4,17 +4,10 @@ import xbmcaddon
 import xbmcgui
 import json
 import os
-import sys
 
-## Python 3 Compatibility
-if sys.version_info[0] > 2:
-    # python 3
-    pass
-else:
-    # python 2
-    import codecs
-    def open(file, mode='r', buffering=-1, encoding=None,errors=None, newline=None, closefd=True, opener=None):
-        return codecs.open(filename=file, mode=mode, encoding=encoding,errors=errors, buffering=buffering)
+import codecs
+def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
+    return codecs.open(filename=file, mode=mode, encoding=encoding,errors=errors, buffering=buffering)
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')

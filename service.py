@@ -19,14 +19,8 @@ from resources.providers import zattoo
 import sys
 import platform
 
-## Python 3 Compatibility
-if sys.version_info[0] > 2:
-    # python 3
-    pass
-else:
-    # python 2
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
