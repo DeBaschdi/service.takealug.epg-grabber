@@ -17,6 +17,9 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 from resources.lib import filesplit
 
+import codecs
+def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
+    return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
 
 provider = 'TV SPIELFILM (DE)'
 lang = 'de'
@@ -71,7 +74,6 @@ def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
 # Calculate Date and Time
 today = datetime.today()
 
-#starttime = starttime_day.strftime("%Y-%m-%d")
 
 ## Channel Files
 tvsDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_tvsDE_provider_tmp.json')
@@ -92,23 +94,23 @@ def get_channellist():
     tvsDE_chlist_url = requests.get(tvsDE_channellist_url, headers=tvsDE_header)
     tvsDE_chlist_url.raise_for_status()
     response = tvsDE_chlist_url.json()
-    with open(tvsDE_chlist_provider_tmp, 'w') as provider_list_tmp:
+    with open(tvsDE_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
         json.dump(response, provider_list_tmp)
 
     #### Transform tvsDE_chlist_provider_tmp to Standard chlist Format as tvsDE_chlist_provider
 
     # Load Channellist from Provider
-    with open(tvsDE_chlist_provider_tmp, 'r') as provider_list_tmp:
+    with open(tvsDE_chlist_provider_tmp, 'r', encoding='utf-8') as provider_list_tmp:
         tvsDE_channels = json.load(provider_list_tmp)
 
     # Create empty new tvsDE_chlist_provider
-    with open(tvsDE_chlist_provider, 'w') as provider_list:
+    with open(tvsDE_chlist_provider, 'w', encoding='utf-8') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
 
     ch_title = ''
 
     # Load New Channellist from Provider
-    with open(tvsDE_chlist_provider) as provider_list:
+    with open(tvsDE_chlist_provider, encoding='utf-8') as provider_list:
         data = json.load(provider_list)
 
         temp = data['channellist']
@@ -126,7 +128,7 @@ def get_channellist():
             temp.append(y)
 
     #Save New Channellist from Provider
-    with open(tvsDE_chlist_provider, 'w') as provider_list:
+    with open(tvsDE_chlist_provider, 'w', encoding='utf-8') as provider_list:
         json.dump(data, provider_list, indent=4)
 
 def select_channels():
@@ -136,24 +138,24 @@ def select_channels():
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(tvsDE_chlist_selected):
-        with open((tvsDE_chlist_selected), 'w') as selected_list:
+        with open((tvsDE_chlist_selected), 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
     ## Download chlist_magenta_provider.json
     get_channellist()
     dialog = xbmcgui.Dialog()
 
-    with open(tvsDE_chlist_provider, 'r') as o:
+    with open(tvsDE_chlist_provider, 'r', encoding='utf-8') as o:
         provider_list = json.load(o)
 
-    with open(tvsDE_chlist_selected, 'r') as s:
+    with open(tvsDE_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     ## Start Channel Selector
     user_select = channel_selector.select_channels(provider, provider_list, selected_list)
 
     if user_select is not None:
-        with open(tvsDE_chlist_selected, 'w') as f:
+        with open(tvsDE_chlist_selected, 'w', encoding='utf-8') as f:
             json.dump(user_select, f, indent=4)
         if os.path.isfile(tvsDE_chlist_selected):
             valid = check_selected_list()
@@ -186,7 +188,7 @@ def select_channels():
 
 def check_selected_list():
     check = 'invalid'
-    with open(tvsDE_chlist_selected, 'r') as c:
+    with open(tvsDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
     for user_list in selected_list['channellist']:
         if 'contentId' in user_list:
@@ -205,7 +207,7 @@ def download_multithread(thread_temppath, download_threads):
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_tvsDE_selected')
 
-    with open(tvsDE_chlist_selected, 'r') as s:
+    with open(tvsDE_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     if filesplit.split_chlist_selected(thread_temppath, tvsDE_chlist_selected, splitname, download_threads, enable_multithread):
@@ -227,7 +229,7 @@ def download_multithread(thread_temppath, download_threads):
                 xbmc.sleep(500)
                 try:
                     last_line = ''
-                    with open(list, 'r') as f:
+                    with open(list, 'r', encoding='utf-8') as f:
                         last_line = f.readlines()[-1]
                 except:
                     pass
@@ -254,7 +256,7 @@ def channel_hack(contentID):
 def download_thread(tvsDE_chlist_selected, multi, list):
     requests.adapters.DEFAULT_RETRIES = 5
 
-    with open(tvsDE_chlist_selected, 'r') as s:
+    with open(tvsDE_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     if not multi:
@@ -271,16 +273,16 @@ def download_thread(tvsDE_chlist_selected, multi, list):
 
         ## Merge all selected Days in one Json file
         ## create empty broadcastfile
-        with open(broadcast_files, 'w') as playbill:
+        with open(broadcast_files, 'w', encoding='utf-8') as playbill:
             playbill.write(json.dumps({"broadcasts": []}))
 
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
-        with open(list, 'a') as f:
+        with open(list, 'a', encoding='utf-8') as f:
             f.write(last_channel_name)
 
         ## open empty broadcastfile
-        with open(broadcast_files) as playbill:
+        with open(broadcast_files, encoding='utf-8') as playbill:
             data = json.load(playbill)
             temp = data['broadcasts']
 
@@ -295,7 +297,7 @@ def download_thread(tvsDE_chlist_selected, multi, list):
                 tvs_data = response.json()
                 temp.append(tvs_data)
 
-        with open(broadcast_files, 'w') as playbill:
+        with open(broadcast_files, 'w', encoding='utf-8') as playbill:
             json.dump(data, playbill, indent=4)
 
         if not multi:
@@ -314,10 +316,10 @@ def create_xml_channels():
     if channel_format == 'rytec':
         ## Save tvsDE_channels.json to Disk
         tvsDE_channels_response = requests.get(tvsDE_channels_url).json()
-        with open(tvsDE_channels_json, 'w') as tvsDE_channels:
+        with open(tvsDE_channels_json, 'w', encoding='utf-8') as tvsDE_channels:
             json.dump(tvsDE_channels_response, tvsDE_channels)
 
-    with open(tvsDE_chlist_selected, 'r') as c:
+    with open(tvsDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -355,10 +357,10 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
     if genre_format == 'eit':
         ## Save tvsDE_genres.json to Disk
         tvsDE_genres_response = requests.get(tvsDE_genres_url).json()
-        with open(tvsDE_genres_json, 'w') as tvsDE_genres:
+        with open(tvsDE_genres_json, 'w', encoding='utf-8') as tvsDE_genres:
             json.dump(tvsDE_genres_response, tvsDE_genres)
 
-    with open(tvsDE_chlist_selected, 'r') as c:
+    with open(tvsDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -382,7 +384,7 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
             log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-        with open(broadcast_files, 'r') as b:
+        with open(broadcast_files, 'r', encoding='utf-8') as b:
             broadcastfiles = json.load(b)
 
         ### Map Channels
@@ -508,7 +510,7 @@ def check_provider():
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(tvsDE_chlist_selected):
-        with open((tvsDE_chlist_selected), 'w') as selected_list:
+        with open((tvsDE_chlist_selected), 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
         ## If no Channellist exist, ask to create one
@@ -517,7 +519,7 @@ def check_provider():
             select_channels()
         else:
             xbmcvfs.delete(tvsDE_chlist_selected)
-            exit()
+            return False
 
     ## If a Selected list exist, check valid
     valid = check_selected_list()
@@ -527,11 +529,15 @@ def check_provider():
             select_channels()
         else:
             xbmcvfs.delete(tvsDE_chlist_selected)
-            exit()
+            return False
+    return True
 
 def startup():
-    check_provider()
-    get_channellist()
+    if check_provider():
+        get_channellist()
+        return True
+    else:
+        return False
 
 # Channel Selector
 try:

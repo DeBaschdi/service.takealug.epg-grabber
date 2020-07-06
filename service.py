@@ -19,6 +19,10 @@ from resources.providers import zattoo
 import sys
 import platform
 
+import codecs
+def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
+    return codecs.open(filename=file, mode=mode, encoding=encoding,errors=errors, buffering=buffering)
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -125,11 +129,11 @@ def copy_guide_to_destination():
     if done:
         try:
             ## Write new setting last_download
-            with open(grabber_cron, 'r') as f:
+            with open(grabber_cron, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 data['last_download'] = str(int(time.time()))
 
-            with open(grabber_cron_tmp, 'w') as f:
+            with open(grabber_cron_tmp, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=4)
 
             ## rename temporary file replacing old file
@@ -140,7 +144,7 @@ def copy_guide_to_destination():
             log(loc(32350), xbmc.LOGNOTICE)
         except:
             log('Worker can´t read cron File, creating new File...'.format(loc(32356)), xbmc.LOGERROR)
-            with open(grabber_cron, 'w') as f:
+            with open(grabber_cron, 'w', encoding='utf-8') as f:
                 f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
             notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
             log(loc(32350), xbmc.LOGNOTICE)
@@ -149,8 +153,8 @@ def copy_guide_to_destination():
         log(loc(32351), xbmc.LOGERROR)
 
 def check_channel_dupes():
-    with open(guide_temp) as f:
-        c = Counter(c.strip().lower() for c in f if c.strip())  # for case-insensitive search
+    with open(guide_temp, encoding='utf-8') as f:
+        c = Counter(c.strip() for c in f if c.strip())  # for case-insensitive search
         dupe = []
         for line in c:
             if c[line] > 1:
@@ -175,47 +179,47 @@ def run_grabber():
         xml_structure.xml_start()
         ## Check Provider , Create XML Channels
         if enable_grabber_magentaDE:
-            magenta_DE.startup()
-            magenta_DE.create_xml_channels()
+            if magenta_DE.startup():
+                magenta_DE.create_xml_channels()
         if enable_grabber_tvsDE:
-            tvspielfilm_DE.startup()
-            tvspielfilm_DE.create_xml_channels()
+            if tvspielfilm_DE.startup():
+                tvspielfilm_DE.create_xml_channels()
         if enable_grabber_swcCH:
-            swisscom_CH.startup()
-            swisscom_CH.create_xml_channels()
+            if swisscom_CH.startup():
+                swisscom_CH.create_xml_channels()
         if enable_grabber_hznDE:
-            horizon.startup('de')
-            horizon.create_xml_channels('de')
+            if horizon.startup('de'):
+                horizon.create_xml_channels('de')
         if enable_grabber_hznAT:
-            horizon.startup('at')
-            horizon.create_xml_channels('at')
+            if horizon.startup('at'):
+                horizon.create_xml_channels('at')
         if enable_grabber_hznCH:
-            horizon.startup('ch')
-            horizon.create_xml_channels('ch')
+            if horizon.startup('ch'):
+                horizon.create_xml_channels('ch')
         if enable_grabber_hznNL:
-            horizon.startup('nl')
-            horizon.create_xml_channels('nl')
+            if horizon.startup('nl'):
+                horizon.create_xml_channels('nl')
         if enable_grabber_hznPL:
-            horizon.startup('pl')
-            horizon.create_xml_channels('pl')
+            if horizon.startup('pl'):
+                horizon.create_xml_channels('pl')
         if enable_grabber_hznIE:
-            horizon.startup('ie')
-            horizon.create_xml_channels('ie')
+            if horizon.startup('ie'):
+                horizon.create_xml_channels('ie')
         if enable_grabber_hznGB:
-            horizon.startup('gb')
-            horizon.create_xml_channels('gb')
+            if horizon.startup('gb'):
+                horizon.create_xml_channels('gb')
         if enable_grabber_hznSK:
-            horizon.startup('sk')
-            horizon.create_xml_channels('sk')
+            if horizon.startup('sk'):
+                horizon.create_xml_channels('sk')
         if enable_grabber_hznCZ:
-            horizon.startup('cz')
-            horizon.create_xml_channels('cz')
+            if horizon.startup('cz'):
+                horizon.create_xml_channels('cz')
         if enable_grabber_hznHU:
-            horizon.startup('hu')
-            horizon.create_xml_channels('hu')
+            if horizon.startup('hu'):
+                horizon.create_xml_channels('hu')
         if enable_grabber_hznRO:
-            horizon.startup('ro')
-            horizon.create_xml_channels('ro')
+            if horizon.startup('ro'):
+                horizon.create_xml_channels('ro')
         if enable_grabber_zttDE:
             if zattoo.startup('ztt_de'):
                 zattoo.create_xml_channels('ztt_de')
@@ -276,33 +280,47 @@ def run_grabber():
 
             ## Create XML Broadcast
             if enable_grabber_magentaDE:
-                magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
+                if magenta_DE.startup():
+                    magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_tvsDE:
-                tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
+                if tvspielfilm_DE.startup():
+                    tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_swcCH:
-                swisscom_CH.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
+                if swisscom_CH.startup():
+                    swisscom_CH.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznDE:
-                horizon.create_xml_broadcast('de', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('de'):
+                    horizon.create_xml_broadcast('de', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznAT:
-                horizon.create_xml_broadcast('at', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('at'):
+                    horizon.create_xml_broadcast('at', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznCH:
-                horizon.create_xml_broadcast('ch', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('ch'):
+                    horizon.create_xml_broadcast('ch', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznNL:
-                horizon.create_xml_broadcast('nl', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('nl'):
+                    horizon.create_xml_broadcast('nl', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznPL:
-                horizon.create_xml_broadcast('pl', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('pl'):
+                    horizon.create_xml_broadcast('pl', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznIE:
-                horizon.create_xml_broadcast('ie', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('ie'):
+                    horizon.create_xml_broadcast('ie', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznGB:
-                horizon.create_xml_broadcast('gb', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('gb'):
+                    horizon.create_xml_broadcast('gb', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznSK:
-                horizon.create_xml_broadcast('sk', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('sk'):
+                    horizon.create_xml_broadcast('sk', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznCZ:
-                horizon.create_xml_broadcast('cz', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('cz'):
+                    horizon.create_xml_broadcast('cz', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznHU:
-                horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('hu'):
+                    horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_hznRO:
-                horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
+                if horizon.startup('ro'):
+                    horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_zttDE:
                 if zattoo.startup('ztt_de'):
                     zattoo.create_xml_broadcast('ztt_de', enable_rating_mapper, thread_temppath, download_threads)
@@ -370,7 +388,7 @@ def write_to_sock():
     if check_startup():
         if (use_local_sock and os.path.isfile(guide_temp)):
             sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            epg = open(guide_temp, 'rb')
+            epg = open(guide_temp, 'rb', encoding='utf-8')
             epg_data = epg.read()
             try:
                 log('{} {}'.format(loc(32380), tvh_local_sock), xbmc.LOGNOTICE)
@@ -379,7 +397,7 @@ def write_to_sock():
                 sock.sendall(epg_data)
                 log('{} {}'.format(sock.recv, tvh_local_sock), xbmc.LOGNOTICE)
             except socket.error as e:
-                notify(addon_name, loc(32379), icon=xbmcgui.NOTIFICATION_ERROR)
+                notify(addon_name, '{} {}'.format(loc(32379), e), icon=xbmcgui.NOTIFICATION_ERROR)
                 log('{} {}'.format(loc(32379), e), xbmc.LOGERROR)
             finally:
                 sock.close()
@@ -394,15 +412,15 @@ def worker(timeswitch_1, timeswitch_2, timeswitch_3):
 
     ## Read Settings for last / next_download
     try:
-        with open(grabber_cron, 'r') as f:
+        with open(grabber_cron, 'r', encoding='utf-8') as f:
             cron = json.load(f)
             next_download = cron['next_download']
             last_download = cron['last_download']
     except:
         log('Worker can´t read cron File, creating new File...'.format(loc(32356)), xbmc.LOGERROR)
-        with open(grabber_cron, 'w') as f:
+        with open(grabber_cron, 'w', encoding='utf-8') as f:
             f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
-        with open(grabber_cron, 'r') as f:
+        with open(grabber_cron, 'r', encoding='utf-8') as f:
             cron = json.load(f)
             next_download = cron['next_download']
             last_download = cron['last_download']
@@ -425,7 +443,7 @@ def worker(timeswitch_1, timeswitch_2, timeswitch_3):
         notify(addon_name, loc(32357), icon=xbmcgui.NOTIFICATION_INFO)
         run_grabber()
         ## Update Cron Settings
-        with open(grabber_cron, 'r') as f:
+        with open(grabber_cron, 'r', encoding='utf-8') as f:
             cron = json.load(f)
             next_download = cron['next_download']
             last_download = cron['last_download']
@@ -460,7 +478,7 @@ def worker(timeswitch_1, timeswitch_2, timeswitch_3):
     next_download = min([int(daily_1), int(daily_2), int(daily_3)])
 
     ## Write new setting next_download
-    with open(grabber_cron, 'w') as f:
+    with open(grabber_cron, 'w', encoding='utf-8') as f:
         f.write(json.dumps({'last_download': str(int(last_download)), 'next_download': str(int(next_download))}))
 
 def check_internet(host="8.8.8.8", port=53, timeout=3):
@@ -507,7 +525,7 @@ def check_startup():
 
     ## create Crontab File which not exists at first time
     if (not os.path.isfile(grabber_cron) or os.stat(grabber_cron).st_size <= 1):
-        with open(grabber_cron, 'w') as f:
+        with open(grabber_cron, 'w', encoding='utf-8') as f:
             f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
 
     ## Clean Tempfiles

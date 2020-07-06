@@ -16,6 +16,10 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 from resources.lib import filesplit
 
+import codecs
+def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
+    return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
+
 provider = 'MAGENTA TV (DE)'
 lang = 'de'
 
@@ -66,15 +70,18 @@ OSD = xbmcgui.Dialog()
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
 
-# Calculate Date and Time
-today = datetime.today()
-calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
+def get_epgLength(days_to_grab):
+    # Calculate Date and Time
+    today = datetime.today()
+    calc_today = datetime(today.year, today.month, today.day, hour=00, minute=00, second=1)
 
-calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
-calc_then += timedelta(days=days_to_grab)
+    calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
+    calc_then += timedelta(days=days_to_grab)
 
-starttime = calc_today.strftime("%Y%m%d%H%M%S")
-endtime = calc_then.strftime("%Y%m%d%H%M%S")
+    starttime = calc_today.strftime("%Y%m%d%H%M%S")
+    endtime = calc_then.strftime("%Y%m%d%H%M%S")
+
+    return starttime, endtime
 
 ## Channel Files
 magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaDE_provider_tmp.json')
@@ -105,7 +112,7 @@ def magentaDE_session():
     session.post(magentaDE_login_url, data=json.dumps(magentaDE_login), headers=magentaDE_header)
     session.post(magentaDE_authenticate_url, data=json.dumps(magentaDE_authenticate), headers=magentaDE_header)
     ## Save Cookies to Disk
-    with open(magentaDE_session_cookie, 'w') as f:
+    with open(magentaDE_session_cookie, 'w', encoding='utf-8') as f:
         json.dump(requests.utils.dict_from_cookiejar(session.cookies), f)
 
 
@@ -114,7 +121,7 @@ def get_channellist():
     magentaDE_session()
     session = requests.Session()
     ## Load Cookies from Disk
-    with open(magentaDE_session_cookie, 'r') as f:
+    with open(magentaDE_session_cookie, 'r', encoding='utf-8') as f:
         session.cookies = requests.utils.cookiejar_from_dict(json.load(f))
 
     magenta_CSRFToken = session.cookies["CSRFSESSION"]
@@ -123,23 +130,23 @@ def get_channellist():
     magenta_chlist_url.raise_for_status()
     response = magenta_chlist_url.json()
 
-    with open(magentaDE_chlist_provider_tmp, 'w') as provider_list_tmp:
+    with open(magentaDE_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
         json.dump(response, provider_list_tmp)
 
     #### Transform magentaDE_chlist_provider_tmp to Standard chlist Format as magentaDE_chlist_provider
 
     # Load Channellist from Provider
-    with open(magentaDE_chlist_provider_tmp, 'r') as provider_list_tmp:
+    with open(magentaDE_chlist_provider_tmp, 'r', encoding='utf-8') as provider_list_tmp:
         magentaDE_channels = json.load(provider_list_tmp)
 
     # Create empty new hznDE_chlist_provider
-    with open(magentaDE_chlist_provider, 'w') as provider_list:
+    with open(magentaDE_chlist_provider, 'w', encoding='utf-8') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
 
     ch_title = ''
 
     # Load New Channellist from Provider
-    with open(magentaDE_chlist_provider) as provider_list:
+    with open(magentaDE_chlist_provider, encoding='utf-8') as provider_list:
         data = json.load(provider_list)
 
         temp = data['channellist']
@@ -159,7 +166,7 @@ def get_channellist():
             temp.append(y)
 
     #Save New Channellist from Provider
-    with open(magentaDE_chlist_provider, 'w') as provider_list:
+    with open(magentaDE_chlist_provider, 'w', encoding='utf-8') as provider_list:
         json.dump(data, provider_list, indent=4)
 
 def select_channels():
@@ -169,24 +176,24 @@ def select_channels():
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(magentaDE_chlist_selected):
-        with open((magentaDE_chlist_selected), 'w') as selected_list:
+        with open((magentaDE_chlist_selected), 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
     ## Download chlist_magenta_provider.json
     get_channellist()
     dialog = xbmcgui.Dialog()
 
-    with open(magentaDE_chlist_provider, 'r') as o:
+    with open(magentaDE_chlist_provider, 'r', encoding='utf-8') as o:
         provider_list = json.load(o)
 
-    with open(magentaDE_chlist_selected, 'r') as s:
+    with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     ## Start Channel Selector
     user_select = channel_selector.select_channels(provider, provider_list, selected_list)
 
     if user_select is not None:
-        with open(magentaDE_chlist_selected, 'w') as f:
+        with open(magentaDE_chlist_selected, 'w', encoding='utf-8') as f:
             json.dump(user_select, f, indent=4)
         if os.path.isfile(magentaDE_chlist_selected):
             valid = check_selected_list()
@@ -219,7 +226,7 @@ def select_channels():
 
 def check_selected_list():
     check = 'invalid'
-    with open(magentaDE_chlist_selected, 'r') as c:
+    with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
     for user_list in selected_list['channellist']:
         if 'contentId' in user_list:
@@ -238,8 +245,9 @@ def download_multithread(thread_temppath, download_threads):
     magentaDE_session()
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_magentaDE_selected')
+    starttime, endtime = get_epgLength(days_to_grab)
 
-    with open(magentaDE_chlist_selected, 'r') as s:
+    with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
     if filesplit.split_chlist_selected(thread_temppath, magentaDE_chlist_selected, splitname, download_threads, enable_multithread):
         multi = True
@@ -252,7 +260,7 @@ def download_multithread(thread_temppath, download_threads):
 
         jobs = []
         for thread in range(0, int(needed_threads)):
-            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list,))
+            p = Process(target=download_thread, args=('{}_{}.json'.format(splitname, int(thread)), multi, list, starttime, endtime, ))
             jobs.append(p)
             p.start()
         for j in jobs:
@@ -260,7 +268,7 @@ def download_multithread(thread_temppath, download_threads):
                 xbmc.sleep(100)
                 try:
                     last_line = ''
-                    with open(list, 'r') as f:
+                    with open(list, 'r', encoding='utf-8') as f:
                         last_line = f.readlines()[-1]
                 except:
                     pass
@@ -280,17 +288,17 @@ def download_multithread(thread_temppath, download_threads):
         log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
         download_thread(magentaDE_chlist_selected, multi, list)
 
-def download_thread(magentaDE_chlist_selected, multi, list):
+def download_thread(magentaDE_chlist_selected, multi, list, starttime, endtime):
     requests.adapters.DEFAULT_RETRIES = 5
     session = requests.Session()
 
     ## Load Cookies from Disk
-    with open(magentaDE_session_cookie, 'r') as f:
+    with open(magentaDE_session_cookie, 'r', encoding='utf-8') as f:
         session.cookies = requests.utils.cookiejar_from_dict(json.load(f))
     magenta_CSRFToken = session.cookies["CSRFSESSION"]
     session.headers.update({'X_CSRFToken': magenta_CSRFToken})
 
-    with open(magentaDE_chlist_selected, 'r') as s:
+    with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     if not multi:
@@ -307,12 +315,12 @@ def download_thread(magentaDE_chlist_selected, multi, list):
         response.raise_for_status()
         tkm_data = response.json()
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-        with open(broadcast_files, 'w') as playbill:
+        with open(broadcast_files, 'w', encoding='utf-8') as playbill:
             json.dump(tkm_data, playbill)
 
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
-        with open(list, 'a') as f:
+        with open(list, 'a', encoding='utf-8') as f:
             f.write(last_channel_name)
 
         if not multi:
@@ -332,10 +340,10 @@ def create_xml_channels():
     if channel_format == 'rytec':
         ## Save tkm_channels.json to Disk
         tkm_channels_response = requests.get(tkm_channels_url).json()
-        with open(tkm_channels_json, 'w') as tkm_channels:
+        with open(tkm_channels_json, 'w', encoding='utf-8') as tkm_channels:
             json.dump(tkm_channels_response, tkm_channels)
 
-    with open(magentaDE_chlist_selected, 'r') as c:
+    with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -374,10 +382,10 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
     if genre_format == 'eit':
         ## Save tkm_genres.json to Disk
         tkm_genres_response = requests.get(tkm_genres_url).json()
-        with open(tkm_genres_json, 'w') as tkm_genres:
+        with open(tkm_genres_json, 'w', encoding='utf-8') as tkm_genres:
             json.dump(tkm_genres_response, tkm_genres)
 
-    with open(magentaDE_chlist_selected, 'r') as c:
+    with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -400,7 +408,7 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
             log('{} {}'.format(provider, loc(32366)), xbmc.LOGNOTICE)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-        with open(broadcast_files, 'r') as b:
+        with open(broadcast_files, 'r', encoding='utf-8') as b:
             broadcastfiles = json.load(b)
 
         ### Map Channels
@@ -526,7 +534,7 @@ def check_provider():
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(magentaDE_chlist_selected):
-        with open((magentaDE_chlist_selected), 'w') as selected_list:
+        with open((magentaDE_chlist_selected), 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
         ## If no Channellist exist, ask to create one
@@ -535,7 +543,7 @@ def check_provider():
             select_channels()
         else:
             xbmcvfs.delete(magentaDE_chlist_selected)
-            exit()
+            return False
 
     ## If a Selected list exist, check valid
     valid = check_selected_list()
@@ -545,11 +553,15 @@ def check_provider():
             select_channels()
         else:
             xbmcvfs.delete(magentaDE_chlist_selected)
-            exit()
+            return False
+    return True
 
 def startup():
-    check_provider()
-    get_channellist()
+    if check_provider():
+        get_channellist()
+        return True
+    else:
+        return False
 
 # Channel Selector
 try:
