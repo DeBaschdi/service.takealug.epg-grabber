@@ -17,10 +17,6 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 from resources.lib import filesplit
 
-import codecs
-def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
-    return codecs.open(filename=file, mode=mode, encoding=encoding,errors=errors, buffering=buffering)
-
 def get_zttdict(grabber):
     ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url, 13=Session, 14=Username 15=Password
     zttdict = dict({'ztt_de': ['ZATTOO (DE)', 'de', 'zattooDE', 'zttDE_genres_warnings.txt', 'zttDE_channels_warnings.txt', 'zttDE_days_to_grab', 'zttDE_episode_format', 'zttDE_channel_format', 'zttDE_genre_format', 'chlist_zttDE_provider_tmp.json', 'chlist_zttDE_provider.json', 'chlist_zttDE_selected.json', 'zattoo.com', 'zttDE_session.json', 'zttDE_username', 'zttDE_password'],

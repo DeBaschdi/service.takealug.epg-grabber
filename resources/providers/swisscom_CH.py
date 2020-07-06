@@ -17,10 +17,6 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 from resources.lib import filesplit
 
-import codecs
-def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
-    return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
-
 provider = 'SWISSCOM (CH)'
 lang = 'ch'
 

@@ -5,10 +5,6 @@ import os
 import datetime
 from resources.lib import mapper
 
-import codecs
-def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
-    return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
-
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
