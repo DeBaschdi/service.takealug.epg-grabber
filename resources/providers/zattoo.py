@@ -219,7 +219,7 @@ def zattoo_session(grabber):
             beaker_session_id = requests.utils.dict_from_cookiejar(session.cookies)['beaker.session.id']
             power_guide_hash = response.json()['session']['power_guide_hash']
 
-            with open(ztt_session, 'w') as s:
+            with open(ztt_session, 'w', encoding='utf-8') as s:
                 s.write(json.dumps({"beaker.session.id": beaker_session_id, "power_guide_hash": power_guide_hash}))
             return True
         if not login:
@@ -230,7 +230,7 @@ def zattoo_session(grabber):
 ## Get channel list(url)
 def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provider, header, ztt_session):
     # Load session File
-    with open(ztt_session, 'r') as s:
+    with open(ztt_session, 'r', encoding='utf-8') as s:
         session_data = json.load(s)
 
     # get chlist
@@ -239,23 +239,23 @@ def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provid
     response.raise_for_status()
     ztt_chlist_url = response.json()
 
-    with open(ztt_chlist_provider_tmp, 'w') as provider_list_tmp:
+    with open(ztt_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
         json.dump(ztt_chlist_url, provider_list_tmp)
 
     #### Transform ztt_chlist_provider_tmp to Standard chlist Format as ztt_chlist_provider
 
     # Load Channellist from Provider
-    with open(ztt_chlist_provider_tmp, 'r') as provider_list_tmp:
+    with open(ztt_chlist_provider_tmp, 'r', encoding='utf-8') as provider_list_tmp:
         ztt_channels = json.load(provider_list_tmp)
 
     # Create empty new ztt_chlist_provider
-    with open(ztt_chlist_provider, 'w') as provider_list:
+    with open(ztt_chlist_provider, 'w', encoding='utf-8') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
 
     ch_title = ''
 
     # Load New Channellist from Provider
-    with open(ztt_chlist_provider) as provider_list:
+    with open(ztt_chlist_provider, encoding='utf-8') as provider_list:
         data = json.load(provider_list)
 
         temp = data['channellist']
@@ -299,7 +299,7 @@ def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provid
             temp.append(y)
 
     #Save New Channellist from Provider
-    with open(ztt_chlist_provider, 'w') as provider_list:
+    with open(ztt_chlist_provider, 'w', encoding='utf-8') as provider_list:
         json.dump(data, provider_list, indent=4)
 
 def select_channels(grabber):
@@ -313,24 +313,24 @@ def select_channels(grabber):
     if zattoo_session(grabber):
         ## Create empty (Selected) Channel List if not exist
         if not os.path.isfile(ztt_chlist_selected):
-            with open(ztt_chlist_selected, 'w') as selected_list:
+            with open(ztt_chlist_selected, 'w', encoding='utf-8') as selected_list:
                 selected_list.write(json.dumps({"channellist": []}))
 
         ## Download chlist_provider.json
         get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provider, header, ztt_session)
         dialog = xbmcgui.Dialog()
 
-        with open(ztt_chlist_provider, 'r') as o:
+        with open(ztt_chlist_provider, 'r', encoding='utf-8') as o:
             provider_list = json.load(o)
 
-        with open(ztt_chlist_selected, 'r') as s:
+        with open(ztt_chlist_selected, 'r', encoding='utf-8') as s:
             selected_list = json.load(s)
 
         ## Start Channel Selector
         user_select = channel_selector.select_channels(provider, provider_list, selected_list)
 
         if user_select is not None:
-            with open(ztt_chlist_selected, 'w') as f:
+            with open(ztt_chlist_selected, 'w', encoding='utf-8') as f:
                 json.dump(user_select, f, indent=4)
             if os.path.isfile(ztt_chlist_selected):
                 valid = check_selected_list(ztt_chlist_selected)
@@ -363,7 +363,7 @@ def select_channels(grabber):
 
 def check_selected_list(ztt_chlist_selected):
     check = 'invalid'
-    with open(ztt_chlist_selected, 'r') as c:
+    with open(ztt_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
     for user_list in selected_list['channellist']:
         if 'contentId' in user_list:
@@ -382,7 +382,7 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
     list_done = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_zttXX_selected')
 
-    with open(ztt_chlist_selected, 'r') as s:
+    with open(ztt_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     if filesplit.split_chlist_selected(thread_temppath, ztt_chlist_selected, splitname, download_threads, enable_multithread):
@@ -404,7 +404,7 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
                 xbmc.sleep(100)
                 try:
                     last_line = ''
-                    with open(list_done, 'r') as f:
+                    with open(list_done, 'r', encoding='utf-8') as f:
                         last_line = f.readlines()[-1]
                 except:
                     pass
@@ -434,7 +434,7 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
     day_to_end = int(dayend)
 
     # Load session File
-    with open(ztt_session, 'r') as s:
+    with open(ztt_session, 'r', encoding='utf-8') as s:
         session_data = json.load(s)
 
     items_to_download = int(days_to_grab)
@@ -454,7 +454,7 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
         ztt_mani = response.json()
 
         ## Save Manifest Files To Disk
-        with open(mani_files, 'w') as mani:
+        with open(mani_files, 'w', encoding='utf-8') as mani:
             json.dump(ztt_mani, mani, indent=4)
 
         pDialog.update(int(percent_completed), '{} {} '.format(loc(32504), items), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
@@ -470,11 +470,11 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
 def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session):
     requests.adapters.DEFAULT_RETRIES = 5
 
-    with open(ztt_chlist_selected, 'r') as s:
+    with open(ztt_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     # Load session File
-    with open(ztt_session, 'r') as s:
+    with open(ztt_session, 'r', encoding='utf-8') as s:
         session_data = json.load(s)
 
     if not multi:
@@ -492,7 +492,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
 
         broadcast_dirtylist = list()
         for i in range(0, int(days_to_grab)):
-            with open(os.path.join(provider_temppath, 'day_{}.json'.format(i)), 'r') as s:
+            with open(os.path.join(provider_temppath, 'day_{}.json'.format(i)), 'r', encoding='utf-8') as s:
                 ztt_mani = json.load(s)
             for broadcast in ztt_mani['channels'][contentID]:
                 broadcast_id = str(broadcast['id'])
@@ -511,7 +511,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 ztt_data = response.json()
 
                 ## Save Broadcast Files To Disk
-                with open(broadcast_files, 'w') as playbill:
+                with open(broadcast_files, 'w', encoding='utf-8') as playbill:
                     json.dump(ztt_data, playbill, indent=4)
 
             except:
@@ -527,7 +527,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                     response.raise_for_status()
 
                     ## Save Broadcast Files To Disk
-                    with open(broadcast_files, 'w') as f:
+                    with open(broadcast_files, 'w', encoding='utf-8') as f:
                         f.write(response.text)
 
                     retries -= 1
@@ -536,7 +536,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                         break
 
         elif len(broadcast_list) == 0:
-            with open((broadcast_files), 'w') as dummy:
+            with open((broadcast_files), 'w', encoding='utf-8') as dummy:
                 dummy.write(json.dumps({"no_data": []}))
 
         elif len(broadcast_list) >= 620:
@@ -546,10 +546,10 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             broadcast_ids_2 = ','.join(broadcast_list[len(broadcast_list) // 2:3 * len(broadcast_list) // 4])
             broadcast_ids_3 = ','.join(broadcast_list[3 * len(broadcast_list) // 4:])
 
-            with open(broadcast_files, 'w') as empty_list:
+            with open(broadcast_files, 'w', encoding='utf-8') as empty_list:
                 empty_list.write(json.dumps({"programs": []}))
 
-            with open(broadcast_files) as playbill:
+            with open(broadcast_files, encoding='utf-8') as playbill:
                 data = json.load(playbill)
                 temp = data['programs']
 
@@ -576,12 +576,12 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                     temp.append(y)
 
             ## Save Broadcast Files To Disk
-            with open(broadcast_files, 'w') as playbill:
+            with open(broadcast_files, 'w', encoding='utf-8') as playbill:
                 json.dump(data, playbill, indent=4)
 
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
-        with open(list_done, 'a') as f:
+        with open(list_done, 'a', encoding='utf-8') as f:
             f.write(last_channel_name)
 
         if not multi:
@@ -602,10 +602,10 @@ def create_xml_channels(grabber):
     if channel_format == 'rytec':
         ## Save ztt_channels.json to Disk
         rytec_file = requests.get(ztt_channels_url).json()
-        with open(ztt_channels_json, 'w') as rytec_list:
+        with open(ztt_channels_json, 'w', encoding='utf-8') as rytec_list:
             json.dump(rytec_file, rytec_list)
 
-    with open(ztt_chlist_selected, 'r') as c:
+    with open(ztt_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -647,10 +647,10 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
     if genre_format == 'eit':
         ## Save ztt_genres.json to Disk
         genres_file = requests.get(ztt_genres_url).json()
-        with open(ztt_genres_json, 'w') as genres_list:
+        with open(ztt_genres_json, 'w', encoding='utf-8') as genres_list:
             json.dump(genres_file, genres_list)
 
-    with open(ztt_chlist_selected, 'r') as c:
+    with open(ztt_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -673,7 +673,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
             log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-        with open(broadcast_files, 'r') as b:
+        with open(broadcast_files, 'r', encoding='utf-8') as b:
             broadcastfiles = json.load(b)
 
         ### Map Channels
@@ -810,7 +810,7 @@ def check_provider(grabber, provider_temppath, ztt_chlist_selected, provider):
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(ztt_chlist_selected):
-        with open((ztt_chlist_selected), 'w') as selected_list:
+        with open((ztt_chlist_selected), 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
         ## If no Channellist exist, ask to create one

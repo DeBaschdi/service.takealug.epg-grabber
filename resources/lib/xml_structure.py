@@ -5,10 +5,6 @@ import os
 import datetime
 from resources.lib import mapper
 
-import codecs
-def open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None):
-    return codecs.open(filename=file, mode=mode, encoding=encoding, errors=errors, buffering=buffering)
-
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
@@ -72,7 +68,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
 
         ## DESCRIPTION Condition
         if not item_description == '':
-            item_description = item_description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            item_description = item_description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '\n        ')
             if enable_rating_mapper == False:
                 guide.append('        <desc lang="{}">{}</desc>\n'.format(lang, item_description))
 

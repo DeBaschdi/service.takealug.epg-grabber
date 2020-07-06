@@ -17,7 +17,6 @@ from resources.lib import channel_selector
 from resources.lib import mapper
 from resources.lib import filesplit
 
-
 def get_hzndict(grabber):
     ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url
     hzndict = dict({'de': ['HORIZON (DE)', 'de', 'horizonDE', 'hznDE_genres_warnings.txt', 'hznDE_channels_warnings.txt', 'hznDE_days_to_grab', 'hznDE_episode_format', 'hznDE_channel_format' ,'hznDE_genre_format', 'chlist_hznDE_provider_tmp.json', 'chlist_hznDE_provider.json', 'chlist_hznDE_selected.json', 'DE/deu'],
@@ -134,23 +133,23 @@ def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
     hzn_chlist_url = requests.get(hzn_channellist_url, headers=hzn_header)
     hzn_chlist_url.raise_for_status()
     response = hzn_chlist_url.json()
-    with open(hzn_chlist_provider_tmp, 'w') as provider_list_tmp:
+    with open(hzn_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
         json.dump(response, provider_list_tmp)
 
     #### Transform hzn_chlist_provider_tmp to Standard chlist Format as hzn_chlist_provider
 
     # Load Channellist from Provider
-    with open(hzn_chlist_provider_tmp, 'r') as provider_list_tmp:
+    with open(hzn_chlist_provider_tmp, 'r', encoding='utf-8') as provider_list_tmp:
         hzn_channels = json.load(provider_list_tmp)
 
     # Create empty new hzn_chlist_provider
-    with open(hzn_chlist_provider, 'w') as provider_list:
+    with open(hzn_chlist_provider, 'w', encoding='utf-8') as provider_list:
         provider_list.write(json.dumps({"channellist": []}))
 
     ch_title = ''
 
     # Load New Channellist from Provider
-    with open(hzn_chlist_provider) as provider_list:
+    with open(hzn_chlist_provider, encoding='utf-8') as provider_list:
         data = json.load(provider_list)
 
         temp = data['channellist']
@@ -175,7 +174,7 @@ def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
             temp.append(y)
 
     #Save New Channellist from Provider
-    with open(hzn_chlist_provider, 'w') as provider_list:
+    with open(hzn_chlist_provider, 'w', encoding='utf-8') as provider_list:
         json.dump(data, provider_list, indent=4)
 
 def select_channels(grabber):
@@ -187,17 +186,17 @@ def select_channels(grabber):
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(hzn_chlist_selected):
-        with open(hzn_chlist_selected, 'w') as selected_list:
+        with open(hzn_chlist_selected, 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
     ## Download chlist_provider.json
-    get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider)
+    get_channellist(grabber, hzndict, hzn_chlist_provider_tmp, hzn_chlist_provider)
     dialog = xbmcgui.Dialog()
 
-    with open(hzn_chlist_provider, 'r') as o:
+    with open(hzn_chlist_provider, 'r', encoding='utf-8') as o:
         provider_list = json.load(o)
 
-    with open(hzn_chlist_selected, 'r') as s:
+    with open(hzn_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     ## Start Channel Selector
@@ -237,7 +236,7 @@ def select_channels(grabber):
 
 def check_selected_list(hzn_chlist_selected):
     check = 'invalid'
-    with open(hzn_chlist_selected, 'r') as c:
+    with open(hzn_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
     for user_list in selected_list['channellist']:
         if 'contentId' in user_list:
@@ -257,7 +256,7 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
     splitname = os.path.join(thread_temppath, 'chlist_hznXX_selected')
     starttime, endtime = get_epgLength(days_to_grab)
 
-    with open(hzn_chlist_selected, 'r') as s:
+    with open(hzn_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     if filesplit.split_chlist_selected(thread_temppath, hzn_chlist_selected, splitname, download_threads, enable_multithread):
@@ -279,7 +278,7 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
                 xbmc.sleep(500)
                 try:
                     last_line = ''
-                    with open(list, 'r') as f:
+                    with open(list, 'r', encoding='utf-8') as f:
                         last_line = f.readlines()[-1]
                 except:
                     pass
@@ -300,7 +299,7 @@ def download_multithread(thread_temppath, download_threads, grabber, hzn_chlist_
 def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provider_temppath, hzndict, days_to_grab, starttime, endtime):
     requests.adapters.DEFAULT_RETRIES = 5
 
-    with open(hzn_chlist_selected, 'r') as s:
+    with open(hzn_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
     if not multi:
@@ -317,12 +316,12 @@ def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provide
         response.raise_for_status()
         hzn_data = response.json()
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-        with open(broadcast_files, 'w') as playbill:
+        with open(broadcast_files, 'w', encoding='utf-8') as playbill:
             json.dump(hzn_data, playbill)
 
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
-        with open(list, 'a') as f:
+        with open(list, 'a', encoding='utf-8') as f:
             f.write(last_channel_name)
 
         if not multi:
@@ -342,10 +341,10 @@ def create_xml_channels(grabber):
     if channel_format == 'rytec':
         ## Save hzn_channels.json to Disk
         rytec_file = requests.get(hzn_channels_url).json()
-        with open(hzn_channels_json, 'w') as rytec_list:
+        with open(hzn_channels_json, 'w', encoding='utf-8') as rytec_list:
             json.dump(rytec_file, rytec_list)
 
-    with open(hzn_chlist_selected, 'r') as c:
+    with open(hzn_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -385,10 +384,10 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
     if genre_format == 'eit':
         ## Save hzn_genres.json to Disk
         genres_file = requests.get(hzn_genres_url).json()
-        with open(hzn_genres_json, 'w') as genres_list:
+        with open(hzn_genres_json, 'w', encoding='utf-8') as genres_list:
             json.dump(genres_file, genres_list)
 
-    with open(hzn_chlist_selected, 'r') as c:
+    with open(hzn_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
     items_to_download = str(len(selected_list['channellist']))
@@ -411,7 +410,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
             log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-        with open(broadcast_files, 'r') as b:
+        with open(broadcast_files, 'r', encoding='utf-8') as b:
             broadcastfiles = json.load(b)
 
         ### Map Channels
@@ -556,7 +555,7 @@ def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
 
     ## Create empty (Selected) Channel List if not exist
     if not os.path.isfile(hzn_chlist_selected):
-        with open((hzn_chlist_selected), 'w') as selected_list:
+        with open((hzn_chlist_selected), 'w', encoding='utf-8') as selected_list:
             selected_list.write(json.dumps({"channellist": []}))
 
         ## If no Channellist exist, ask to create one
@@ -565,7 +564,7 @@ def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
             select_channels(grabber)
         else:
             xbmcvfs.delete(hzn_chlist_selected)
-            exit()
+            return False
 
     ## If a Selected list exist, check valid
     valid = check_selected_list(hzn_chlist_selected)
@@ -575,13 +574,17 @@ def check_provider(grabber,provider_temppath,hzn_chlist_selected,provider):
             select_channels(grabber)
         else:
             xbmcvfs.delete(hzn_chlist_selected)
-            exit()
+            return False
+    return True
 
 def startup(grabber):
     provider_temppath, hzn_genres_json, hzn_channels_json, hzn_genres_warnings_tmp, hzn_genres_warnings, hzn_channels_warnings_tmp, hzn_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, hzn_chlist_provider_tmp, hzn_chlist_provider, hzn_chlist_selected, provider, lang = get_settings(grabber)
     hzndict = get_hzndict(grabber)
-    check_provider(grabber, provider_temppath, hzn_chlist_selected, provider)
-    get_channellist(grabber, hzndict, hzn_chlist_provider_tmp, hzn_chlist_provider)
+    if check_provider(grabber, provider_temppath, hzn_chlist_selected, provider):
+        get_channellist(grabber, hzndict, hzn_chlist_provider_tmp, hzn_chlist_provider)
+        return True
+    else:
+        return False
 
 # Channel Selector
 try:
