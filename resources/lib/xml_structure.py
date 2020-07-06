@@ -72,7 +72,7 @@ def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_e
 
         ## DESCRIPTION Condition
         if not item_description == '':
-            item_description = item_description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            item_description = item_description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '\n        ')
             if enable_rating_mapper == False:
                 guide.append('        <desc lang="{}">{}</desc>\n'.format(lang, item_description))
 

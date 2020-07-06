@@ -286,7 +286,7 @@ def download_multithread(thread_temppath, download_threads):
     else:
         multi = False
         log('{} {} '.format(provider, 'Can`t download in Multithreading mode, loading single...'), xbmc.LOGNOTICE)
-        download_thread(magentaDE_chlist_selected, multi, list)
+        download_thread(magentaDE_chlist_selected, multi, list, starttime, endtime)
 
 def download_thread(magentaDE_chlist_selected, multi, list, starttime, endtime):
     requests.adapters.DEFAULT_RETRIES = 5
