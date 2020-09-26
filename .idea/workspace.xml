@@ -4,12 +4,7 @@
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fanart.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fanart.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot1.png" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot2.png" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot3.png" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +39,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../plugin.video.telerising-cloudcontrol" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -466,11 +462,11 @@
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1590652195512" />
-    <state x="602" y="344" width="413" height="179" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594012319934">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="753" y="430" width="413" height="179" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594015581103">
+      <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="602" y="344" width="379" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1594012319934" />
-    <state x="753" y="430" width="413" height="179" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1593258102661" />
+    <state x="753" y="430" width="413" height="179" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1594015581103" />
     <state x="531" y="203" width="609" height="536" key="find.popup" timestamp="1591069489780">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

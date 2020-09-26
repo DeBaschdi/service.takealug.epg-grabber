@@ -151,8 +151,6 @@ def zattoo_session(grabber):
     # Fetch Token
     session = requests.Session()
     session.headers.update(header)
-    token_url = 'https://{}/int/'.format(zttdict[grabber][12])
-    response = session.get(token_url, headers=header)
     dialog = xbmcgui.Dialog()
 
     if (username == '' or password == ''):
@@ -160,14 +158,11 @@ def zattoo_session(grabber):
         if ok:
             log('{} {}'.format(provider, loc(32410)), xbmc.LOGERROR)
         return False
-    try:
-        token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
-        found_token = True
-    except:
-        token_url = 'https://{}/'.format(zttdict[grabber][12])
-        response = session.post(token_url, headers=header)
+    if provider == 'ZATTOO (CH)' or provider == 'ZATTOO (DE)':
         try:
-            token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
+            token_url = 'https://zattoo.com/token-46a1dfccbd4c3bdaf6182fea8f8aea3f.json'
+            response = session.get(token_url, headers=header)
+            token = response.json()['session_token']
             found_token = True
         except:
             # Can find Token
@@ -175,6 +170,24 @@ def zattoo_session(grabber):
             if ok:
                 log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
             found_token = False
+    else:
+        token_url = 'https://{}/int/'.format(zttdict[grabber][12])
+        response = session.get(token_url, headers=header)
+        try:
+            token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
+            found_token = True
+        except:
+            token_url = 'https://{}/'.format(zttdict[grabber][12])
+            response = session.post(token_url, headers=header)
+            try:
+                token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
+                found_token = True
+            except:
+                # Can find Token
+                ok = dialog.ok(provider, loc(32411))
+                if ok:
+                    log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
+                found_token = False
 
     if found_token:
         # Announce
