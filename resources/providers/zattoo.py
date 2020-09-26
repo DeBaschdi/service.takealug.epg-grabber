@@ -139,7 +139,6 @@ def get_epgLength(days_to_grab):
 
     return daystart, dayend
 
-
 ## Login and Authenticate to Zattoo IPTV Service
 def zattoo_session(grabber):
     provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
@@ -147,8 +146,6 @@ def zattoo_session(grabber):
     # Fetch Token
     session = requests.Session()
     session.headers.update(header)
-    token_url = 'https://{}/int/'.format(zttdict[grabber][12])
-    response = session.get(token_url, headers=header)
     dialog = xbmcgui.Dialog()
 
     if (username == '' or password == ''):
@@ -156,14 +153,11 @@ def zattoo_session(grabber):
         if ok:
             log('{} {}'.format(provider, loc(32410)), xbmc.LOGERROR)
         return False
-    try:
-        token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
-        found_token = True
-    except:
-        token_url = 'https://{}/'.format(zttdict[grabber][12])
-        response = session.post(token_url, headers=header)
+    if provider == 'ZATTOO (CH)' or provider == 'ZATTOO (DE)':
         try:
-            token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
+            token_url = 'https://zattoo.com/token-46a1dfccbd4c3bdaf6182fea8f8aea3f.json'
+            response = session.get(token_url, headers=header)
+            token = response.json()['session_token']
             found_token = True
         except:
             # Can find Token
@@ -171,6 +165,24 @@ def zattoo_session(grabber):
             if ok:
                 log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
             found_token = False
+    else:
+        token_url = 'https://{}/int/'.format(zttdict[grabber][12])
+        response = session.get(token_url, headers=header)
+        try:
+            token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
+            found_token = True
+        except:
+            token_url = 'https://{}/'.format(zttdict[grabber][12])
+            response = session.post(token_url, headers=header)
+            try:
+                token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
+                found_token = True
+            except:
+                # Can find Token
+                ok = dialog.ok(provider, loc(32411))
+                if ok:
+                    log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
+                found_token = False
 
     if found_token:
         # Announce
