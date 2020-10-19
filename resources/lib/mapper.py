@@ -4,12 +4,13 @@ import xbmcaddon
 import xbmcgui
 import json
 import os
+import xbmcvfs
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
-datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
+datapath = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 
 # Make a debug logger
@@ -76,7 +77,7 @@ def create_channel_warnings(channels_warnings_tmp, channels_warnings, provider, 
             f.write(channel_pull)
         ## Print Content of Channel Warnings Textfile in Kodi LOG
         warnings_channels = open(channels_warnings, "r", encoding='utf-8').read()
-        log('{} {}'.format(provider,warnings_channels), xbmc.LOGNOTICE)
+        log('{} {}'.format(provider,warnings_channels), xbmc.LOGINFO)
 
 def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_pull):
     ## Create Genre Warnings Textfile
@@ -93,7 +94,7 @@ def create_genre_warnings(genres_warnings_tmp, genres_warnings, provider, genre_
             f.write(genre_pull)
         ## Print Content of Genres Warnings Textfile in Kodi LOG
         warnings_genres = open(genres_warnings, "r", encoding='utf-8').read()
-        log('{} {}'.format(provider, warnings_genres), xbmc.LOGNOTICE)
+        log('{} {}'.format(provider, warnings_genres), xbmc.LOGINFO)
 
 def map_stars(item_starrating):
     if int(item_starrating) <= int(9):

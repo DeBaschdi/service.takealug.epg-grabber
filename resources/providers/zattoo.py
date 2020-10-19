@@ -86,7 +86,7 @@ ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
-datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
+datapath = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 
 ## Enable Multithread
@@ -216,7 +216,7 @@ def zattoo_session(grabber):
         # Login OK
         elif response.status_code == 200:
             notify(addon_name, '{} {}'.format(loc(32384), provider), icon=xbmcgui.NOTIFICATION_INFO)
-            log('{} {}'.format(provider, loc(32384)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32384)), xbmc.LOGINFO)
             login = True
 
         # Error while Login (unkown)
@@ -349,9 +349,9 @@ def select_channels(grabber):
                 if valid is True:
                     ok = dialog.ok(provider, loc(32402))
                     if ok:
-                        log(loc(32402), xbmc.LOGNOTICE)
+                        log(loc(32402), xbmc.LOGINFO)
                 elif valid is False:
-                    log(loc(32403), xbmc.LOGNOTICE)
+                    log(loc(32403), xbmc.LOGINFO)
                     yn = OSD.yesno(provider, loc(32403))
                     if yn:
                         select_channels(grabber)
@@ -363,9 +363,9 @@ def select_channels(grabber):
             if valid is True:
                 ok = dialog.ok(provider, loc(32404))
                 if ok:
-                    log(loc(32404), xbmc.LOGNOTICE)
+                    log(loc(32404), xbmc.LOGINFO)
             elif valid is False:
-                log(loc(32403), xbmc.LOGNOTICE)
+                log(loc(32403), xbmc.LOGINFO)
                 yn = OSD.yesno(provider, loc(32403))
                 if yn:
                     select_channels(grabber)
@@ -401,9 +401,9 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
         multi = True
         needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
         items_to_download = str(len(selected_list['channellist']))
-        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGINFO)
         pDialog = xbmcgui.DialogProgressBG()
-        log('{} Multithread({}) Mode'.format(provider, needed_threads), xbmc.LOGNOTICE)
+        log('{} Multithread({}) Mode'.format(provider, needed_threads), xbmc.LOGINFO)
         pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
 
         jobs = []
@@ -425,7 +425,7 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
                 percent_completed = int(100) * int(items) / int(items_to_download)
                 pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
                 if int(items) == int(items_to_download):
-                    log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+                    log('{} {}'.format(provider, loc(32363)), xbmc.LOGINFO)
                     break
             j.join()
         pDialog.close()
@@ -451,7 +451,7 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
 
     items_to_download = int(days_to_grab)
     items = 1
-    log('{} {} {} '.format(provider, items_to_download, loc(32382)), xbmc.LOGNOTICE)
+    log('{} {} {} '.format(provider, items_to_download, loc(32382)), xbmc.LOGINFO)
     pDialog = xbmcgui.DialogProgressBG()
     pDialog.create('{} {} '.format(loc(32504), provider), '{} {}'.format('100', loc(32501)))
 
@@ -475,7 +475,7 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
         day_to_end += int(86400)
 
         if i == int(days_to_grab) - 1:
-            log('{} {}'.format(provider, loc(32383)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32383)), xbmc.LOGINFO)
             break
     pDialog.close()
 
@@ -491,7 +491,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
 
     if not multi:
         items_to_download = str(len(selected_list['channellist']))
-        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGNOTICE)
+        log('{} {} {} '.format(provider, items_to_download, loc(32361)), xbmc.LOGINFO)
         pDialog = xbmcgui.DialogProgressBG()
         pDialog.create('{} {} '.format(loc(32500), provider), '{} {}'.format('100', loc(32501)))
 
@@ -531,7 +531,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 attempt = 0
                 while retries > 0:
                     attempt += 1
-                    log('{} {} ERROR TRY REDOWNLOAD {}'.format(provider, response.status_code, contentID), xbmc.LOGNOTICE)
+                    log('{} {} ERROR TRY REDOWNLOAD {}'.format(provider, response.status_code, contentID), xbmc.LOGINFO)
                     broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
                     xbmc.sleep(5000)
                     ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
@@ -544,7 +544,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
 
                     retries -= 1
                     if (os.path.isfile(broadcast_files) and os.stat(broadcast_files).st_size >= 1):
-                        log('{} {} REDOWNLOAD success at attemp {}'.format(provider, contentID, attempt), xbmc.LOGNOTICE)
+                        log('{} {} REDOWNLOAD success at attemp {}'.format(provider, contentID, attempt), xbmc.LOGINFO)
                         break
 
         elif len(broadcast_list) == 0:
@@ -602,7 +602,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             percent_completed = int(100) * int(items) / int(items_to_download)
             pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
             if int(items) == int(items_to_download):
-                log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
+                log('{} {}'.format(provider, loc(32363)), xbmc.LOGINFO)
                 break
 
     if not multi:
@@ -610,7 +610,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
 
 def create_xml_channels(grabber):
     provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
-    log('{} {}'.format(provider, loc(32362)), xbmc.LOGNOTICE)
+    log('{} {}'.format(provider, loc(32362)), xbmc.LOGINFO)
     if channel_format == 'rytec':
         ## Save ztt_channels.json to Disk
         rytec_file = requests.get(ztt_channels_url).json()
@@ -637,7 +637,7 @@ def create_xml_channels(grabber):
         channel_id = channel_name
         pDialog.update(int(percent_completed), '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
         if str(percent_completed) == str(100):
-            log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32364)), xbmc.LOGINFO)
 
         ## Map Channels
         if not channel_id == '':
@@ -654,7 +654,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
     download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_session, header, provider)
     download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_selected, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session)
 
-    log('{} {}'.format(provider, loc(32365)), xbmc.LOGNOTICE)
+    log('{} {}'.format(provider, loc(32365)), xbmc.LOGINFO)
 
     if genre_format == 'eit':
         ## Save ztt_genres.json to Disk
@@ -682,7 +682,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
         channel_id = channel_name
         pDialog.update(int(percent_completed), '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
         if str(percent_completed) == str(100):
-            log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider,loc(32366)), xbmc.LOGINFO)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'r', encoding='utf-8') as b:
@@ -806,7 +806,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
     mapper.create_genre_warnings(ztt_genres_warnings_tmp, ztt_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370), provider, loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
-    log('{} {} {}'.format(loc(32370), provider, loc(32371), xbmc.LOGNOTICE))
+    log('{} {} {}'.format(loc(32370), provider, loc(32371), xbmc.LOGINFO))
 
     if (os.path.isfile(ztt_channels_warnings) or os.path.isfile(ztt_genres_warnings)):
         notify(provider, '{}'.format(loc(32372)), icon=xbmcgui.NOTIFICATION_WARNING)

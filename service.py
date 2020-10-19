@@ -23,7 +23,7 @@ ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
-datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
+datapath = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
 temppath = os.path.join(datapath, "temp")
 thread_temppath = os.path.join(temppath, "multithread")
 machine = platform.machine()
@@ -134,13 +134,13 @@ def copy_guide_to_destination():
             xbmc.sleep(3000)
             xbmcvfs.delete(grabber_cron_tmp)
             notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
-            log(loc(32350), xbmc.LOGNOTICE)
+            log(loc(32350), xbmc.LOGINFO)
         except:
             log('Worker can´t read cron File, creating new File...'.format(loc(32356)), xbmc.LOGERROR)
             with open(grabber_cron, 'w', encoding='utf-8') as f:
                 f.write(json.dumps({'last_download': str(int(time.time())), 'next_download': str(int(time.time()) + 86400)}))
             notify(addon_name, loc(32350), icon=xbmcgui.NOTIFICATION_INFO)
-            log(loc(32350), xbmc.LOGNOTICE)
+            log(loc(32350), xbmc.LOGINFO)
     else:
         notify(addon_name, loc(32351), icon=xbmcgui.NOTIFICATION_ERROR)
         log(loc(32351), xbmc.LOGERROR)
@@ -384,11 +384,11 @@ def write_to_sock():
             epg = open(guide_temp, 'rb', encoding='utf-8')
             epg_data = epg.read()
             try:
-                log('{} {}'.format(loc(32380), tvh_local_sock), xbmc.LOGNOTICE)
+                log('{} {}'.format(loc(32380), tvh_local_sock), xbmc.LOGINFO)
                 notify(addon_name, loc(32380), icon=xbmcgui.NOTIFICATION_INFO)
                 sock.connect(tvh_local_sock)
                 sock.sendall(epg_data)
-                log('{} {}'.format(sock.recv, tvh_local_sock), xbmc.LOGNOTICE)
+                log('{} {}'.format(sock.recv, tvh_local_sock), xbmc.LOGINFO)
             except socket.error as e:
                 notify(addon_name, '{} {}'.format(loc(32379), e), icon=xbmcgui.NOTIFICATION_ERROR)
                 log('{} {}'.format(loc(32379), e), xbmc.LOGERROR)
@@ -426,9 +426,9 @@ def worker(timeswitch_1, timeswitch_2, timeswitch_3):
     if int(next_download) < int(time.time()):
         # suggested download time has passed (e.g. system was offline) or time is now, download epg
         # and set a new timestamp for the next download
-        log('{} {}'.format(loc(32352), datetime.fromtimestamp(int(last_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
-        log('{} {}'.format(loc(32353), datetime.fromtimestamp(int(next_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGNOTICE)
-        log('{}'.format(loc(32356)), xbmc.LOGNOTICE)
+        log('{} {}'.format(loc(32352), datetime.fromtimestamp(int(last_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGINFO)
+        log('{} {}'.format(loc(32353), datetime.fromtimestamp(int(next_download)).strftime('%d.%m.%Y %H:%M')), xbmc.LOGINFO)
+        log('{}'.format(loc(32356)), xbmc.LOGINFO)
         initiate_download = True
 
     ## If next_download < last_download, initiate an Autodownload
@@ -568,7 +568,7 @@ if __name__ == '__main__':
         except IndexError:
             while not monitor.waitForAbort(30):
                 if monitor.settingsChanged:
-                    log('Settings changed Reloading', xbmc.LOGNOTICE)
+                    log('Settings changed Reloading', xbmc.LOGINFO)
                     auto_download = getAddonSetting('auto_download')
                     if auto_download:
                         timeswitch_1 = int(getAddonCronSetting('timeswitch_1'))
