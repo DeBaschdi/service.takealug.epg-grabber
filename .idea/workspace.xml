@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/channel_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/channel_selector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/mapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/mapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lib/xml_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lib/xml_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/horizon.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/horizon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/swisscom_CH.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/swisscom_CH.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
-    </list>
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -433,13 +421,25 @@
     <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="277" y="55" key="SettingsEditor" timestamp="1603086870552">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="346" y="69" key="SettingsEditor" timestamp="1606537867948">
+      <screen x="0" y="0" width="1920" height="1030" />
     </state>
     <state x="277" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1603086870552" />
+    <state x="346" y="69" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1606537867948" />
     <state x="399" y="109" width="738" height="606" key="find.popup" timestamp="1603087005791">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="399" y="109" width="738" height="606" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1603087005791" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

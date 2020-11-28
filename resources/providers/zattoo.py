@@ -153,9 +153,28 @@ def zattoo_session(grabber):
         if ok:
             log('{} {}'.format(provider, loc(32410)), xbmc.LOGERROR)
         return False
-    if provider == 'ZATTOO (CH)' or provider == 'ZATTOO (DE)':
+
+    #find token.json
+
+    try:
+        annouce_url = 'https://{}/login/'.format(zttdict[grabber][12])
+        response = session.get(annouce_url, headers=header)
+        app_token_js_search = response.text.split('script src="/app-')[1].split('.js')[0]
+
+        if app_token_js_search is not None:
+            js_url = 'https://{}/app-{}.js'.format(zttdict[grabber][12], app_token_js_search)
+            response = session.get(js_url, headers=header)
+            token_url_search = response.text.split('token-')[1].split('.json')[0]
+    except:
+        # Can find Token
+        ok = dialog.ok(provider, loc(32411))
+        if ok:
+            log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
+        found_token = False
+
+    if app_token_js_search is not None:
         try:
-            token_url = 'https://zattoo.com/token-46a1dfccbd4c3bdaf6182fea8f8aea3f.json'
+            token_url = 'https://{}/token-{}.json'.format(zttdict[grabber][12], token_url_search)
             response = session.get(token_url, headers=header)
             token = response.json()['session_token']
             found_token = True
@@ -165,24 +184,6 @@ def zattoo_session(grabber):
             if ok:
                 log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
             found_token = False
-    else:
-        token_url = 'https://{}/int/'.format(zttdict[grabber][12])
-        response = session.get(token_url, headers=header)
-        try:
-            token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
-            found_token = True
-        except:
-            token_url = 'https://{}/'.format(zttdict[grabber][12])
-            response = session.post(token_url, headers=header)
-            try:
-                token = re.search("window\.appToken\s*=\s*'(.*)'", response.text).group(1)
-                found_token = True
-            except:
-                # Can find Token
-                ok = dialog.ok(provider, loc(32411))
-                if ok:
-                    log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
-                found_token = False
 
     if found_token:
         # Announce
@@ -216,7 +217,7 @@ def zattoo_session(grabber):
         # Login OK
         elif response.status_code == 200:
             notify(addon_name, '{} {}'.format(loc(32384), provider), icon=xbmcgui.NOTIFICATION_INFO)
-            log('{} {}'.format(provider, loc(32384)), xbmc.LOGINFO)
+            log('{} {}'.format(provider, loc(32384)), xbmc.LOGNOTICE)
             login = True
 
         # Error while Login (unkown)
