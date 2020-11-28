@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/service.takealug.epg-grabber.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
     </list>
@@ -426,63 +425,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.4.0&#10;- Fix XML escaping" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="694" y="317" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590547734350">
+    <state x="763" y="430" width="393" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605934202395">
       <screen x="0" y="0" width="1920" height="1030" />
     </state>
-    <state x="555" y="254" width="501" height="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1589258741354" />
-    <state x="694" y="317" width="552" height="399" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1590547734350" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2" timestamp="1593745548695">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="444" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591176482975" />
-    <state x="456" y="82" width="809" height="948" key="CommitChangelistDialog2/0.0.1920.1030@0.0.1920.1030" timestamp="1593745548695" />
-    <state x="89" y="127" key="DiffContextDialog" timestamp="1593745547199">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="89" y="127" key="DiffContextDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1593745547199" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1591069918048">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1591069918048" />
-    <state x="188" y="86" key="MergeDialog" timestamp="1589422504047">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="188" y="86" key="MergeDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1589422504047" />
-    <state x="365" y="117" width="914" height="707" key="SettingsEditor" timestamp="1594012317133">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="365" y="117" width="914" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1594012317133" />
-    <state x="456" y="152" width="1007" height="733" key="SettingsEditor/0.0.1920.1030@0.0.1920.1030" timestamp="1593745149602" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2" timestamp="1593745168616">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="445" y="199" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1591176485290" />
-    <state x="228" y="249" width="1136" height="531" key="Vcs.Push.Dialog.v2/0.0.1920.1030@0.0.1920.1030" timestamp="1593745168616" />
-    <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1590652195512">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="571" y="129" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1030@0.0.1920.1030" timestamp="1590652195512" />
-    <state x="753" y="430" width="413" height="179" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594015581103">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="602" y="344" width="379" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1594012319934" />
-    <state x="753" y="430" width="413" height="179" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1594015581103" />
-    <state x="531" y="203" width="609" height="536" key="find.popup" timestamp="1591069489780">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="531" y="203" width="609" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1591069489780" />
-    <state x="664" y="254" width="592" height="522" key="find.popup/0.0.1920.1030@0.0.1920.1030" timestamp="1590652190860" />
-    <state x="713" y="207" key="git4idea.branch.GitSmartOperationDialog" timestamp="1588750801446">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="713" y="207" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1588750801446" />
-    <state x="607" y="302" key="git4idea.merge.GitPullDialog" timestamp="1589856558620">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="607" y="302" key="git4idea.merge.GitPullDialog/0.0.1920.1030@0.0.1920.1030" timestamp="1589856558620" />
-    <state x="268" y="350" width="672" height="678" key="search.everywhere.popup" timestamp="1591599752457">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="268" y="350" width="672" height="678" key="search.everywhere.popup/0.0.1920.1030@0.0.1920.1030" timestamp="1591599752457" />
+    <state x="763" y="430" width="393" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1605934202395" />
   </component>
 </project>
