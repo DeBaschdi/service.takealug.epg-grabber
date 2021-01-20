@@ -84,15 +84,15 @@ magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaD
 magentaDE_chlist_provider = os.path.join(provider_temppath, 'chlist_magentaDE_provider.json')
 magentaDE_chlist_selected = os.path.join(datapath, 'chlist_magentaDE_selected.json')
 
-magentaDE_login_url = 'https://web.magentatv.de/EPG/JSON/Login?&T=PC_firefox_75'
-magentaDE_authenticate_url = 'https://web.magentatv.de/EPG/JSON/Authenticate?SID=firstup&T=PC_firefox_75'
-magentaDE_channellist_url = 'https://web.magentatv.de/EPG/JSON/AllChannel?SID=first&T=PC_firefox_75'
-magentaDE_data_url = 'https://web.magentatv.de/EPG/JSON/PlayBillList?userContentFilter=241221015&sessionArea=1&SID=ottall&T=PC_firefox_75'
+magentaDE_login_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Login?&T=PC_firefox_75'
+magentaDE_authenticate_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Authenticate?SID=firstup&T=PC_firefox_75'
+magentaDE_channellist_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/AllChannel?SID=first&T=PC_firefox_75'
+magentaDE_data_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/PlayBillList?userContentFilter=241221015&sessionArea=1&SID=ottall&T=PC_firefox_75'
 
 magentaDE_login = {'userId': 'Guest', 'mac': '00:00:00:00:00:00'}
 magentaDE_authenticate = {'terminalid': '00:00:00:00:00:00', 'mac': '00:00:00:00:00:00', 'terminaltype': 'WEBTV','utcEnable': '1', 'timezone': 'UTC', 'userType': '3', 'terminalvendor': 'Unknown','preSharedKeyID': 'PC01P00002', 'cnonce': '5c6ff0b9e4e5efb1498e7eaa8f54d9fb'}
 magentaDE_get_chlist = {'properties': [{'name': 'logicalChannel','include': '/channellist/logicalChannel/contentId,/channellist/logicalChannel/name,/channellist/logicalChannel/pictures/picture/imageType,/channellist/logicalChannel/pictures/picture/href'}],'metaDataVer': 'Channel/1.1', 'channelNamespace': '2','filterlist': [{'key': 'IsHide', 'value': '-1'}], 'returnSatChannel': '0'}
-magentaDE_header = {'Host': 'web.magentatv.de',
+magentaDE_header = {'Host': 'api.prod.sngtv.magentatv.de',
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                   'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
