@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
-    </list>
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,20 +45,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588048479091</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Update Addon to 0.0.7&#10;-Start adding Translations">
-      <created>1588311858238</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1588311858238</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Update Addon to 0.0.7&#10;-Start adding Translations&#10;-Fix UTF8 Problems (general)&#10;-Horizon : Remove useless Series +Episode Strings">
-      <created>1588341364783</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1588341364783</updated>
     </task>
     <task id="LOCAL-00009" summary="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations">
       <created>1588396082532</created>
@@ -393,11 +375,24 @@
       <option name="project" value="LOCAL" />
       <updated>1594013947166</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes">
+      <created>1611165766158</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1611165766158</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes">
+      <created>1611165880456</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1611165880456</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.1.4&#10;- Fix Socked validation" />
     <MESSAGE value="Update Addon to 0.1.5&#10;- Horizon : Fix Image URL&#10;- Use NC instead Curl for socket update (curl loose newlines)" />
     <MESSAGE value="Update Addon to 0.1.6&#10;- Use Python socket to Communicate with TVH xmltv.sock" />
     <MESSAGE value="Update Addon to 0.1.9&#10;-Add new Provider Horizon (GB)&#10;-New Auto Download, now its possible to download 3x Daily&#10;-Some more Bugfixes" />
@@ -422,7 +417,8 @@
     <MESSAGE value="Update Addon to 0.3.8&#10;- Manual grabbing is prevented while auto download is active" />
     <MESSAGE value="Update Addon to 0.4.0&#10;- Fix XML escaping" />
     <MESSAGE value="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia" />
+    <MESSAGE value="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
