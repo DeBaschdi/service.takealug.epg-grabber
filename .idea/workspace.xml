@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,11 +21,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Matrix" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1b9dwEOljsx9AjwLfL8s8O2z2Qf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -49,13 +49,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588048479091</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Update Addon to 0.0.6&#10;-Fix Dupe Detection">
-      <created>1588270669785</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1588270669785</updated>
     </task>
     <task id="LOCAL-00007" summary="Update Addon to 0.0.7&#10;-Start adding Translations">
       <created>1588311858238</created>
@@ -393,11 +386,17 @@
       <option name="project" value="LOCAL" />
       <updated>1593745166068</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia">
+      <created>1594013947164</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1594013947166</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.1.3&#10;- Add an Option to write guide.xml directly to TVH xmltv.sock" />
     <MESSAGE value="Update Addon to 0.1.4&#10;- Fix Socked validation" />
     <MESSAGE value="Update Addon to 0.1.5&#10;- Horizon : Fix Image URL&#10;- Use NC instead Curl for socket update (curl loose newlines)" />
     <MESSAGE value="Update Addon to 0.1.6&#10;- Use Python socket to Communicate with TVH xmltv.sock" />
@@ -422,12 +421,18 @@
     <MESSAGE value="Update Addon to 0.3.7&#10;- Fix escaping XML Chars" />
     <MESSAGE value="Update Addon to 0.3.8&#10;- Manual grabbing is prevented while auto download is active" />
     <MESSAGE value="Update Addon to 0.4.0&#10;- Fix XML escaping" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 0.4.0&#10;- Fix XML escaping" />
+    <MESSAGE value="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="763" y="430" width="393" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605934202395">
-      <screen x="0" y="0" width="1920" height="1030" />
-    </state>
-    <state x="763" y="430" width="393" height="173" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1030@0.0.1920.1030" timestamp="1605934202395" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
