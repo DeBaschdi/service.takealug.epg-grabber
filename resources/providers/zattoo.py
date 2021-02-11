@@ -171,24 +171,32 @@ def zattoo_session(grabber):
             response = session.get(js_url, headers=header)
             token_url_search = response.text.split('token-')[1].split('.json')[0]
     except:
-        # Can find Token
-        ok = dialog.ok(provider, loc(32411))
-        if ok:
-            log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
-        found_token = False
+        # Can find Token Method 1
+        token_method_1 = False
 
     if app_token_js_search is not None:
         try:
             token_url = 'https://{}/token-{}.json'.format(zttdict[grabber][12], token_url_search)
             response = session.get(token_url, headers=header)
             token = response.json()['session_token']
+            token_method_1 = True
             found_token = True
         except:
-            # Can find Token
-            ok = dialog.ok(provider, loc(32411))
-            if ok:
-                log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
-            found_token = False
+            # Can find Token Method 1
+            log('{} {} {}'.format(provider, loc(32411), 'Method 1'), xbmc.LOGNOTICE)
+            token_method_1 = False
+
+    if not token_method_1:
+        ## Try Method 2
+            try:
+                token_url = 'https://{}/token.json'.format(zttdict[grabber][12])
+                response = session.get(token_url, headers=header)
+                token = response.json()['session_token']
+                found_token = True
+            except:
+                # Can find Token Method 2
+                log('{} {} {}'.format(provider, loc(32411), 'Method 2'), xbmc.LOGNOTICE)
+                found_token = False
 
     if found_token:
         # Announce
@@ -242,7 +250,11 @@ def zattoo_session(grabber):
             return True
         if not login:
             return False
+
     if not found_token:
+        ok = dialog.ok(provider, loc(32411))
+        if ok:
+            log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
         return False
 
 ## Get channel list(url)
