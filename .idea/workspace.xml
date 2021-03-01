@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/tvspielfilm_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
-    </list>
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -396,6 +391,17 @@
     </task>
     <option name="localTasksCounter" value="58" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update Addon to 0.1.5&#10;- Horizon : Fix Image URL&#10;- Use NC instead Curl for socket update (curl loose newlines)" />
