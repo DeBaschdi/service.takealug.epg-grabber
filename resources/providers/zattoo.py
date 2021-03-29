@@ -168,6 +168,7 @@ def zattoo_session(grabber):
     except:
         # Can find Token Method 1
         token_method_1 = False
+        app_token_js_search = None
 
     if app_token_js_search is not None:
         try:
@@ -178,7 +179,7 @@ def zattoo_session(grabber):
             found_token = True
         except:
             # Can find Token Method 1
-            log('{} {} {}'.format(provider, loc(32411), 'Method 1'), xbmc.LOGNOTICE)
+            log('{} {} {}'.format(provider, loc(32411), 'Method 1'), xbmc.LOGINFO)
             token_method_1 = False
 
     if not token_method_1:
@@ -190,7 +191,7 @@ def zattoo_session(grabber):
                 found_token = True
             except:
                 # Can find Token Method 2
-                log('{} {} {}'.format(provider, loc(32411), 'Method 2'), xbmc.LOGNOTICE)
+                log('{} {} {}'.format(provider, loc(32411), 'Method 2'), xbmc.LOGINFO)
                 found_token = False
 
     if found_token:
@@ -225,7 +226,7 @@ def zattoo_session(grabber):
         # Login OK
         elif response.status_code == 200:
             notify(addon_name, '{} {}'.format(loc(32384), provider), icon=xbmcgui.NOTIFICATION_INFO)
-            log('{} {}'.format(provider, loc(32384)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32384)), xbmc.LOGINFO)
             login = True
 
         # Error while Login (unkown)
@@ -528,7 +529,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             if i == int(days_to_grab) -1:
                 break
 
-        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 619):
+        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 400):
             try:
                 ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
                 response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
@@ -564,12 +565,14 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             with open((broadcast_files), 'w', encoding='utf-8') as dummy:
                 dummy.write(json.dumps({"no_data": []}))
 
-        elif len(broadcast_list) >= 620:
-            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 4 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
-            broadcast_ids_0 = ','.join(broadcast_list[:len(broadcast_list) // 4])
-            broadcast_ids_1 = ','.join(broadcast_list[len(broadcast_list) // 4:2 * len(broadcast_list) // 4])
-            broadcast_ids_2 = ','.join(broadcast_list[len(broadcast_list) // 2:3 * len(broadcast_list) // 4])
-            broadcast_ids_3 = ','.join(broadcast_list[3 * len(broadcast_list) // 4:])
+        elif len(broadcast_list) >= 401:
+            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 5 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
+            parts = len(broadcast_list) // 5
+            broadcast_ids_0 = ",".join(broadcast_list[0:parts])
+            broadcast_ids_1 = ",".join(broadcast_list[1 * parts:1 * parts + parts])
+            broadcast_ids_2 = ",".join(broadcast_list[2*parts:2*parts + parts])
+            broadcast_ids_3 = ",".join(broadcast_list[3*parts:3*parts + parts])
+            broadcast_ids_4 = ",".join(broadcast_list[4*parts:])
 
             with open(broadcast_files, 'w', encoding='utf-8') as empty_list:
                 empty_list.write(json.dumps({"programs": []}))
@@ -578,7 +581,8 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 data = json.load(playbill)
                 temp = data['programs']
 
-            for i in range(0, 4):
+            for i in range(0, 5):
+                xbmc.sleep(1000)
                 if i == 0:
                     broadcast_ids = broadcast_ids_0
                 elif i == 1:
@@ -587,10 +591,15 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                     broadcast_ids = broadcast_ids_2
                 elif i == 3:
                     broadcast_ids = broadcast_ids_3
+                elif i == 4:
+                    broadcast_ids = broadcast_ids_4
+                
+
                 broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
                 ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
                 response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
                 response.raise_for_status()
+                log('Downloading Part {} StatusCode {} Lengh {}'.format(i, response.status_code, len(broadcast_ids)), xbmc.LOGDEBUG)  
                 ztt_data = response.json()
 
                 for broadcast in ztt_data['programs']:

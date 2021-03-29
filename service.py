@@ -48,6 +48,7 @@ tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 download_threads = int(ADDON.getSetting('download_threads'))
 enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
 
+
 ## Get Enabled Grabbers
 # Divers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
@@ -506,15 +507,24 @@ def check_startup():
             log(loc(32378), xbmc.LOGERROR)
             return False
 
+    #if enable_multithread:
+        #if (not machine == 'x86_64' and not machine == 'armv7l' and not machine == 'armv8l'):
+            #log(machine, xbmc.LOGERROR)
+            #dialog = xbmcgui.Dialog()
+            #log(loc(32381), xbmc.LOGERROR)
+            #ok = dialog.ok(addon_name, loc(32381))
+            #if ok:
+                #return False
+            #return False
+
     if enable_multithread:
-        if (not machine == 'x86_64' and not machine == 'armv7l' and not machine == 'armv8l'):
-            log(machine, xbmc.LOGERROR)
-            dialog = xbmcgui.Dialog()
-            log(loc(32381), xbmc.LOGERROR)
-            ok = dialog.ok(addon_name, loc(32381))
-            if ok:
-                return False
+        log(machine, xbmc.LOGERROR)
+        dialog = xbmcgui.Dialog()
+        log('Multithreading is currently under Kodi 19 broken, please disable it', xbmc.LOGERROR)
+        ok = dialog.ok(addon_name, 'Multithreading is currently under Kodi 19 broken, please disable it')
+        if ok:
             return False
+        return False
 
     ## create Crontab File which not exists at first time
     if (not os.path.isfile(grabber_cron) or os.stat(grabber_cron).st_size <= 1):

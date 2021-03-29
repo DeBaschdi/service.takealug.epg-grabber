@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="" />
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="Update Addon to 1.0.6&#10;- Fix Kodi 18--&gt;19 Upgrade Problems">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,6 +34,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../plugin.video.telerising-cloudcontrol" />
@@ -45,13 +51,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588048479091</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Update Addon to 0.0.8&#10;-Some Code Clean&#10;-Add more Translations">
-      <created>1588396082532</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1588396082532</updated>
     </task>
     <task id="LOCAL-00010" summary="Update Addon to 0.0.8&#10;-Add more Translations(2)">
       <created>1588398938167</created>
@@ -389,7 +388,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611165880456</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Update Addon to 1.0.6&#10;- Fix Kodi 18--&gt;19 Upgrade Problems">
+      <created>1614569496252</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1614569496252</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -402,9 +408,9 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.1.5&#10;- Horizon : Fix Image URL&#10;- Use NC instead Curl for socket update (curl loose newlines)" />
     <MESSAGE value="Update Addon to 0.1.6&#10;- Use Python socket to Communicate with TVH xmltv.sock" />
     <MESSAGE value="Update Addon to 0.1.9&#10;-Add new Provider Horizon (GB)&#10;-New Auto Download, now its possible to download 3x Daily&#10;-Some more Bugfixes" />
     <MESSAGE value="Update Addon to 0.2.0&#10;- Add Multithreading Support" />
@@ -429,7 +435,8 @@
     <MESSAGE value="Update Addon to 0.4.0&#10;- Fix XML escaping" />
     <MESSAGE value="Update Addon to 1.0.0(2)&#10;- Initial stable Release for Krypton - Leia" />
     <MESSAGE value="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes" />
+    <MESSAGE value="Update Addon to 1.0.6&#10;- Fix Kodi 18--&gt;19 Upgrade Problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.6&#10;- Fix Kodi 18--&gt;19 Upgrade Problems" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
