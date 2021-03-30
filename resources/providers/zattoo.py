@@ -529,7 +529,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             if i == int(days_to_grab) -1:
                 break
 
-        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 400):
+        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 390):
             try:
                 ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
                 response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
@@ -565,7 +565,7 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             with open((broadcast_files), 'w', encoding='utf-8') as dummy:
                 dummy.write(json.dumps({"no_data": []}))
 
-        elif len(broadcast_list) >= 401:
+        elif len(broadcast_list) >= 391:
             log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 5 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
             parts = len(broadcast_list) // 5
             broadcast_ids_0 = ",".join(broadcast_list[0:parts])
