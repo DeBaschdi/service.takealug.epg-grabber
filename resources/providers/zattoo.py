@@ -44,6 +44,7 @@ def get_zttdict(grabber):
                   })
     return zttdict
 
+
 def get_settings(grabber):
     zttdict = get_zttdict(grabber)
     provider_temppath = os.path.join(temppath, zttdict[grabber][2])
@@ -86,6 +87,7 @@ def get_settings(grabber):
 
     return provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, ztt_header, ztt_session, username, password
 
+
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
@@ -105,6 +107,7 @@ if enable_multithread:
 ztt_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/ztt_genres.json'
 ztt_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/ztt_channels.json'
 
+
 # Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
     xbmc.log('[{} {}] {}'.format(addon_name, addon_version, message), loglevel)
@@ -117,8 +120,10 @@ OSD = xbmcgui.Dialog()
 ZAPI_UUID = 'd7512e98-38a0-4f01-b820-5a5cf98141fe'
 ZAPI_APP_VERSION = '3.2004.2'
 
+
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
+
 
 def get_epgLength(days_to_grab):
     # Calculate Date and Time in Microsoft Timestamp
@@ -146,7 +151,8 @@ def get_epgLength(days_to_grab):
 
 ## Login and Authenticate to Zattoo IPTV Service
 def zattoo_session(grabber):
-    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
+    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(
+        grabber)
     zttdict = get_zttdict(grabber)
     # Fetch Token
     session = requests.Session()
@@ -159,7 +165,7 @@ def zattoo_session(grabber):
             log('{} {}'.format(provider, loc(32410)), xbmc.LOGERROR)
         return False
 
-    #find token.json
+    # find token.json
 
     try:
         annouce_url = 'https://{}/login/'.format(zttdict[grabber][12])
@@ -173,6 +179,7 @@ def zattoo_session(grabber):
     except:
         # Can find Token Method 1
         token_method_1 = False
+        app_token_js_search = None
 
     if app_token_js_search is not None:
         try:
@@ -188,15 +195,15 @@ def zattoo_session(grabber):
 
     if not token_method_1:
         ## Try Method 2
-            try:
-                token_url = 'https://{}/token.json'.format(zttdict[grabber][12])
-                response = session.get(token_url, headers=header)
-                token = response.json()['session_token']
-                found_token = True
-            except:
-                # Can find Token Method 2
-                log('{} {} {}'.format(provider, loc(32411), 'Method 2'), xbmc.LOGNOTICE)
-                found_token = False
+        try:
+            token_url = 'https://{}/token.json'.format(zttdict[grabber][12])
+            response = session.get(token_url, headers=header)
+            token = response.json()['session_token']
+            found_token = True
+        except:
+            # Can find Token Method 2
+            log('{} {} {}'.format(provider, loc(32411), 'Method 2'), xbmc.LOGNOTICE)
+            found_token = False
 
     if found_token:
         # Announce
@@ -257,6 +264,7 @@ def zattoo_session(grabber):
             log('{} {}'.format(provider, loc(32411)), xbmc.LOGERROR)
         return False
 
+
 ## Get channel list(url)
 def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provider, header, ztt_session):
     # Load session File
@@ -264,8 +272,10 @@ def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provid
         session_data = json.load(s)
 
     # get chlist
-    ztt_channellist_url = 'https://{}/zapi/v3/cached/{}/channels?'.format(zttdict[grabber][12], session_data['power_guide_hash'])
-    response = requests.get(ztt_channellist_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+    ztt_channellist_url = 'https://{}/zapi/v3/cached/{}/channels?'.format(zttdict[grabber][12],
+                                                                          session_data['power_guide_hash'])
+    response = requests.get(ztt_channellist_url, headers=header,
+                            cookies={'beaker.session.id': session_data['beaker.session.id']})
     response.raise_for_status()
     ztt_chlist_url = response.json()
 
@@ -328,12 +338,14 @@ def get_channellist(grabber, zttdict, ztt_chlist_provider_tmp, ztt_chlist_provid
             # appending channels to data['channellist']
             temp.append(y)
 
-    #Save New Channellist from Provider
+    # Save New Channellist from Provider
     with open(ztt_chlist_provider, 'w', encoding='utf-8') as provider_list:
         json.dump(data, provider_list, indent=4)
 
+
 def select_channels(grabber):
-    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
+    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(
+        grabber)
     zttdict = get_zttdict(grabber)
 
     ## Create Provider Temppath if not exist
@@ -391,6 +403,7 @@ def select_channels(grabber):
                     xbmcvfs.delete(ztt_chlist_selected)
                     exit()
 
+
 def check_selected_list(ztt_chlist_selected):
     check = 'invalid'
     with open(ztt_chlist_selected, 'r', encoding='utf-8') as c:
@@ -403,7 +416,9 @@ def check_selected_list(ztt_chlist_selected):
     else:
         return False
 
-def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_selected, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session):
+
+def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_selected, provider, provider_temppath,
+                         zttdict, days_to_grab, header, ztt_session):
     # delete old broadcast files if exist
     for f in os.listdir(provider_temppath):
         if f.endswith('_broadcast.json'):
@@ -415,7 +430,8 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
     with open(ztt_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
-    if filesplit.split_chlist_selected(thread_temppath, ztt_chlist_selected, splitname, download_threads, enable_multithread):
+    if filesplit.split_chlist_selected(thread_temppath, ztt_chlist_selected, splitname, download_threads,
+                                       enable_multithread):
         multi = True
         needed_threads = sum([len(files) for r, d, files in os.walk(thread_temppath)])
         items_to_download = str(len(selected_list['channellist']))
@@ -426,7 +442,9 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
 
         jobs = []
         for thread in range(0, int(needed_threads)):
-            p = Process(target=download_thread, args=(grabber, '{}_{}.json'.format(splitname, int(thread)), multi, list_done, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session, ))
+            p = Process(target=download_thread, args=(
+            grabber, '{}_{}.json'.format(splitname, int(thread)), multi, list_done, provider, provider_temppath,
+            zttdict, days_to_grab, header, ztt_session,))
             jobs.append(p)
             p.start()
         for j in jobs:
@@ -441,7 +459,8 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
                 items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
                 percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
                 percent_completed = int(100) * int(items) / int(items_to_download)
-                pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+                pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), last_line),
+                               '{} {} {}'.format(int(percent_remain), loc(32501), provider))
                 if int(items) == int(items_to_download):
                     log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
                     break
@@ -450,7 +469,9 @@ def download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_
         for file in os.listdir(thread_temppath): xbmcvfs.delete(os.path.join(thread_temppath, file))
     else:
         multi = False
-        download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session)
+        download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict,
+                        days_to_grab, header, ztt_session)
+
 
 def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_session, header, provider):
     # Delete old Manifest Files
@@ -478,8 +499,11 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
         mani_files = os.path.join(provider_temppath, 'day_{}.json'.format(i))
-        ztt_mani_url = 'https://{}/zapi/v3/cached/{}/guide?start={}&end={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], day_to_start, day_to_end)
-        response = requests.get(ztt_mani_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+        ztt_mani_url = 'https://{}/zapi/v3/cached/{}/guide?start={}&end={}'.format(zttdict[grabber][12],
+                                                                                   session_data['power_guide_hash'],
+                                                                                   day_to_start, day_to_end)
+        response = requests.get(ztt_mani_url, headers=header,
+                                cookies={'beaker.session.id': session_data['beaker.session.id']})
         response.raise_for_status()
         ztt_mani = response.json()
 
@@ -487,7 +511,8 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
         with open(mani_files, 'w', encoding='utf-8') as mani:
             json.dump(ztt_mani, mani, indent=4)
 
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32504), items), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32504), items),
+                       '{} {} {}'.format(int(percent_remain), loc(32501), provider))
 
         day_to_start += int(86400)
         day_to_end += int(86400)
@@ -497,7 +522,9 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
             break
     pDialog.close()
 
-def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session):
+
+def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict, days_to_grab,
+                    header, ztt_session):
     requests.adapters.DEFAULT_RETRIES = 5
 
     with open(ztt_chlist_selected, 'r', encoding='utf-8') as s:
@@ -519,7 +546,6 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
         channel_name = user_item['name']
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
 
-
         broadcast_dirtylist = list()
         for i in range(0, int(days_to_grab)):
             with open(os.path.join(provider_temppath, 'day_{}.json'.format(i)), 'r', encoding='utf-8') as s:
@@ -530,13 +556,15 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             broadcast_list = list(set(broadcast_dirtylist))
             broadcast_ids = ','.join(broadcast_list)
 
-            if i == int(days_to_grab) -1:
+            if i == int(days_to_grab) - 1:
                 break
 
-        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 619):
+        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 390):
             try:
-                ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
-                response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+                ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(
+                    zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
+                response = requests.get(ztt_broadcast_url, headers=header,
+                                        cookies={'beaker.session.id': session_data['beaker.session.id']})
                 response.raise_for_status()
                 ztt_data = response.json()
 
@@ -552,8 +580,10 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                     log('{} {} ERROR TRY REDOWNLOAD {}'.format(provider, response.status_code, contentID), xbmc.LOGNOTICE)
                     broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
                     xbmc.sleep(5000)
-                    ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
-                    response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+                    ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(
+                        zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
+                    response = requests.get(ztt_broadcast_url, headers=header,
+                                            cookies={'beaker.session.id': session_data['beaker.session.id']})
                     response.raise_for_status()
 
                     ## Save Broadcast Files To Disk
@@ -569,12 +599,15 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             with open((broadcast_files), 'w', encoding='utf-8') as dummy:
                 dummy.write(json.dumps({"no_data": []}))
 
-        elif len(broadcast_list) >= 620:
-            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 4 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
-            broadcast_ids_0 = ','.join(broadcast_list[:len(broadcast_list) // 4])
-            broadcast_ids_1 = ','.join(broadcast_list[len(broadcast_list) // 4:2 * len(broadcast_list) // 4])
-            broadcast_ids_2 = ','.join(broadcast_list[len(broadcast_list) // 2:3 * len(broadcast_list) // 4])
-            broadcast_ids_3 = ','.join(broadcast_list[3 * len(broadcast_list) // 4:])
+        elif len(broadcast_list) >= 391:
+            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 5 Parts'.format(contentID, len(broadcast_list)),
+                xbmc.LOGDEBUG)
+            parts = len(broadcast_list) // 5
+            broadcast_ids_0 = ",".join(broadcast_list[0:parts])
+            broadcast_ids_1 = ",".join(broadcast_list[1 * parts:1 * parts + parts])
+            broadcast_ids_2 = ",".join(broadcast_list[2 * parts:2 * parts + parts])
+            broadcast_ids_3 = ",".join(broadcast_list[3 * parts:3 * parts + parts])
+            broadcast_ids_4 = ",".join(broadcast_list[4 * parts:])
 
             with open(broadcast_files, 'w', encoding='utf-8') as empty_list:
                 empty_list.write(json.dumps({"programs": []}))
@@ -583,7 +616,8 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 data = json.load(playbill)
                 temp = data['programs']
 
-            for i in range(0, 4):
+            for i in range(0, 5):
+                xbmc.sleep(1000)
                 if i == 0:
                     broadcast_ids = broadcast_ids_0
                 elif i == 1:
@@ -592,10 +626,17 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                     broadcast_ids = broadcast_ids_2
                 elif i == 3:
                     broadcast_ids = broadcast_ids_3
+                elif i == 4:
+                    broadcast_ids = broadcast_ids_4
+
                 broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-                ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
-                response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+                ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(
+                    zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
+                response = requests.get(ztt_broadcast_url, headers=header,
+                                        cookies={'beaker.session.id': session_data['beaker.session.id']})
                 response.raise_for_status()
+                log('Downloading Part {} StatusCode {} Lengh {}'.format(i, response.status_code, len(broadcast_ids)),
+                    xbmc.LOGDEBUG)
                 ztt_data = response.json()
 
                 for broadcast in ztt_data['programs']:
@@ -618,7 +659,8 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             items = sum(1 for f in os.listdir(provider_temppath) if f.endswith('_broadcast.json'))
             percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
             percent_completed = int(100) * int(items) / int(items_to_download)
-            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+            pDialog.update(int(percent_completed), '{} {} '.format(loc(32500), channel_name),
+                           '{} {} {}'.format(int(percent_remain), loc(32501), provider))
             if int(items) == int(items_to_download):
                 log('{} {}'.format(provider, loc(32363)), xbmc.LOGNOTICE)
                 break
@@ -626,8 +668,10 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
     if not multi:
         pDialog.close()
 
+
 def create_xml_channels(grabber):
-    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
+    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(
+        grabber)
     log('{} {}'.format(provider, loc(32362)), xbmc.LOGNOTICE)
     if channel_format == 'rytec':
         ## Save ztt_channels.json to Disk
@@ -641,7 +685,7 @@ def create_xml_channels(grabber):
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32502),provider), '{} {}'.format('100',loc(32501)))
+    pDialog.create('{} {} '.format(loc(32502), provider), '{} {}'.format('100', loc(32501)))
 
     ## Create XML Channels Provider information
     xml_structure.xml_channels_start(provider)
@@ -653,24 +697,29 @@ def create_xml_channels(grabber):
         channel_name = user_item['name']
         channel_icon = user_item['pictures'][0]['href']
         channel_id = channel_name
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32502), channel_name),
+                       '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         if str(percent_completed) == str(100):
-            log('{} {}'.format(provider,loc(32364)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32364)), xbmc.LOGNOTICE)
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, ztt_channels_json, ztt_channels_warnings_tmp, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, ztt_channels_json, ztt_channels_warnings_tmp,
+                                             lang)
 
         ## Create XML Channel Information with provided Variables
         xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
     pDialog.close()
 
+
 def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, download_threads):
-    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
+    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(
+        grabber)
     zttdict = get_zttdict(grabber)
 
     download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_session, header, provider)
-    download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_selected, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session)
+    download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_selected, provider, provider_temppath,
+                         zttdict, days_to_grab, header, ztt_session)
 
     log('{} {}'.format(provider, loc(32365)), xbmc.LOGNOTICE)
 
@@ -686,7 +735,7 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
     items_to_download = str(len(selected_list['channellist']))
     items = 0
     pDialog = xbmcgui.DialogProgressBG()
-    pDialog.create('{} {} '.format(loc(32503),provider), '{} Prozent verbleibend'.format('100'))
+    pDialog.create('{} {} '.format(loc(32503), provider), '{} Prozent verbleibend'.format('100'))
 
     ## Create XML Broadcast Provider information
     xml_structure.xml_broadcast_start(provider)
@@ -698,9 +747,10 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
         contentID = user_item['contentId']
         channel_name = user_item['name']
         channel_id = channel_name
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32503),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32503), channel_name),
+                       '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         if str(percent_completed) == str(100):
-            log('{} {}'.format(provider,loc(32366)), xbmc.LOGNOTICE)
+            log('{} {}'.format(provider, loc(32366)), xbmc.LOGNOTICE)
 
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'r', encoding='utf-8') as b:
@@ -708,7 +758,8 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, ztt_channels_json, ztt_channels_warnings_tmp, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, ztt_channels_json, ztt_channels_warnings_tmp,
+                                             lang)
 
         try:
             for playbilllist in sorted(broadcastfiles['programs'], key=lambda k: k['s'], reverse=False):
@@ -792,10 +843,10 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
                     item_agerating = ''
 
                 if not item_season == '':
-                    if int(item_season) >999:
+                    if int(item_season) > 999:
                         item_season = ''
                 if not item_episode == '':
-                    if int(item_episode) >99999:
+                    if int(item_episode) > 99999:
                         item_episode = ''
 
                 item_starttime = datetime.utcfromtimestamp(item_starttime).strftime('%Y%m%d%H%M%S')
@@ -803,12 +854,15 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, ztt_genres_json, ztt_genres_warnings_tmp, lang)
+                    items_genre = mapper.map_genres(items_genre, genre_format, ztt_genres_json, ztt_genres_warnings_tmp,
+                                                    lang)
 
                 ## Create XML Broadcast Information with provided Variables
-                xml_structure.xml_broadcast(episode_format, channel_id, item_title, str(item_starttime), str(item_endtime),
+                xml_structure.xml_broadcast(episode_format, channel_id, item_title, str(item_starttime),
+                                            str(item_endtime),
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
-                                            item_date, item_season, item_episode, item_agerating, item_starrating, items_director,
+                                            item_date, item_season, item_episode, item_agerating, item_starrating,
+                                            items_director,
                                             items_producer, items_actor, enable_rating_mapper, lang)
 
         except (KeyError, IndexError):
@@ -865,8 +919,10 @@ def check_provider(grabber, provider_temppath, ztt_chlist_selected, provider):
         return False
     return True
 
+
 def startup(grabber):
-    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
+    provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(
+        grabber)
     zttdict = get_zttdict(grabber)
 
     if check_provider(grabber, provider_temppath, ztt_chlist_selected, provider):
@@ -874,6 +930,7 @@ def startup(grabber):
         return True
     else:
         return False
+
 
 # Channel Selector
 try:
