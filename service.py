@@ -176,6 +176,7 @@ def check_channel_dupes():
 
 def run_grabber():
     if check_startup():
+        reload(xml_structure)
         xml_structure.xml_start()
         ## Check Provider , Create XML Channels
         if enable_grabber_magentaDE:
