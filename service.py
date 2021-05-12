@@ -18,6 +18,7 @@ from resources.providers import horizon
 from resources.providers import zattoo
 import sys
 import platform
+import importlib
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -170,6 +171,7 @@ def check_channel_dupes():
 
 def run_grabber():
     if check_startup():
+        importlib.reload(xml_structure)
         xml_structure.xml_start()
         ## Check Provider , Create XML Channels
         if enable_grabber_magentaDE:
