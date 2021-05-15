@@ -172,6 +172,11 @@ def check_channel_dupes():
 def run_grabber():
     if check_startup():
         importlib.reload(xml_structure)
+        importlib.reload(magenta_DE)
+        importlib.reload(tvspielfilm_DE)
+        importlib.reload(swisscom_CH)
+        importlib.reload(horizon)
+        importlib.reload(zattoo)
         xml_structure.xml_start()
         ## Check Provider , Create XML Channels
         if enable_grabber_magentaDE:
