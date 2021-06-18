@@ -389,7 +389,7 @@ def write_to_sock():
     if check_startup():
         if (use_local_sock and os.path.isfile(guide_temp)):
             sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            epg = open(guide_temp, 'rb', encoding='utf-8')
+            epg = open(guide_temp, 'rb')
             epg_data = epg.read()
             try:
                 log('{} {}'.format(loc(32380), tvh_local_sock), xbmc.LOGINFO)
