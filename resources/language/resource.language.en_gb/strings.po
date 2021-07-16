@@ -47,6 +47,28 @@ msgctxt "#32103"
 msgid "Write EPG in xmltv.sock"
 msgstr ""
 
+## FTP Settings
+
+msgctxt "#32630"
+msgid "FTP Upload"
+msgstr ""
+
+msgctxt "#32631"
+msgid "Host"
+msgstr ""
+
+msgctxt "#32632"
+msgid "Username"
+msgstr ""
+
+msgctxt "#32633"
+msgid "Password"
+msgstr ""
+
+msgctxt "#32634"
+msgid "Path / Filename"
+msgstr ""
+
 ## Global Settings ## 32110 - 32129
 
 msgctxt "#32110"
@@ -83,6 +105,10 @@ msgstr ""
 
 msgctxt "#32118"
 msgid "Enable Rating Mapper"
+msgstr ""
+
+msgctxt "#32620"
+msgid "Check for duplicate Channels"
 msgstr ""
 
 msgctxt "#32119"
@@ -275,6 +301,14 @@ msgctxt "#32171"
 msgid "Enable Provider Zattoo (CH)"
 msgstr ""
 
+msgctxt "#32600"
+msgid "Zattoo (AT)"
+msgstr ""
+
+msgctxt "#32601"
+msgid "Enable Provider Zattoo (AT)"
+msgstr ""
+
 msgctxt "#32172"
 msgid "1und1 (DE)"
 msgstr ""
@@ -429,6 +463,14 @@ msgstr ""
 
 msgctxt "#32352"
 msgid "Timestamp of last generated guide.xml is"
+msgstr ""
+
+msgctxt "#32641"
+msgid "EPG File uploaded to FTP Server."
+msgstr ""
+
+msgctxt "#32642"
+msgid "FTP UPLOAD ERROR!"
 msgstr ""
 
 msgctxt "#32353"
@@ -654,6 +696,10 @@ msgstr ""
 msgctxt "#32504"
 msgid "Downloading Manifest Data for Day"
 msgstr ""
+
+#####################################
+# List Items, Labels 32550 -32599   #
+#####################################
 
 #####################################
 # List Items, Labels 32550 -32599   #

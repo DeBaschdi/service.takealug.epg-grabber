@@ -21,6 +21,7 @@ def get_zttdict(grabber):
     ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url, 13=Session, 14=Username 15=Password
     zttdict = dict({'ztt_de': ['ZATTOO (DE)', 'de', 'zattooDE', 'zttDE_genres_warnings.txt', 'zttDE_channels_warnings.txt', 'zttDE_days_to_grab', 'zttDE_episode_format', 'zttDE_channel_format', 'zttDE_genre_format', 'chlist_zttDE_provider_tmp.json', 'chlist_zttDE_provider.json', 'chlist_zttDE_selected.json', 'zattoo.com', 'zttDE_session.json', 'zttDE_username', 'zttDE_password'],
                     'ztt_ch': ['ZATTOO (CH)', 'ch', 'zattooCH', 'zttCH_genres_warnings.txt', 'zttCH_channels_warnings.txt', 'zttCH_days_to_grab', 'zttCH_episode_format', 'zttCH_channel_format', 'zttCH_genre_format', 'chlist_zttCH_provider_tmp.json', 'chlist_zttCH_provider.json', 'chlist_zttCH_selected.json', 'zattoo.com', 'zttCH_session.json', 'zttCH_username', 'zttCH_password'],
+                    'ztt_at': ['ZATTOO (AT)', 'at', 'zattooAT', 'zttAT_genres_warnings.txt', 'zttAT_channels_warnings.txt', 'zttAT_days_to_grab', 'zttAT_episode_format', 'zttAT_channel_format', 'zttAT_genre_format', 'chlist_zttAT_provider_tmp.json', 'chlist_zttAT_provider.json', 'chlist_zttAT_selected.json', 'zattoo.com', 'zttAT_session.json', 'zttAT_username', 'zttAT_password'],
                     '1und1_de': ['1&1 TV (DE)', 'de', '1und1DE', '1und1DE_genres_warnings.txt', '1und1DE_channels_warnings.txt', '1und1DE_days_to_grab', '1und1DE_episode_format', '1und1DE_channel_format', '1und1DE_genre_format', 'chlist_1und1DE_provider_tmp.json', 'chlist_1und1DE_provider.json', 'chlist_1und1DE_selected.json', 'www.1und1.tv', '1und1DE_session.json', '1und1DE_username', '1und1DE_password'],
                     'ql_ch': ['Quickline Mobil-TV (CH)', 'ch', 'qlCH', 'qlCH_genres_warnings.txt', 'qlCH_channels_warnings.txt', 'qlCH_days_to_grab', 'qlCH_episode_format', 'qlCH_channel_format', 'qlCH_genre_format', 'chlist_qlCH_provider_tmp.json', 'chlist_qlCH_provider.json', 'chlist_qlCH_selected.json', 'mobiltv.quickline.com', 'qlCH_session.json', 'qlCH_username', 'qlCH_password'],
                     'mnet_de': ['M-net TVplus (DE)', 'de', 'mnetDE', 'mnetDE_genres_warnings.txt', 'mnetDE_channels_warnings.txt', 'mnetDE_days_to_grab', 'mnetDE_episode_format', 'mnetDE_channel_format', 'mnetDE_genre_format', 'chlist_mnetDE_provider_tmp.json', 'chlist_mnetDE_provider.json', 'chlist_mnetDE_selected.json', 'tvplus.m-net.de', 'mnetDE_session.json', 'mnetDE_username', 'mnetDE_password'],
@@ -885,6 +886,8 @@ try:
         select_channels('ztt_de')
     if sys.argv[1] == 'select_channels_zttCH':
         select_channels('ztt_ch')
+    if sys.argv[1] == 'select_channels_zttAT':
+        select_channels('ztt_at')
     if sys.argv[1] == 'select_channels_1und1DE':
         select_channels('1und1_de')
     if sys.argv[1] == 'select_channels_qlCH':
