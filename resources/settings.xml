@@ -138,6 +138,16 @@
         <setting id="zttCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
         <setting id="zttCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
 
+        <setting label="32600" type="lsep"/> <!-- Zattoo (AT) -->
+        <setting id="enable_grabber_zttAT" type="bool" label="32601" default="false" /><!-- Enable Zattoo (AT) -->
+        <setting id="zttAT_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
+        <setting id="zttAT_password" label="32205" type="text"  option="hidden" default="" visible="!eq(-2,false)" />
+        <setting id="select_channels_zttAT" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_zttAT)" option="close" visible="!eq(-3,false)"/>
+        <setting id="zttAT_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-4,false)" /> <!-- Episode Format -->
+        <setting id="zttAT_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-5,false)" /> <!-- Channel Format -->
+        <setting id="zttAT_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-6,false)" /> <!-- Genre Format -->
+        <setting id="zttAT_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
+
         <setting label="32172" type="lsep"/> <!-- 1und1 (DE) -->
         <setting id="enable_grabber_1und1DE" type="bool" label="32173" default="false" /><!-- Enable 1und1 (DE) -->
         <setting id="1und1DE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
@@ -305,7 +315,8 @@
         <setting id="timeswitch_2" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-2,true)" /> <!-- Grab EPG Daily at 2-->
         <setting id="timeswitch_3" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-3,true)" /> <!-- Grab EPG Daily at 3-->
         <setting id="storage_path" type="folder" label="32116" default="choose" />
-        <setting id="enable_rating_mapper" type="bool" label="32118" default="true" /><!-- Rating Mapper -->
+        <setting id="enable_rating_mapper" type="bool" label="32118" default="true" />
+        <setting id="enable_dupe_check" type="bool" label="32620" default="true" /> <!-- Disable to check for duplicate channels-->
         <setting label="Multithread" type="lsep" /> <!-- Tvheadend -->
         <setting id="enable_multithread" type="bool" label="32123" default="false" /><!-- Enable Multithread -->
         <setting id="download_threads" type="select" label="32122" default="2" values="2|4|6|8|10|12|14|16" enable="eq(-1,true)" /> <!-- Number of concurrent downloads (threads) -->
@@ -318,6 +329,11 @@
         <setting label="32101" type="lsep"/> <!-- Manual Download -->
         <setting id="manual_download" type="action" label="32102" action="RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
         <setting id="write_to_sock" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_sock)" option="close"/>
+        <setting id="enable_ftp_upload" type="bool" label="32630" default="false" />
+        <setting id="ftp_host" label="32631" type="text" default="127.0.0.1" visible="!eq(-1,false)" />
+        <setting id="ftp_user" label="32632" type="text" default="" visible="!eq(-2,false)" />
+        <setting id="ftp_pass" label="32633" type="text"  option="hidden" default="" visible="!eq(-3,false)" />
+        <setting id="ftp_path" label="32634" type="text" default="guide.xml" visible="!eq(-4,false)" />
     </category>
 
 </settings>

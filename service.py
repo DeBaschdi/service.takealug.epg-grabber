@@ -19,6 +19,7 @@ from resources.providers import zattoo
 import sys
 import platform
 import importlib
+import ftplib
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -48,7 +49,14 @@ use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' el
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 download_threads = int(ADDON.getSetting('download_threads'))
 enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
+enable_dupe_check = True if ADDON.getSetting('enable_dupe_check').upper() == 'TRUE' else False
 
+## FTP Settings
+ftphost = ADDON.getSetting('ftp_host')
+ftpuser = ADDON.getSetting('ftp_user')
+ftppass = ADDON.getSetting('ftp_pass')
+ftppath = ADDON.getSetting('ftp_path')
+enable_ftp_upload = True if ADDON.getSetting('enable_ftp_upload').upper() == 'TRUE' else False
 
 ## Get Enabled Grabbers
 # Divers
@@ -70,6 +78,7 @@ enable_grabber_hznRO = True if ADDON.getSetting('enable_grabber_hznRO').upper() 
 # Zattoo
 enable_grabber_zttDE = True if ADDON.getSetting('enable_grabber_zttDE').upper() == 'TRUE' else False
 enable_grabber_zttCH = True if ADDON.getSetting('enable_grabber_zttCH').upper() == 'TRUE' else False
+enable_grabber_zttAT = True if ADDON.getSetting('enable_grabber_zttAT').upper() == 'TRUE' else False
 enable_grabber_1und1DE = True if ADDON.getSetting('enable_grabber_1und1DE').upper() == 'TRUE' else False
 enable_grabber_qlCH = True if ADDON.getSetting('enable_grabber_qlCH').upper() == 'TRUE' else False
 enable_grabber_mnetDE = True if ADDON.getSetting('enable_grabber_mnetDE').upper() == 'TRUE' else False
@@ -88,7 +97,7 @@ enable_grabber_swbDE = True if ADDON.getSetting('enable_grabber_swbDE').upper() 
 enable_grabber_eirIE = True if ADDON.getSetting('enable_grabber_eirIE').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznGB or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
+if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznGB or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_zttAT or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -147,6 +156,23 @@ def copy_guide_to_destination():
         notify(addon_name, loc(32351), icon=xbmcgui.NOTIFICATION_ERROR)
         log(loc(32351), xbmc.LOGERROR)
 
+    if enable_ftp_upload:
+        try:
+            session = ftplib.FTP(ftphost, ftpuser, ftppass)
+            file = open(storage_path+"guide.xml",'rb')
+            session.storbinary('STOR '+ftppath, file)
+            file.close()
+            session.quit()
+            notify(addon_name, loc(32641), icon=xbmcgui.NOTIFICATION_INFO)
+            log(loc(32641), xbmc.LOGINFO)
+        except:
+            notify(addon_name, loc(32642), icon=xbmcgui.NOTIFICATION_ERROR)
+            log(loc(32642), xbmc.LOGERROR)
+        try:
+            xbmcvfs.delete(storage_path+"guide.xml")
+        except:
+            pass
+
 def check_channel_dupes():
     with open(guide_temp, encoding='utf-8') as f:
         c = Counter(c.strip() for c in f if c.strip())  # for case-insensitive search
@@ -156,7 +182,11 @@ def check_channel_dupes():
                 if ('display-name' in line or 'icon src' in line or '</channel' in line):
                     pass
                 else:
-                    dupe.append(line + '\n')
+                    if enable_dupe_check:
+                        dupe.append(line + '\n')
+                    else:
+                        pass
+
         dupes = ''.join(dupe)
 
         if (not dupes == ''):
@@ -227,6 +257,9 @@ def run_grabber():
         if enable_grabber_zttCH:
             if zattoo.startup('ztt_ch'):
                 zattoo.create_xml_channels('ztt_ch')
+        if enable_grabber_zttAT:
+            if zattoo.startup('ztt_at'):
+                zattoo.create_xml_channels('ztt_at')
         if enable_grabber_1und1DE:
             if zattoo.startup('1und1_de'):
                 zattoo.create_xml_channels('1und1_de')
@@ -328,6 +361,9 @@ def run_grabber():
             if enable_grabber_zttCH:
                 if zattoo.startup('ztt_ch'):
                     zattoo.create_xml_broadcast('ztt_ch', enable_rating_mapper, thread_temppath, download_threads)
+            if enable_grabber_zttAT:
+                if zattoo.startup('ztt_at'):
+                    zattoo.create_xml_broadcast('ztt_at', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_1und1DE:
                 if zattoo.startup('1und1_de'):
                     zattoo.create_xml_broadcast('1und1_de', enable_rating_mapper, thread_temppath, download_threads)

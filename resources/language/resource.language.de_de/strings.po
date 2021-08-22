@@ -47,6 +47,28 @@ msgctxt "#32103"
 msgid "Write EPG in xmltv.sock"
 msgstr ""
 
+## FTP Settings
+
+msgctxt "#32630"
+msgid "FTP Upload"
+msgstr ""
+
+msgctxt "#32631"
+msgid "Host"
+msgstr ""
+
+msgctxt "#32632"
+msgid "Username"
+msgstr ""
+
+msgctxt "#32633"
+msgid "Passwort"
+msgstr ""
+
+msgctxt "#32634"
+msgid "Path / Filename"
+msgstr "Pfad / Dateiname"
+
 ## Global Settings ## 32110 - 32129
 
 msgctxt "#32110"
@@ -84,6 +106,10 @@ msgstr "Addon Einstellungen"
 msgctxt "#32118"
 msgid "Enable Rating Mapper"
 msgstr "Aktiviere Rating Mapper"
+
+msgctxt "#32620"
+msgid "Check for duplicate Channels"
+msgstr "Nach doppelten Sendern suchen"
 
 msgctxt "#32119"
 msgid "Tvheadend"
@@ -276,6 +302,14 @@ msgctxt "#32171"
 msgid "Enable Provider Zattoo (CH)"
 msgstr "Aktiviere Provider Zattoo (CH)"
 
+msgctxt "#32600"
+msgid "Zattoo (AT)"
+msgstr "Zattoo (AT)"
+
+msgctxt "#32601"
+msgid "Enable Provider Zattoo (AT)"
+msgstr "Aktiviere Provider Zattoo (AT)"
+
 msgctxt "#32172"
 msgid "1und1 (DE)"
 msgstr "1und1 (DE)"
@@ -431,6 +465,14 @@ msgstr "Kann guide.xml nicht zum Ziel Kopieren!"
 msgctxt "#32352"
 msgid "Timestamp of last generated guide.xml is"
 msgstr "Zeitstempel der zuletzt erstellten guide.xml ist"
+
+msgctxt "#32641"
+msgid "EPG File uploaded to FTP Server."
+msgstr "FTP Upload erfolgreich."
+
+msgctxt "#32642"
+msgid "FTP UPLOAD ERROR!"
+msgstr "FTP UPLOAD ERROR!"
 
 msgctxt "#32353"
 msgid "Waiting for next EPG grab at"
