@@ -118,19 +118,21 @@ def get_epgLength(days_to_grab):
 
     return starttime, endtime
 
-
-hzn_header = {'Host': hzndict[grabber][13],
+def header(grabber):
+    hzndict = get_hzndict(grabber)
+    hzn_header = {'Host': hzndict[grabber][13],
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                   'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
                   'Accept-Encoding': 'gzip',
                   'Connection': 'keep-alive',
                   'Upgrade-Insecure-Requests': '1'}
+    return hzn_header
 
 ## Get channel list(url)
 def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider):
     hzn_channellist_url = 'https://{}/oesp/v2/{}/web/channels'.format(hzndict[grabber][13], hzndict[grabber][12])
-    hzn_chlist_url = requests.get(hzn_channellist_url, headers=hzn_header)
+    hzn_chlist_url = requests.get(hzn_channellist_url, headers=header(grabber))
     hzn_chlist_url.raise_for_status()
     response = hzn_chlist_url.json()
     with open(hzn_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
@@ -312,7 +314,7 @@ def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provide
         contentID = user_item['contentId']
         channel_name = user_item['name']
         hzn_data_url = 'https://{}/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][13], hzndict[grabber][12], contentID, starttime, endtime)
-        response = requests.get(hzn_data_url, headers=hzn_header)
+        response = requests.get(hzn_data_url, headers=header(grabber))
         response.raise_for_status()
         hzn_data = response.json()
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
