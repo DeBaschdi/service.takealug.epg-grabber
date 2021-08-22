@@ -18,18 +18,18 @@ from resources.lib import mapper
 from resources.lib import filesplit
 
 def get_hzndict(grabber):
-    ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url
-    hzndict = dict({'de': ['HORIZON (DE)', 'de', 'horizonDE', 'hznDE_genres_warnings.txt', 'hznDE_channels_warnings.txt', 'hznDE_days_to_grab', 'hznDE_episode_format', 'hznDE_channel_format' ,'hznDE_genre_format', 'chlist_hznDE_provider_tmp.json', 'chlist_hznDE_provider.json', 'chlist_hznDE_selected.json', 'DE/deu'],
-                    'at': ['HORIZON (AT)', 'at', 'horizonAT', 'hznAT_genres_warnings.txt', 'hznAT_channels_warnings.txt', 'hznAT_days_to_grab', 'hznAT_episode_format', 'hznAT_channel_format' ,'hznAT_genre_format', 'chlist_hznAT_provider_tmp.json', 'chlist_hznAT_provider.json', 'chlist_hznAT_selected.json', 'AT/deu'],
-                    'ch': ['HORIZON (CH)', 'ch', 'horizonCH', 'hznCH_genres_warnings.txt', 'hznCH_channels_warnings.txt', 'hznCH_days_to_grab', 'hznCH_episode_format', 'hznCH_channel_format' ,'hznCH_genre_format', 'chlist_hznCH_provider_tmp.json', 'chlist_hznCH_provider.json', 'chlist_hznCH_selected.json', 'CH/deu'],
-                    'nl': ['HORIZON (NL)', 'nl', 'horizonNL', 'hznNL_genres_warnings.txt', 'hznNL_channels_warnings.txt', 'hznNL_days_to_grab', 'hznNL_episode_format', 'hznNL_channel_format' ,'hznNL_genre_format', 'chlist_hznNL_provider_tmp.json', 'chlist_hznNL_provider.json', 'chlist_hznNL_selected.json', 'NL/nld'],
-                    'pl': ['HORIZON (PL)', 'pl', 'horizonPL', 'hznPL_genres_warnings.txt', 'hznPL_channels_warnings.txt', 'hznPL_days_to_grab', 'hznPL_episode_format', 'hznPL_channel_format' ,'hznPL_genre_format', 'chlist_hznPL_provider_tmp.json', 'chlist_hznPL_provider.json', 'chlist_hznPL_selected.json', 'PL/pol'],
-                    'ie': ['HORIZON (IE)', 'ie', 'horizonIE', 'hznIE_genres_warnings.txt', 'hznIE_channels_warnings.txt', 'hznIE_days_to_grab', 'hznIE_episode_format', 'hznIE_channel_format' ,'hznIE_genre_format', 'chlist_hznIE_provider_tmp.json', 'chlist_hznIE_provider.json', 'chlist_hznIE_selected.json', 'IE/eng'],
-                    'gb': ['HORIZON (GB)', 'gb', 'horizonGB', 'hznGB_genres_warnings.txt', 'hznGB_channels_warnings.txt', 'hznGB_days_to_grab', 'hznGB_episode_format', 'hznGB_channel_format', 'hznGB_genre_format', 'chlist_hznGB_provider_tmp.json', 'chlist_hznGB_provider.json', 'chlist_hznGB_selected.json', 'GB/eng'],
-                    'sk': ['HORIZON (SK)', 'sk', 'horizonSK', 'hznSK_genres_warnings.txt', 'hznSK_channels_warnings.txt', 'hznSK_days_to_grab', 'hznSK_episode_format', 'hznSK_channel_format' ,'hznSK_genre_format', 'chlist_hznSK_provider_tmp.json', 'chlist_hznSK_provider.json', 'chlist_hznSK_selected.json', 'SK/slk'],
-                    'cz': ['HORIZON (CZ)', 'cz', 'horizonCZ', 'hznCZ_genres_warnings.txt', 'hznCZ_channels_warnings.txt', 'hznCZ_days_to_grab', 'hznCZ_episode_format', 'hznCZ_channel_format' ,'hznCZ_genre_format', 'chlist_hznCZ_provider_tmp.json', 'chlist_hznCZ_provider.json', 'chlist_hznCZ_selected.json', 'CZ/ces'],
-                    'hu': ['HORIZON (HU)', 'hu', 'horizonHU', 'hznHU_genres_warnings.txt', 'hznHU_channels_warnings.txt', 'hznHU_days_to_grab', 'hznHU_episode_format', 'hznHU_channel_format' ,'hznHU_genre_format', 'chlist_hznHU_provider_tmp.json', 'chlist_hznHU_provider.json', 'chlist_hznHU_selected.json', 'HU/hun'],
-                    'ro': ['HORIZON (RO)', 'ro', 'horizonRO', 'hznRO_genres_warnings.txt', 'hznRO_channels_warnings.txt', 'hznRO_days_to_grab', 'hznRO_episode_format', 'hznRO_channel_format' ,'hznRO_genre_format', 'chlist_hznRO_provider_tmp.json', 'chlist_hznRO_provider.json', 'chlist_hznRO_selected.json', 'RO/ron'],
+    ## 0=provider, 1=lang, 2=temppath, 3=genre_warnings, 4=channel_warnings, 5=days_to_grab, 6=episode_format, 7=channel_format, 8=genre_format, 9=chlist_provider_tmp, 10=chlist_provider, 11=chlist_selected, 12=url, 13=domain
+    hzndict = dict({'de': ['HORIZON (DE)', 'de', 'horizonDE', 'hznDE_genres_warnings.txt', 'hznDE_channels_warnings.txt', 'hznDE_days_to_grab', 'hznDE_episode_format', 'hznDE_channel_format' ,'hznDE_genre_format', 'chlist_hznDE_provider_tmp.json', 'chlist_hznDE_provider.json', 'chlist_hznDE_selected.json', 'DE/deu', 'web-api-pepper.horizon.tv'],
+                    'at': ['HORIZON (AT)', 'at', 'horizonAT', 'hznAT_genres_warnings.txt', 'hznAT_channels_warnings.txt', 'hznAT_days_to_grab', 'hznAT_episode_format', 'hznAT_channel_format' ,'hznAT_genre_format', 'chlist_hznAT_provider_tmp.json', 'chlist_hznAT_provider.json', 'chlist_hznAT_selected.json', 'AT/deu', 'prod.oesp.magentatv.at'],
+                    'ch': ['HORIZON (CH)', 'ch', 'horizonCH', 'hznCH_genres_warnings.txt', 'hznCH_channels_warnings.txt', 'hznCH_days_to_grab', 'hznCH_episode_format', 'hznCH_channel_format' ,'hznCH_genre_format', 'chlist_hznCH_provider_tmp.json', 'chlist_hznCH_provider.json', 'chlist_hznCH_selected.json', 'CH/deu', 'obo-prod.oesp.upctv.ch'],
+                    'nl': ['HORIZON (NL)', 'nl', 'horizonNL', 'hznNL_genres_warnings.txt', 'hznNL_channels_warnings.txt', 'hznNL_days_to_grab', 'hznNL_episode_format', 'hznNL_channel_format' ,'hznNL_genre_format', 'chlist_hznNL_provider_tmp.json', 'chlist_hznNL_provider.json', 'chlist_hznNL_selected.json', 'NL/nld', 'obo-prod.oesp.ziggogo.tv'],
+                    'pl': ['HORIZON (PL)', 'pl', 'horizonPL', 'hznPL_genres_warnings.txt', 'hznPL_channels_warnings.txt', 'hznPL_days_to_grab', 'hznPL_episode_format', 'hznPL_channel_format' ,'hznPL_genre_format', 'chlist_hznPL_provider_tmp.json', 'chlist_hznPL_provider.json', 'chlist_hznPL_selected.json', 'PL/pol', 'prod.oesp.upctv.pl'],
+                    'ie': ['HORIZON (IE)', 'ie', 'horizonIE', 'hznIE_genres_warnings.txt', 'hznIE_channels_warnings.txt', 'hznIE_days_to_grab', 'hznIE_episode_format', 'hznIE_channel_format' ,'hznIE_genre_format', 'chlist_hznIE_provider_tmp.json', 'chlist_hznIE_provider.json', 'chlist_hznIE_selected.json', 'IE/eng', 'prod.oesp.virginmediatv.ie'],
+                    'gb': ['HORIZON (GB)', 'gb', 'horizonGB', 'hznGB_genres_warnings.txt', 'hznGB_channels_warnings.txt', 'hznGB_days_to_grab', 'hznGB_episode_format', 'hznGB_channel_format', 'hznGB_genre_format', 'chlist_hznGB_provider_tmp.json', 'chlist_hznGB_provider.json', 'chlist_hznGB_selected.json', 'GB/eng', 'prod.oesp.virginmedia.com'],
+                    'sk': ['HORIZON (SK)', 'sk', 'horizonSK', 'hznSK_genres_warnings.txt', 'hznSK_channels_warnings.txt', 'hznSK_days_to_grab', 'hznSK_episode_format', 'hznSK_channel_format' ,'hznSK_genre_format', 'chlist_hznSK_provider_tmp.json', 'chlist_hznSK_provider.json', 'chlist_hznSK_selected.json', 'SK/slk', 'web-api-pepper.horizon.tv'],
+                    'cz': ['HORIZON (CZ)', 'cz', 'horizonCZ', 'hznCZ_genres_warnings.txt', 'hznCZ_channels_warnings.txt', 'hznCZ_days_to_grab', 'hznCZ_episode_format', 'hznCZ_channel_format' ,'hznCZ_genre_format', 'chlist_hznCZ_provider_tmp.json', 'chlist_hznCZ_provider.json', 'chlist_hznCZ_selected.json', 'CZ/ces', 'web-api-pepper.horizon.tv'],
+                    'hu': ['HORIZON (HU)', 'hu', 'horizonHU', 'hznHU_genres_warnings.txt', 'hznHU_channels_warnings.txt', 'hznHU_days_to_grab', 'hznHU_episode_format', 'hznHU_channel_format' ,'hznHU_genre_format', 'chlist_hznHU_provider_tmp.json', 'chlist_hznHU_provider.json', 'chlist_hznHU_selected.json', 'HU/hun', 'web-api-pepper.horizon.tv'],
+                    'ro': ['HORIZON (RO)', 'ro', 'horizonRO', 'hznRO_genres_warnings.txt', 'hznRO_channels_warnings.txt', 'hznRO_days_to_grab', 'hznRO_episode_format', 'hznRO_channel_format' ,'hznRO_genre_format', 'chlist_hznRO_provider_tmp.json', 'chlist_hznRO_provider.json', 'chlist_hznRO_selected.json', 'RO/ron', 'web-api-pepper.horizon.tv'],
                   })
     return hzndict
 
@@ -119,7 +119,7 @@ def get_epgLength(days_to_grab):
     return starttime, endtime
 
 
-hzn_header = {'Host': 'web-api-pepper.horizon.tv',
+hzn_header = {'Host': hzndict[grabber][13],
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                   'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
@@ -129,7 +129,7 @@ hzn_header = {'Host': 'web-api-pepper.horizon.tv',
 
 ## Get channel list(url)
 def get_channellist(grabber,hzndict,hzn_chlist_provider_tmp,hzn_chlist_provider):
-    hzn_channellist_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/channels'.format(hzndict[grabber][12])
+    hzn_channellist_url = 'https://{}/oesp/v2/{}/web/channels'.format(hzndict[grabber][13], hzndict[grabber][12])
     hzn_chlist_url = requests.get(hzn_channellist_url, headers=hzn_header)
     hzn_chlist_url.raise_for_status()
     response = hzn_chlist_url.json()
@@ -311,7 +311,7 @@ def download_thread(grabber, hzn_chlist_selected, multi, list, provider, provide
     for user_item in selected_list['channellist']:
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        hzn_data_url = 'https://web-api-pepper.horizon.tv/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][12], contentID, starttime, endtime)
+        hzn_data_url = 'https://{}/oesp/v2/{}/web/listings?byStationId={}&byStartTime={}~{}&sort=startTime&range=1-10000'.format(hzndict[grabber][13], hzndict[grabber][12], contentID, starttime, endtime)
         response = requests.get(hzn_data_url, headers=hzn_header)
         response.raise_for_status()
         hzn_data = response.json()
