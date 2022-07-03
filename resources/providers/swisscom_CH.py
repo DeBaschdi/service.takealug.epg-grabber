@@ -87,7 +87,7 @@ swcCH_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_swcCH_provid
 swcCH_chlist_provider = os.path.join(provider_temppath, 'chlist_swcCH_provider.json')
 swcCH_chlist_selected = os.path.join(datapath, 'chlist_swcCH_selected.json')
 
-swcCH_header = {'Host': 'services.sg1.etvp01.sctv.ch',
+swcCH_header = {'Host': 'services.sg101.prd.sctv.ch',
                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                   'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
@@ -96,7 +96,7 @@ swcCH_header = {'Host': 'services.sg1.etvp01.sctv.ch',
                   'Upgrade-Insecure-Requests': '1'}
 
 def get_channellist():
-    swcCH_channellist_url = 'https://services.sg2.etvp01.sctv.ch/portfolio/tv/channels'
+    swcCH_channellist_url = 'https://services.sg101.prd.sctv.ch/portfolio/tv/channels'
     swcCH_chlist_url = requests.get(swcCH_channellist_url, headers=swcCH_header)
     swcCH_chlist_url.raise_for_status()
     response = swcCH_chlist_url.json()
@@ -124,7 +124,7 @@ def get_channellist():
         for channels in swcCH_channels:
             ch_id = channels['Identifier']
             ch_title = channels['Title']
-            hdimage = 'https://services.sg1.etvp01.sctv.ch/content/images/tv/channel/{}_image_7_w90.png'.format(ch_id)
+            hdimage = 'https://services.sg101.prd.sctv.ch/content/images/tv/channel/{}_image_7_w90.png'.format(ch_id)
             # channel to be appended
             y = {"contentId": ch_id,
                  "name": ch_title,
@@ -271,7 +271,7 @@ def download_thread(chlist_selected, multi, list, starttime, endtime):
     for user_item in selected_list['channellist']:
         channel_name = user_item['name']
         contentID = user_item['contentId']
-        swc_data_url = 'https://services.sg1.etvp01.sctv.ch/catalog/tv/channels/list/end={};ids={};level=normal;start={}'.format(endtime, contentID, starttime)
+        swc_data_url = 'https://services.sg101.prd.sctv.ch/catalog/tv/channels/list/end={};ids={};level=normal;start={}'.format(endtime, contentID, starttime)
         response = requests.get(swc_data_url, headers=swcCH_header)
         response.raise_for_status()
         swc_data = response.json()
@@ -395,7 +395,7 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
                     item_description = ''
                 try:
                     url = playbilllist['Content']['Nodes']['Items'][0]['ContentPath']
-                    item_picture = 'https://services.sg1.etvp01.sctv.ch/content/images{}_w1920.png'.format(url)
+                    item_picture = 'https://services.sg101.prd.sctv.ch/content/images{}_w1920.png'.format(url)
                 except (KeyError, IndexError):
                     item_picture = ''
                 try:
