@@ -786,6 +786,8 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
                 # Transform items to Readable XML Format
                 item_starrating = ''
                 items_producer = ''
+                if item_description == None:
+                    item_description = ''
                 if item_subtitle == None:
                     item_subtitle = ''
                 if item_episode == None:
