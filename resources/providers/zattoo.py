@@ -72,13 +72,13 @@ def get_settings(grabber):
 
     provider = zttdict[grabber][0]
     lang = zttdict[grabber][1]
-    ztt_header = {'Host': '{}'.format(zttdict[grabber][12]),
-                  'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
-                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                  'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
-                  'Accept-Encoding': 'gzip, deflate, br',
-                  'Connection': 'keep-alive',
-                  'Upgrade-Insecure-Requests': '1'}
+    ztt_header =   {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                           'Chrome/114.0.0.0 Safari/537.36',
+            'dnt': '1', 'origin': 'https://zattoo.com', 'pragma': 'no-cache', 'referer': 'https://zattoo.com/client',
+            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+            'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'same-origin',
+            'sec-fetch-site': 'same-origin'}
 
     return provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, ztt_header, ztt_session, username, password
 
