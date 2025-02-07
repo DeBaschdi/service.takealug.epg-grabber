@@ -495,6 +495,7 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
 
 def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session):
     requests.adapters.DEFAULT_RETRIES = 5
+    partsize = 20
 
     with open(ztt_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
@@ -515,7 +516,6 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
         channel_name = user_item['name']
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
 
-
         broadcast_dirtylist = list()
         for i in range(0, int(days_to_grab)):
             with open(os.path.join(provider_temppath, 'day_{}.json'.format(i)), 'r', encoding='utf-8') as s:
@@ -529,50 +529,16 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
             if i == int(days_to_grab) -1:
                 break
 
-        if (not len(broadcast_list) == 0 and len(broadcast_list) <= 390):
-            try:
-                ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
-                response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
-                response.raise_for_status()
-                ztt_data = response.json()
-
-                ## Save Broadcast Files To Disk
-                with open(broadcast_files, 'w', encoding='utf-8') as playbill:
-                    json.dump(ztt_data, playbill, indent=4)
-
-            except:
-                retries = 5
-                attempt = 0
-                while retries > 0:
-                    attempt += 1
-                    log('{} {} ERROR TRY REDOWNLOAD {}'.format(provider, response.status_code, contentID), xbmc.LOGINFO)
-                    broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-                    xbmc.sleep(5000)
-                    ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
-                    response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
-                    response.raise_for_status()
-
-                    ## Save Broadcast Files To Disk
-                    with open(broadcast_files, 'w', encoding='utf-8') as f:
-                        f.write(response.text)
-
-                    retries -= 1
-                    if (os.path.isfile(broadcast_files) and os.stat(broadcast_files).st_size >= 1):
-                        log('{} {} REDOWNLOAD success at attemp {}'.format(provider, contentID, attempt), xbmc.LOGINFO)
-                        break
-
-        elif len(broadcast_list) == 0:
+        if len(broadcast_list) == 0:
             with open((broadcast_files), 'w', encoding='utf-8') as dummy:
                 dummy.write(json.dumps({"no_data": []}))
 
-        elif len(broadcast_list) >= 391:
-            log('{} WARNING ZATTOO LIST IS TO LONG {}, splitting in 5 Parts'.format(contentID, len(broadcast_list)), xbmc.LOGDEBUG)
-            parts = len(broadcast_list) // 5
-            broadcast_ids_0 = ",".join(broadcast_list[0:parts])
-            broadcast_ids_1 = ",".join(broadcast_list[1 * parts:1 * parts + parts])
-            broadcast_ids_2 = ",".join(broadcast_list[2*parts:2*parts + parts])
-            broadcast_ids_3 = ",".join(broadcast_list[3*parts:3*parts + parts])
-            broadcast_ids_4 = ",".join(broadcast_list[4*parts:])
+        else:
+            parts = len(broadcast_list) // partsize
+            if len(broadcast_list) % partsize > 0:
+                parts += 1
+
+            log('{} {} contains {} elements, splitting into {} part(s)'.format(provider, contentID, len(broadcast_list), parts), xbmc.LOGDEBUG)
 
             with open(broadcast_files, 'w', encoding='utf-8') as empty_list:
                 empty_list.write(json.dumps({"programs": []}))
@@ -581,33 +547,39 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
                 data = json.load(playbill)
                 temp = data['programs']
 
-            for i in range(0, 5):
-                xbmc.sleep(1000)
-                if i == 0:
-                    broadcast_ids = broadcast_ids_0
-                elif i == 1:
-                    broadcast_ids = broadcast_ids_1
-                elif i == 2:
-                    broadcast_ids = broadcast_ids_2
-                elif i == 3:
-                    broadcast_ids = broadcast_ids_3
-                elif i == 4:
-                    broadcast_ids = broadcast_ids_4
-                
+            for i in range(0, parts):
+                broadcast_ids_part = ",".join(broadcast_list[i*partsize:((i+1)*partsize)])
+                xbmc.sleep(500)
 
-                broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
-                ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids)
-                response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
-                response.raise_for_status()
-                log('Downloading Part {} StatusCode {} Lengh {}'.format(i, response.status_code, len(broadcast_ids)), xbmc.LOGDEBUG)  
-                ztt_data = response.json()
+                retries = 3
+                attempt = 0
+                while retries > 0:
+                    attempt += 1
 
-                for broadcast in ztt_data['programs']:
-                    # broadcasts to be appended
-                    y = broadcast
+                    try:
+                        ztt_broadcast_url = 'https://{}/zapi/v2/cached/program/power_details/{}?program_ids={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], broadcast_ids_part)
+                        response = requests.get(ztt_broadcast_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+                        response.raise_for_status()
+                        log('Downloading Part {} StatusCode {} Length {}'.format(i, response.status_code, len(broadcast_ids_part)), xbmc.LOGDEBUG)
+                        ztt_data = response.json()
 
-                    # appending Broadcasts to data['programs']
-                    temp.append(y)
+                        for broadcast in ztt_data['programs']:
+                            # broadcasts to be appended
+                            y = broadcast
+
+                            # appending Broadcasts to data['programs']
+                            temp.append(y)
+
+                        break
+
+                    except:
+                        log('{} {} ERROR, TRYING TO REDOWNLOAD {} PART {}'.format(provider, response.status_code, contentID, i), xbmc.LOGINFO)
+                        retries -= 1
+                        xbmc.sleep(2500)
+
+                    finally:
+                        if retries == 0:
+                            log('{} {} ERROR, TRYING TO DOWNLOAD {} PART {}, GIVING UP AFTER {} ATTEMPTS '.format(provider, response.status_code, contentID, i, attempt), xbmc.LOGINFO)
 
             ## Save Broadcast Files To Disk
             with open(broadcast_files, 'w', encoding='utf-8') as playbill:
