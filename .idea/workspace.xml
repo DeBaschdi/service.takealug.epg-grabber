@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/providers/zattoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/zattoo.py" afterDir="false" />
+    <list default="true" id="62d550e6-cdae-4fd2-be49-e45b650829bf" name="Default Changelist" comment="Update Addon to 1.1.6&#10;- Fix Zattoo Login">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/addon.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/providers/magenta_DE.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/providers/magenta_DE.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,13 +54,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588048479091</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Update Addon to 0.0.8&#10;-Complete Translations&#10;-Detect All Channel Dupes at the same Time&#10;-Some Code Cleanup&#10;-Some UTF-8 Modifications">
-      <created>1588437091753</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1588437091753</updated>
     </task>
     <task id="LOCAL-00012" summary="Update Addon to 0.0.9&#10;-Some Code Cleanup">
       <created>1588479586398</created>
@@ -396,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617027063687</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Update Addon to 1.1.6&#10;- Fix Zattoo Login">
+      <created>1688090960763</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1688090960763</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -411,7 +413,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update Addon to 0.1.9&#10;-Add new Provider Horizon (GB)&#10;-New Auto Download, now its possible to download 3x Daily&#10;-Some more Bugfixes" />
     <MESSAGE value="Update Addon to 0.2.0&#10;- Add Multithreading Support" />
     <MESSAGE value="Update Addon to 0.2.0&#10;- Add Multithreading Support(2)" />
     <MESSAGE value="Update Addon to 0.2.2&#10;- Multithreading Support for Linux Only&#10;- Fix Multithreading&#10;- Fix ProgressBar&#10;- Fix Windows XML Creation Time" />
@@ -436,13 +437,8 @@
     <MESSAGE value="Update Addon to 1.0.4&#10;- Fix Magenta API URL changes" />
     <MESSAGE value="Update Addon to 1.0.6&#10;- Fix Kodi 18--&gt;19 Upgrade Problems" />
     <MESSAGE value="Update Addon to 1.0.7&#10;- Fix Zattoo Token bullshit&#10;- Multithreading is currently broken for Kodi 19" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.0.7&#10;- Fix Zattoo Token bullshit&#10;- Multithreading is currently broken for Kodi 19" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1620794591775">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1620794591775" />
+    <MESSAGE value="Update Addon to 1.1.6&#10;- Fix Zattoo Login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Addon to 1.1.6&#10;- Fix Zattoo Login" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

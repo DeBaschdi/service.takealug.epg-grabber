@@ -9,6 +9,8 @@ import sys
 import requests.cookies
 import requests.adapters
 import requests
+import uuid
+import time
 from datetime import datetime
 from datetime import timedelta
 from resources.lib import xml_structure
@@ -62,6 +64,9 @@ def log(message, loglevel=xbmc.LOGDEBUG):
 # Make OSD Notify Messages
 OSD = xbmcgui.Dialog()
 
+## Session UUID
+mac = str(uuid.uuid4())
+ter = str(uuid.uuid4())
 
 def notify(title, message, icon=xbmcgui.NOTIFICATION_INFO):
     OSD.notification(title, message, icon)
@@ -84,33 +89,39 @@ magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaD
 magentaDE_chlist_provider = os.path.join(provider_temppath, 'chlist_magentaDE_provider.json')
 magentaDE_chlist_selected = os.path.join(datapath, 'chlist_magentaDE_selected.json')
 
-magentaDE_login_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Login?&T=PC_firefox_75'
-magentaDE_authenticate_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Authenticate?SID=firstup&T=PC_firefox_75'
-magentaDE_channellist_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/AllChannel?SID=first&T=PC_firefox_75'
+magentaDE_authenticate_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Authenticate'
+magentaDE_channellist_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/AllChannel'
 magentaDE_data_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/PlayBillList?userContentFilter=241221015&sessionArea=1&SID=ottall&T=PC_firefox_75'
 
-magentaDE_login = {'userId': 'Guest', 'mac': '00:00:00:00:00:00'}
-magentaDE_authenticate = {'terminalid': '00:00:00:00:00:00', 'mac': '00:00:00:00:00:00', 'terminaltype': 'WEBTV','utcEnable': '1', 'timezone': 'UTC', 'userType': '3', 'terminalvendor': 'Unknown','preSharedKeyID': 'PC01P00002', 'cnonce': '5c6ff0b9e4e5efb1498e7eaa8f54d9fb'}
+magentaDE_authenticate = '{"areaid":"1","cnonce":"c4b11948545fb3089720dd8b12c81f8e","mac":"'+mac+'","preSharedKeyID":"NGTV000001","subnetId":"4901","templatename":"NGTV","terminalid":"'+ter+'","terminaltype":"WEB-MTV","terminalvendor":"WebTV","timezone":"UTC","usergroup":"-1","userType":3,"utcEnable":1}'
 magentaDE_get_chlist = {'properties': [{'name': 'logicalChannel','include': '/channellist/logicalChannel/contentId,/channellist/logicalChannel/name,/channellist/logicalChannel/pictures/picture/imageType,/channellist/logicalChannel/pictures/picture/href'}],'metaDataVer': 'Channel/1.1', 'channelNamespace': '2','filterlist': [{'key': 'IsHide', 'value': '-1'}], 'returnSatChannel': '0'}
 magentaDE_header = {'Host': 'api.prod.sngtv.magentatv.de',
-                  'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
-                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                  'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
-                  'Accept-Encoding': 'gzip, deflate, br',
-                  'Connection': 'keep-alive',
-                  'Upgrade-Insecure-Requests': '1'}
+                    'origin': 'https://web.magentatv.de',
+                    'referer': 'https://web.magentatv.de/',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'}
+
 magentaDE_session_cookie = os.path.join(provider_temppath, 'cookies.json')
 
-
-## Login and Authenticate to web.magenta.tv
 def magentaDE_session():
-    session = requests.Session()
-    session.post(magentaDE_login_url, data=json.dumps(magentaDE_login), headers=magentaDE_header)
-    session.post(magentaDE_authenticate_url, data=json.dumps(magentaDE_authenticate), headers=magentaDE_header)
-    ## Save Cookies to Disk
-    with open(magentaDE_session_cookie, 'w', encoding='utf-8') as f:
-        json.dump(requests.utils.dict_from_cookiejar(session.cookies), f)
+    x = 0
+    while x < 120:
+        auth_session = requests.Session()
+        t = auth_session.post(magentaDE_authenticate_url, timeout=5, data=magentaDE_authenticate, headers=magentaDE_header)
 
+        if t.json().get("retcode", "0") == "-2":
+            time.sleep(0.1)
+            x = x + 1
+            continue
+        else:
+            break
+
+    with open(magentaDE_session_cookie, 'w', encoding='utf-8') as f:
+        json.dump(requests.utils.dict_from_cookiejar(auth_session.cookies), f)
 
 ## Get channel list(url)
 def get_channellist():
